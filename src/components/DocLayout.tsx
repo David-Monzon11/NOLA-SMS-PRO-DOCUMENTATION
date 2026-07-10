@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
-import { Navbar } from './Navbar';
 import { DocSearch } from './DocSearch';
 import { type DocPage } from '../data/docsData';
 
@@ -43,14 +42,8 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page: _page }) =
       {/* Main Column */}
       <div className="flex-1 flex flex-col min-w-0 min-h-screen">
 
-        {/* Sticky top navbar */}
-        <Navbar
-          onSearchClick={() => setIsSearchOpen(true)}
-          onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
-        />
-
-        {/* Page content — wider, supporting two-column split layouts */}
-        <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-14">
+        {/* Page content */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10">
           {children}
         </main>
       </div>

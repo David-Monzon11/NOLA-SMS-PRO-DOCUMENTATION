@@ -12,37 +12,37 @@ export const InteractiveChecklist: React.FC = () => {
     {
       id: 'location',
       label: 'Verify connected location',
-      desc: 'Check that Settings > Account displays the correct HighLevel sub-account name.'
+      desc: 'Check that Settings shows the correct HighLevel sub-account/location.'
     },
     {
       id: 'credits',
       label: 'Confirm credit balance',
-      desc: 'Verify that your starting SMS credit balance is greater than zero.'
+      desc: 'Make sure SMS credits are available before you send.'
     },
     {
       id: 'sender',
       label: 'Confirm default sender',
-      desc: 'Verify that NOLASMSPro appears in the compose sender list.'
+      desc: 'Use NOLASMSPro for your first send unless an approved custom Sender ID is ready.'
     },
     {
       id: 'contact',
-      label: 'Add a test contact',
-      desc: 'Add a contact with a valid local phone number (formatted as 09XXXXXXXXX).'
+      label: 'Choose a valid contact',
+      desc: 'Use a valid local mobile number formatted as 09XXXXXXXXX.'
     },
     {
-      id: 'template',
-      label: 'Create a test template',
-      desc: 'Save a reusable message template with standard, natural text.'
+      id: 'message',
+      label: 'Write a natural message',
+      desc: 'Avoid one-word messages like test. Use a short sentence a real customer might receive.'
     },
     {
       id: 'send',
       label: 'Send a single SMS',
-      desc: 'Type a message or insert your template in Compose and hit Send once.'
+      desc: 'Click Send once, then wait for the app to process the message.'
     },
     {
       id: 'history',
-      label: 'Verify delivery status',
-      desc: 'Open Message History and confirm the status updates to Sent.'
+      label: 'Check Message History',
+      desc: 'Confirm whether the status is Sending, Sent, or Failed.'
     }
   ];
 
@@ -51,7 +51,7 @@ export const InteractiveChecklist: React.FC = () => {
     if (saved) {
       try {
         return JSON.parse(saved);
-      } catch (e) {
+      } catch {
         return {};
       }
     }
@@ -78,8 +78,8 @@ export const InteractiveChecklist: React.FC = () => {
     <div className="my-8 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors duration-200 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">First SMS Checklist</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Complete these configuration checks before sending large-scale campaigns.</p>
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Send Your First SMS</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Complete these checks before sending your first message.</p>
         </div>
         <button
           onClick={resetChecklist}
@@ -142,8 +142,8 @@ export const InteractiveChecklist: React.FC = () => {
         <div className="mt-6 p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/35 dark:bg-emerald-950/20 text-slate-800 dark:text-slate-200 flex items-start gap-3 transition-all duration-200 animate-pulse">
           <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
           <div>
-            <h4 className="font-bold text-sm text-emerald-900 dark:text-emerald-350 uppercase tracking-wider mb-0.5">Checklist Completed!</h4>
-            <p className="text-xs text-emerald-700 dark:text-slate-300 leading-relaxed">Excellent. Your workspace configuration is fully verified and you are now ready to write custom templates and send live SMS campaigns.</p>
+            <h4 className="font-bold text-sm text-emerald-900 dark:text-emerald-350 uppercase tracking-wider mb-0.5">Checklist Complete</h4>
+            <p className="text-xs text-emerald-700 dark:text-slate-300 leading-relaxed">Your first send is ready. After sending, keep Message History open until the status is clear.</p>
           </div>
         </div>
       )}

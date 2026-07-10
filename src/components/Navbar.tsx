@@ -28,24 +28,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearchClick, onToggleMobileSid
           <Menu className="h-4.5 w-4.5" />
         </button>
 
-        {/* Breadcrumb */}
-        {currentDoc && (
-          <nav className="hidden sm:flex items-center gap-1 text-[12px] text-slate-400 dark:text-slate-500 font-medium min-w-0">
-            <span>Docs</span>
-            <ChevronRight className="h-3 w-3 opacity-50 flex-shrink-0" />
-            <span className="text-slate-500 dark:text-slate-400">{currentDoc.section}</span>
-            {currentDoc.subsection && (
-              <>
-                <ChevronRight className="h-3 w-3 opacity-50 flex-shrink-0" />
-                <span className="text-slate-500 dark:text-slate-400">{currentDoc.subsection}</span>
-              </>
-            )}
-            <ChevronRight className="h-3 w-3 opacity-50 flex-shrink-0" />
-            <span className="text-slate-700 dark:text-slate-200 font-semibold truncate max-w-[180px]">
-              {currentDoc.title}
-            </span>
-          </nav>
-        )}
+        {/* Breadcrumb: only show Docs / Section — no redundant page title */}
+        <nav className="hidden sm:flex items-center gap-1 text-[12px] text-slate-400 dark:text-slate-500 font-medium min-w-0">
+          <span>Docs</span>
+          {currentDoc && (
+            <>
+              <ChevronRight className="h-3 w-3 opacity-50 flex-shrink-0" />
+              <span className="text-slate-500 dark:text-slate-400 truncate max-w-[240px]">{currentDoc.section}</span>
+              {currentDoc.subsection && (
+                <>
+                  <ChevronRight className="h-3 w-3 opacity-50 flex-shrink-0" />
+                  <span className="text-slate-500 dark:text-slate-400 truncate max-w-[160px]">{currentDoc.subsection}</span>
+                </>
+              )}
+            </>
+          )}
+        </nav>
       </div>
 
       {/* Right: actions */}

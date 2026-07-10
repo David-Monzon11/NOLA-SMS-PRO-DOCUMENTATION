@@ -23,7 +23,7 @@ export const TicketForm: React.FC = () => {
     if (saved) {
       try {
         setTickets(JSON.parse(saved));
-      } catch (e) {
+      } catch {
         setTickets([]);
       }
     }
@@ -100,8 +100,8 @@ export const TicketForm: React.FC = () => {
                 onChange={(e) => setPriority(e.target.value as any)}
                 className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-secondary"
               >
-                <option value="Low">Low (General Inquiry)</option>
-                <option value="Medium">Medium (Onboarding / Config Issue)</option>
+                <option value="Low">Low (General Question)</option>
+                <option value="Medium">Medium (Setup Issue)</option>
                 <option value="High">High (Sending Blocked)</option>
               </select>
             </div>
@@ -125,7 +125,7 @@ export const TicketForm: React.FC = () => {
               rows={4}
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
-              placeholder="Detail what you clicked, what you expected to happen, what actually happened, and the date/time of the incident."
+              placeholder="Include what you clicked, what happened, the HighLevel location name, recipient number, send time, message status, and any visible error."
               className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-secondary placeholder-slate-400"
             />
           </div>
@@ -140,7 +140,7 @@ export const TicketForm: React.FC = () => {
 
         {submitted && (
           <div className="mt-4 p-3 rounded-xl border border-emerald-250 bg-emerald-50/50 dark:border-emerald-900/35 dark:bg-emerald-950/20 text-xs font-bold text-emerald-850 dark:text-slate-200 transition-all duration-200">
-            Ticket submitted successfully! An administrator will evaluate your request shortly.
+            Ticket submitted successfully. The support team will review your request shortly.
           </div>
         )}
       </div>
@@ -196,7 +196,7 @@ export const TicketForm: React.FC = () => {
                     onClick={() => deleteTicket(t.id)}
                     className="text-red-500 hover:text-red-700 hover:underline transition-colors"
                   >
-                    Delete Records
+                    Delete Ticket
                   </button>
                 </div>
               </div>

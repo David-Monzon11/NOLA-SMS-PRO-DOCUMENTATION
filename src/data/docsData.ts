@@ -8,6 +8,12 @@ export interface RelatedPage {
   title: string;
 }
 
+export interface ScreenshotPlan {
+  filename: string;
+  alt: string;
+  caption: string;
+}
+
 export interface DocPage {
   id: string;
   title: string;
@@ -23,10 +29,13 @@ export interface DocPage {
   commonIssues?: string[];
   faqs?: DocFAQ[];
   relatedPages?: RelatedPage[];
-  hasWorkflow?: 'senderId' | 'credits';
+  screenshots?: ScreenshotPlan[];
   hasFirstSMSChecklist?: boolean;
   hasTicketForm?: boolean;
 }
+
+export const defaultSmsReminder =
+  'After installation, NOLA SMS Pro sends SMS using the default sender NOLASMSPro unless you select an approved custom Sender ID. Messages require available SMS credits. A normal 160-character SMS usually uses 1 credit, and longer messages may use more. Send one natural test message first, then check Message History for the status.';
 
 export const sidebarStructure = [
   {
@@ -38,32 +47,27 @@ export const sidebarStructure = [
   {
     title: 'Getting Started',
     items: [
-      { id: 'intro', title: 'Introduction' },
-      { id: 'quick-start', title: 'Quick Start Guide' },
-      { id: 'marketplace-install', title: 'Install from HighLevel' },
-      { id: 'create-account', title: 'Create Your Account' },
-      { id: 'sign-in', title: 'Signing In' },
+      { id: 'marketplace-install', title: 'Install NOLA SMS Pro' },
+      { id: 'account-access', title: 'Create or Sign In' },
       { id: 'dashboard-overview', title: 'Dashboard Overview' },
-      { id: 'first-sms-checklist', title: 'First SMS Checklist' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
     ]
   },
   {
     title: 'Using NOLA SMS Pro',
     items: [
-      { id: 'contacts', title: 'Contacts & Formatting', category: 'Contacts' },
-      { id: 'templates', title: 'SMS Templates', category: 'SMS Templates' },
-      { id: 'sending-sms', title: 'Sending SMS', category: 'Sending SMS' },
-      { id: 'sender-id', title: 'Sender ID & Approval', category: 'Sender ID' },
-      { id: 'sms-credits', title: 'SMS Credits & Requests', category: 'SMS Credits' },
-      { id: 'message-history', title: 'Message History', category: 'Message History' },
-      { id: 'reports-analytics', title: 'Reports & Analytics', category: 'Reports' },
-      { id: 'settings', title: 'Settings & Notifications', category: 'Settings' }
+      { id: 'contacts', title: 'Contacts' },
+      { id: 'templates', title: 'Templates' },
+      { id: 'sender-id', title: 'Sender IDs' },
+      { id: 'sms-credits', title: 'SMS Credits' },
+      { id: 'message-history', title: 'Message History' },
+      { id: 'settings', title: 'Settings' }
     ]
   },
   {
     title: 'Troubleshooting',
     items: [
-      { id: 'troubleshooting', title: 'Common Issues' }
+      { id: 'troubleshooting', title: 'Troubleshooting' }
     ]
   },
   {
@@ -75,512 +79,554 @@ export const sidebarStructure = [
   {
     title: 'Support & Help',
     items: [
-      { id: 'support', title: 'Get Support' }
+      { id: 'support', title: 'Support' }
     ]
   }
 ];
 
 export const docsData: DocPage[] = [
-  // --- WELCOME SECTION ---
   {
     id: 'welcome',
     title: 'Welcome to NOLA SMS Pro',
-    description: 'Learn how NOLA SMS Pro integrates with your HighLevel sub-account to streamline your business texting.',
+    description: 'Use NOLA SMS Pro inside your HighLevel sub-account to send SMS, manage contacts, and track message status.',
     section: 'Welcome',
     readingTime: '2 min read',
-    purpose: 'This page introduces you to NOLA SMS Pro and provides a guide on how to navigate this documentation database.',
+    purpose: 'NOLA SMS Pro runs inside HighLevel after installation. Start by installing the app for the correct sub-account, then create or sign in to your NOLA account before sending SMS.',
     steps: [
-      'Navigate using the left sidebar to browse different topics.',
-      'Use the search bar at the top (or press Ctrl + K) to quickly find specific articles.',
-      'Check the "On This Page" panel on the right to jump directly to specific sections on a page.',
-      'Toggle between Light and Dark mode using the sun/moon button in the top navigation.'
-    ],
-    tips: [
-      'This documentation is built specifically for sub-account end users. Administrative, developer, and agency billing setups have been removed to focus entirely on your direct day-to-day messaging workflows.'
+      'Install NOLA SMS Pro from the HighLevel Marketplace.',
+      'Select the correct sub-account/location during installation.',
+      'Create a NOLA account, or sign in if the location is already registered.',
+      'Confirm the dashboard, credits, and Sender ID before sending.'
     ],
     notes: [
-      'NOLA SMS Pro is built to run embedded directly inside your GoHighLevel dashboard. You do not need to download separate desktop or mobile apps.'
+      'You do not need to download a separate desktop or mobile app.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/welcome-nola-inside-highlevel.png',
+        alt: 'NOLA SMS Pro opened inside the HighLevel sub-account menu.',
+        caption: 'NOLA SMS Pro runs inside your HighLevel sub-account after installation.'
+      }
     ],
     relatedPages: [
-      { id: 'quick-start', title: 'Quick Start Guide' },
-      { id: 'first-sms-checklist', title: 'First SMS Checklist' }
-    ]
-  },
-
-  // --- GETTING STARTED ---
-  {
-    id: 'intro',
-    title: 'Introduction to Onboarding',
-    description: 'Get started with NOLA SMS Pro in your HighLevel sub-account.',
-    section: 'Getting Started',
-    readingTime: '3 min read',
-    purpose: 'This page guides you through the general onboarding flow from the marketplace install to sending your first text.',
-    steps: [
-      'A HighLevel admin installs NOLA SMS Pro from the HighLevel Marketplace for your sub-account.',
-      'The admin connects the correct location (sub-account).',
-      'The sub-account owner registers a NOLA SMS Pro account or logs in to an existing one.',
-      'Once logged in, the full dashboard unlocks inside the HighLevel menu.'
-    ],
-    notes: [
-      'Each sub-account location is bound to exactly one NOLA owner account. This prevents multiple users from registering overlapping owner credentials for the same location.'
-    ],
-    relatedPages: [
-      { id: 'quick-start', title: 'Quick Start Guide' },
-      { id: 'marketplace-install', title: 'Install from HighLevel' }
-    ]
-  },
-  {
-    id: 'quick-start',
-    title: 'Quick Start Guide',
-    description: 'The step-by-step checklist to install, configure, and send messages quickly.',
-    section: 'Getting Started',
-    readingTime: '3 min read',
-    purpose: 'Provides a condensed, checklist-style workflow for new users.',
-    steps: [
-      'Log in to HighLevel and install NOLA SMS Pro from the Marketplace.',
-      'Choose the single sub-account where the app should be active.',
-      'Approve permissions and register your NOLA user profile when redirected.',
-      'Go to your HighLevel sub-account and open NOLA SMS Pro from the left sidebar.',
-      'Confirm settings and check your starting SMS credit balance.',
-      'Add a test contact using the required format (e.g. 09XXXXXXXXX).',
-      'Compose a natural message, select the default sender, and click Send.'
-    ],
-    tips: [
-      'For your first installation, install NOLA for a single test location to confirm the setup works before applying it to multiple locations.'
-    ],
-    warnings: [
-      'Avoid generic terms like "test" or "sms test" for your first message. Carrier filters might block these as spam. Use a natural sentence instead.'
-    ],
-    relatedPages: [
-      { id: 'first-sms-checklist', title: 'First SMS Checklist' },
-      { id: 'marketplace-install', title: 'Install from HighLevel' }
+      { id: 'marketplace-install', title: 'Install NOLA SMS Pro' },
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
     ]
   },
   {
     id: 'marketplace-install',
-    title: 'Install from HighLevel Marketplace',
-    description: 'Detailed instructions on how to install NOLA SMS Pro from HighLevel.',
+    title: 'Install NOLA SMS Pro',
+    description: 'Install NOLA SMS Pro from the HighLevel Marketplace and connect the correct sub-account/location.',
     section: 'Getting Started',
     readingTime: '4 min read',
-    purpose: 'Guide the installer on finding NOLA SMS Pro in the HighLevel Marketplace and granting correct sub-account access.',
+    purpose: 'Use this guide when you are installing NOLA SMS Pro for a HighLevel location for the first time.',
     steps: [
-      'Log in to your HighLevel dashboard.',
-      'Go to the Agency View and open the Marketplace tab.',
-      'Search for "NOLA SMS Pro" and select it.',
-      'Click the Install button.',
-      'Select the specific sub-account/location you want to connect (we recommend installing to a test sub-account first).',
-      'Review the requested permissions (contacts, conversations, locations, and oauth).',
-      'Click "Allow & Install" to authorize the integration.'
+      'Log in to HighLevel.',
+      'Open the Marketplace and search for NOLA SMS Pro.',
+      'Open the NOLA SMS Pro listing and click Install.',
+      'Select the sub-account/location where the app should be installed.',
+      'Review the requested permissions for contacts, conversations, location details, and permission to connect the app.',
+      'Click Allow & Install.',
+      'Follow the redirect to create or sign in to the NOLA account.'
     ],
     notes: [
-      'NOLA SMS Pro respects least-privilege scoping. It only requests access to contacts, conversations, custom fields, and OAuth keys required to send and track your messages.'
+      'Only approve the install when the selected sub-account/location is correct.'
     ],
     warnings: [
-      'If you close the browser window during the authorization redirect, the installation will remain incomplete. If this happens, open NOLA SMS Pro inside HighLevel to resume setup.'
+      'If you close the browser window during setup, open NOLA SMS Pro from HighLevel again to continue.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/install-marketplace-listing.png',
+        alt: 'NOLA SMS Pro Marketplace listing in HighLevel.',
+        caption: 'Find NOLA SMS Pro in the HighLevel Marketplace.'
+      },
+      {
+        filename: '/images/docs/install-select-subaccount.png',
+        alt: 'HighLevel install screen for selecting a sub-account location.',
+        caption: 'Select the sub-account/location where the app should be installed.'
+      },
+      {
+        filename: '/images/docs/install-allow-permissions.png',
+        alt: 'HighLevel permission review screen before installing NOLA SMS Pro.',
+        caption: 'Review the install screen, then click Allow & Install.'
+      }
     ],
     relatedPages: [
-      { id: 'create-account', title: 'Create Your Account' },
-      { id: 'troubleshooting', title: 'Common Issues' }
+      { id: 'account-access', title: 'Create or Sign In' },
+      { id: 'troubleshooting', title: 'Troubleshooting' }
     ]
   },
   {
-    id: 'create-account',
-    title: 'Create Your NOLA SMS Pro Account',
-    description: 'Set up your owner profile to manage SMS sending and configurations.',
+    id: 'account-access',
+    title: 'Create or Sign In to Your Account',
+    description: 'Create the NOLA owner account for a new location, or sign in with the existing owner account.',
     section: 'Getting Started',
     readingTime: '3 min read',
-    purpose: 'Complete account registration immediately after HighLevel marketplace redirect.',
+    purpose: 'After installation, NOLA SMS Pro asks the location owner to create an account or sign in so the dashboard can open inside HighLevel.',
     steps: [
-      'After clicking "Allow & Install" in HighLevel, you will be redirected to the NOLA registration screen.',
-      'Enter your Full Name, Email, and mobile Phone Number.',
-      'Choose a secure password of at least 8 characters.',
-      'Review and accept the NOLA SMS Pro User Agreement.',
-      'Click "Create Account" to activate your workspace.'
+      'If the location is new, enter your name, email address, mobile number, and password.',
+      'Review and accept the NOLA SMS Pro user agreement.',
+      'Click Create Account to finish registration.',
+      'If NOLA says the location is already registered, choose Sign In instead.',
+      'Sign in with the existing owner email and password.',
+      'When you open NOLA SMS Pro from HighLevel later, you may already be signed in.'
     ],
     tips: [
-      'Use the same email address that you use for your HighLevel sub-account to keep notifications aligned.'
+      'Use the owner email your team expects to manage credits, Sender IDs, and support requests.'
     ],
     warnings: [
-      'If NOLA displays a message saying the location is already registered, do not try to create a new account. Navigate to the Sign In tab and log in using the existing owner credentials.'
+      'Do not create a second account for a location that is already registered. Ask the existing owner to sign in or contact support.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/account-create-form.png',
+        alt: 'NOLA SMS Pro account creation form after installation.',
+        caption: 'New locations show the account creation form after installation.'
+      },
+      {
+        filename: '/images/docs/account-sign-in-existing-owner.png',
+        alt: 'NOLA SMS Pro sign-in screen for an existing location owner.',
+        caption: 'Already registered locations ask the existing owner to sign in.'
+      }
     ],
     relatedPages: [
-      { id: 'sign-in', title: 'Signing In' },
-      { id: 'dashboard-overview', title: 'Dashboard Overview' }
-    ]
-  },
-  {
-    id: 'sign-in',
-    title: 'Signing In to Your Account',
-    description: 'Access the NOLA SMS Pro dashboard after initial setup.',
-    section: 'Getting Started',
-    readingTime: '2 min read',
-    purpose: 'Instructions on logging in to your dashboard embedded in HighLevel or standalone.',
-    steps: [
-      'Open NOLA SMS Pro from your HighLevel sub-account menu (it will log you in automatically if the token is active).',
-      'If prompted, enter the owner email address and password registered during account creation.',
-      'If you forget your password, click the "Forgot Password?" link to request a reset link sent to your registered email.'
-    ],
-    notes: [
-      'When embedded in HighLevel, NOLA uses secure tokens to keep you logged in. You will rarely need to type your password unless your session expires or you access the standalone URL.'
-    ],
-    relatedPages: [
-      { id: 'create-account', title: 'Create Your Account' },
-      { id: 'dashboard-overview', title: 'Dashboard Overview' }
+      { id: 'dashboard-overview', title: 'Dashboard Overview' },
+      { id: 'support', title: 'Support' }
     ]
   },
   {
     id: 'dashboard-overview',
     title: 'Dashboard Overview',
-    description: 'Learn how to navigate the NOLA SMS Pro user interface.',
+    description: 'Understand the main dashboard areas and what each one is used for.',
     section: 'Getting Started',
     readingTime: '3 min read',
-    purpose: 'Walk through the sections of the dashboard to help you find features.',
+    purpose: 'Use the dashboard to confirm your location, check credits, send SMS, manage contacts, save templates, and review message status.',
     steps: [
-      'Home/Overview: View your current SMS credits, message activity logs, and system notifications.',
-      'Compose: Write individual messages or send bulk SMS to lists.',
-      'Contacts: Search, add, and review your HighLevel contact directory.',
-      'Templates: Manage saved reusable messages categorized by topic.',
-      'Settings: Request Sender IDs, check credits ledger, adjust notifications, and view profile details.'
+      'Home shows your SMS credits, recent activity, alerts, and shortcuts.',
+      'Compose lets you send individual or bulk SMS.',
+      'Contacts lets you add contacts and search existing contacts.',
+      'Templates stores reusable SMS messages.',
+      'Message History shows Sending, Sent, and Failed statuses.',
+      'Settings contains your profile, Sender IDs, notifications, credits, and connected location details.'
     ],
     tips: [
-      'Keep the dashboard Home page open during test sends to see your SMS credit balance decrease in real time.'
+      'Before your first send, check Home for credits and open Settings to confirm the connected location.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/dashboard-overview-home.png',
+        alt: 'NOLA SMS Pro dashboard home showing credits, activity, alerts, and navigation.',
+        caption: 'The dashboard shows credits, recent activity, alerts, and shortcuts.'
+      }
     ],
     relatedPages: [
-      { id: 'settings', title: 'Settings & Notifications' },
-      { id: 'first-sms-checklist', title: 'First SMS Checklist' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
+      { id: 'settings', title: 'Settings' }
     ]
   },
   {
     id: 'first-sms-checklist',
-    title: 'First SMS Checklist',
-    description: 'Verify your configuration with this interactive checklist before launching live campaigns.',
+    title: 'Send Your First SMS',
+    description: 'Confirm the required setup items, send one natural message, and check Message History.',
     section: 'Getting Started',
     readingTime: '3 min read',
-    purpose: 'An interactive onboarding check tool to verify SMS configuration steps.',
+    purpose: 'Use this checklist for your first normal SMS send after installation.',
     hasFirstSMSChecklist: true,
     steps: [
-      'Verify that NOLA SMS Pro displays the correct connected HighLevel location in Settings.',
-      'Confirm that you have a non-zero starting SMS credit balance.',
-      'Verify the default sender (NOLASMSPro) appears in the compose sender list.',
-      'Add a test contact using a valid mobile number (e.g. 09XXXXXXXXX).',
-      'Create a test message template (e.g. "Welcome from NOLA SMS Pro!").',
-      'Send a single test message using the template to your test contact.',
-      'Confirm that the status in Message History transitions to "Sent".'
+      'Confirm the connected location is correct.',
+      'Confirm SMS credits are available.',
+      'Use NOLASMSPro for the first send.',
+      'Add or select a contact with a valid 09XXXXXXXXX mobile number.',
+      'Write one natural message instead of a single word like test.',
+      'Click Send once.',
+      'Open Message History and check the status.'
     ],
-    tips: [
-      'Check off each item in the checklist on this page to track your progress.'
+    notes: [
+      defaultSmsReminder
+    ],
+    warnings: [
+      'If the message fails or stays on Sending, do not click Send repeatedly. Check Message History first.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/compose-first-sms.png',
+        alt: 'Compose screen with one natural SMS message ready to send.',
+        caption: 'Compose one natural test message before sending live SMS.'
+      },
+      {
+        filename: '/images/docs/compose-default-sender.png',
+        alt: 'Compose sender field showing the default NOLASMSPro sender.',
+        caption: 'Use the default NOLASMSPro sender for your first message.'
+      },
+      {
+        filename: '/images/docs/message-history-sent-status.png',
+        alt: 'Message History showing a Sent status after the first SMS.',
+        caption: 'Check Message History after sending to confirm the status.'
+      }
     ],
     relatedPages: [
-      { id: 'quick-start', title: 'Quick Start Guide' },
-      { id: 'sending-sms', title: 'Sending SMS' }
+      { id: 'contacts', title: 'Contacts' },
+      { id: 'message-history', title: 'Message History' }
     ]
   },
-
-  // --- USING NOLA SMS PRO ---
   {
     id: 'contacts',
-    title: 'Contacts & Formatting Rules',
-    description: 'How to manage, format, and search contacts inside NOLA SMS Pro.',
+    title: 'Contacts',
+    description: 'Add, search, and choose contacts for SMS sending.',
     section: 'Using NOLA SMS Pro',
     subsection: 'Contacts',
     readingTime: '3 min read',
-    purpose: 'Provide rules for formatting contact phone numbers to ensure high delivery rates.',
+    purpose: 'Contacts are the people available in the connected HighLevel location.',
     steps: [
-      'Open the Contacts section from the menu.',
-      'To add a contact, click "Add Contact" and enter their Name, Phone, and optional Email.',
-      'Always format mobile numbers using the carrier-supported standard.',
-      'For Philippine mobile numbers, enter the number starting with 09 (e.g., 09171234567).',
-      'Use the search box to find contacts by name, email, or phone number.'
+      'Open Contacts from the NOLA SMS Pro menu.',
+      'Search for an existing contact by name, email, or phone number.',
+      'To add a contact, click Add Contact.',
+      'Enter the contact name and a valid mobile number.',
+      'For Philippine mobile numbers, use the 11-digit format starting with 09, such as 09171234567.',
+      'Save the contact before sending SMS.'
     ],
     tips: [
-      'Do not include spaces, hyphens, or country codes (+63) for local sends unless instructed by support. The 11-digit format starting with 09 is highly recommended.'
+      'Do not include spaces, hyphens, or +63 for local sends unless support tells you to use a different format.'
     ],
     warnings: [
-      'Duplicate contacts with the same phone number are blocked to prevent sending duplicate messages to the same customer.'
+      'Avoid duplicate contacts with the same phone number so the same person does not receive the same SMS twice.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/contacts-list.png',
+        alt: 'Contacts list inside NOLA SMS Pro.',
+        caption: 'Contacts show the people available in the connected location.'
+      },
+      {
+        filename: '/images/docs/contacts-add-contact.png',
+        alt: 'Add Contact form with mobile number field.',
+        caption: 'Add a contact with a valid mobile number before sending a test SMS.'
+      }
     ],
     relatedPages: [
-      { id: 'sending-sms', title: 'Sending SMS' },
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
       { id: 'message-history', title: 'Message History' }
     ]
   },
   {
     id: 'templates',
-    title: 'SMS Templates',
-    description: 'Create and organize reusable message templates to speed up communications.',
+    title: 'Templates',
+    description: 'Save reusable SMS messages that can be inserted in Compose.',
     section: 'Using NOLA SMS Pro',
-    subsection: 'SMS Templates',
+    subsection: 'Templates',
     readingTime: '3 min read',
-    purpose: 'Explain how to create, edit, and apply template messages in the composer.',
+    purpose: 'Templates help you reuse clear, natural SMS wording for common customer messages.',
     steps: [
-      'Go to the Templates section and click "Create Template".',
-      'Enter a name for the template (e.g., Appointment Confirmation).',
-      'Select a category: Appointments, Marketing, Transactional, or General.',
-      'Type your message text into the template body.',
-      'Click "Save Template".',
-      'To use a template, open Compose, click "Insert Template", and select it from the list.'
+      'Open Templates from the NOLA SMS Pro menu.',
+      'Click Create Template.',
+      'Enter a short template name.',
+      'Write the message body using clear, natural wording.',
+      'Save the template.',
+      'Open Compose and insert the template when you are ready to send.'
     ],
     tips: [
-      'Keep templates concise. Carrier filters screen for spam-like terms. Using natural-sounding templates reduces carrier rejection rates.'
+      'Keep templates short and direct. Use wording that sounds like a real customer message.'
     ],
-    notes: [
-      'You can edit templates at any time by clicking the Edit button next to them in the template table.'
-    ],
-    relatedPages: [
-      { id: 'sending-sms', title: 'Sending SMS' },
-      { id: 'settings', title: 'Settings & Notifications' }
-    ]
-  },
-  {
-    id: 'sending-sms',
-    title: 'Sending SMS (Individual & Bulk)',
-    description: 'Learn how to compose and send messages to one or more recipients.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Sending SMS',
-    readingTime: '4 min read',
-    purpose: 'Guide the user on using the compose panel, analyzing counts, and executing sends.',
-    steps: [
-      'Open the Compose page.',
-      'To send to a single contact, start typing their name or select "Individual" and enter a mobile number.',
-      'To send in bulk, select "Bulk" and pick multiple contacts from your list.',
-      'Choose an approved Sender ID from the dropdown menu.',
-      'Write your message, or click "Insert Template" to load pre-written content.',
-      'Verify the character count: 160 characters equals 1 SMS segment (1 credit). Over 160 characters will use multiple credits.',
-      'Click the "Send" button once.'
-    ],
-    tips: [
-      'A character count indicator helps you stay within credit boundaries. Note that special characters (like emojis) reduce the standard segment size from 160 to 70 characters.'
-    ],
-    warnings: [
-      'If a message fails to send, do not repeatedly click the Send button. This could trigger carrier blocklists and double-charge credits if messages queue up. Check Message History first.'
+    screenshots: [
+      {
+        filename: '/images/docs/templates-list.png',
+        alt: 'Templates list inside NOLA SMS Pro.',
+        caption: 'Templates save reusable SMS messages.'
+      },
+      {
+        filename: '/images/docs/templates-create-template.png',
+        alt: 'Create Template form for writing a reusable SMS message.',
+        caption: 'Create a short, natural message that can be inserted in Compose.'
+      }
     ],
     relatedPages: [
-      { id: 'message-history', title: 'Message History' },
-      { id: 'sms-credits', title: 'SMS Credits & Requests' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
+      { id: 'contacts', title: 'Contacts' }
     ]
   },
   {
     id: 'sender-id',
-    title: 'Sender ID & Carrier Approval Workflow',
-    description: 'Learn about custom alphanumeric Sender IDs, how carriers review them, and how to request one.',
+    title: 'Sender IDs',
+    description: 'Use the default sender right away, or request a custom Sender ID for approval.',
     section: 'Using NOLA SMS Pro',
-    subsection: 'Sender ID',
-    readingTime: '4 min read',
-    purpose: 'Explain the Sender ID system and provide the approval request form guidelines.',
-    hasWorkflow: 'senderId',
+    subsection: 'Sender IDs',
+    readingTime: '3 min read',
+    purpose: 'You can send with NOLASMSPro right away if credits are available. Custom Sender IDs must be requested and approved before they appear in Compose.',
     steps: [
-      'By default, all messages use the default carrier name NOLASMSPro.',
-      'To request a custom Sender ID, go to Settings > Sender IDs and click "Request Custom Sender ID".',
-      'Enter your desired Sender ID (3 to 11 alphanumeric characters, no spaces).',
-      'Explain the purpose of the ID (e.g., sending clinic reminders for Dr. Santos).',
-      'Provide a sample message exactly as you plan to send it.',
-      'Submit the request for Admin Review.',
-      'Monitor the status on the Sender IDs tab: Pending, Approved, or Rejected.'
+      'For your first send, choose NOLASMSPro in Compose.',
+      'To request a custom Sender ID, open Settings and go to Sender IDs.',
+      'Click Request Custom Sender ID.',
+      'Enter the Sender ID name, business purpose, and one sample message.',
+      'Submit the request.',
+      'Wait for the status to show Approved before using it in Compose.'
     ],
-    tips: [
-      'Sender IDs are reviewed by carrier representatives. Provide a realistic purpose and sample message to ensure a quick approval. Reviews typically take 2-3 business days.'
+    notes: [
+      defaultSmsReminder
     ],
     warnings: [
-      'You cannot select pending or rejected Sender IDs in the Compose screen. They will only appear in the dropdown once their status is updated to Approved.'
+      'Pending or rejected Sender IDs cannot be selected when sending SMS.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/sender-id-default.png',
+        alt: 'Sender ID screen showing NOLASMSPro as the default sender.',
+        caption: 'The default sender is NOLASMSPro.'
+      },
+      {
+        filename: '/images/docs/sender-id-request-form.png',
+        alt: 'Custom Sender ID request form in NOLA SMS Pro.',
+        caption: 'Custom Sender IDs can be requested from Settings.'
+      },
+      {
+        filename: '/images/docs/sender-id-statuses.png',
+        alt: 'Sender ID status list showing pending and approved statuses.',
+        caption: 'Only approved Sender IDs can be selected when sending SMS.'
+      }
     ],
     relatedPages: [
-      { id: 'settings', title: 'Settings & Notifications' },
-      { id: 'sending-sms', title: 'Sending SMS' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
+      { id: 'settings', title: 'Settings' }
     ]
   },
   {
     id: 'sms-credits',
-    title: 'SMS Credits & Refill Workflow',
-    description: 'How to monitor your credit balance, submit refill requests, and purchase credits.',
+    title: 'SMS Credits',
+    description: 'Check your SMS credit balance, request more credits, and review credit history.',
     section: 'Using NOLA SMS Pro',
     subsection: 'SMS Credits',
-    readingTime: '4 min read',
-    purpose: 'Understand how credits are consumed, how to request refills from your administrator, and how sandbox billing works.',
-    hasWorkflow: 'credits',
+    readingTime: '3 min read',
+    purpose: 'SMS credits are required before messages can be sent.',
     steps: [
-      'Check your current balance at the top of the Settings > Credits tab or on the dashboard.',
-      'To request credits from your administrator, click "Request Credits".',
-      'Enter the number of credits requested, write a short reason note, and click Submit.',
-      'Your administrator will review and add the credits to your sub-account balance.',
-      'If direct purchases are enabled, select a credit package and complete checkout.',
-      'Track your credit transactions in the monthly credit ledger below.'
-    ],
-    tips: [
-      'Set up a Low Balance Alert in Settings > Notifications so you receive an email when your credits drop below a specified number.'
+      'Check your credit balance on Home or in Settings.',
+      'Before sending, confirm the balance is greater than zero.',
+      'If your balance is low or zero, click Request Credits.',
+      'Enter the number of credits you need and submit the request.',
+      'If checkout is available, choose a credit package and complete checkout.',
+      'Use credit history to review recent credit changes and SMS usage.'
     ],
     notes: [
-      'Longer messages require multiple segments. A single message with 170 characters uses 2 segments, which deducts 2 credits from your balance.'
-    ],
-    relatedPages: [
-      { id: 'settings', title: 'Settings & Notifications' },
-      { id: 'reports-analytics', title: 'Reports & Analytics' }
-    ]
-  },
-  {
-    id: 'message-history',
-    title: 'Message History & Delivery Logs',
-    description: 'Track the delivery progress and credit consumption of all sent texts.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Message History',
-    readingTime: '3 min read',
-    purpose: 'Check sending statuses and review detailed delivery reports.',
-    steps: [
-      'Open the Message History section from the left sidebar.',
-      'Review the recipient, sender ID, send time, and credit cost for each text.',
-      'Check the current status: Sending, Sent, or Failed.',
-      'For failed messages, hover over or click the "Failed" label to view carrier-reported error details.',
-      'Filter logs by date range or search for specific recipient phone numbers.'
+      defaultSmsReminder
     ],
     tips: [
-      'If a message is stuck in "Sending" status for more than 5 minutes, refresh the page. Network congestion at the carrier level can occasionally delay status updates.'
+      'Set a low-balance notification so your team knows when to request more credits.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/credits-balance.png',
+        alt: 'SMS credit balance inside NOLA SMS Pro.',
+        caption: 'Check your available credits before sending SMS.'
+      },
+      {
+        filename: '/images/docs/credits-request-form.png',
+        alt: 'Request Credits form in NOLA SMS Pro.',
+        caption: 'Request more credits if your balance is low or zero.'
+      },
+      {
+        filename: '/images/docs/credits-history.png',
+        alt: 'Credit history table showing recent credit changes.',
+        caption: 'Credit history shows recent credit changes and SMS usage.'
+      }
     ],
     relatedPages: [
-      { id: 'sending-sms', title: 'Sending SMS' },
-      { id: 'troubleshooting', title: 'Common Issues' }
-    ]
-  },
-  {
-    id: 'reports-analytics',
-    title: 'Reports & Analytics Dashboard',
-    description: 'Analyze SMS volume trends and credit consumption rates.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Reports & Analytics',
-    readingTime: '3 min read',
-    purpose: 'Review aggregate metrics to track messaging expenses and success rates.',
-    steps: [
-      'Navigate to Reports & Analytics from the left menu.',
-      'Select a date range filter (e.g., Last 7 Days, This Month).',
-      'Review the charts showing: Total Sent, Delivery Success Rate, and Credit Consumption.',
-      'Check the "Failed Messages Breakdown" to spot common numbers that bounce.',
-      'Download a CSV export of your usage logs for monthly auditing.'
-    ],
-    tips: [
-      'A low success rate usually points to invalid contact numbers or carrier blocks. Clean up contact formats regularly.'
-    ],
-    relatedPages: [
-      { id: 'sms-credits', title: 'SMS Credits & Requests' },
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
       { id: 'message-history', title: 'Message History' }
     ]
   },
   {
-    id: 'settings',
-    title: 'Settings & Notifications',
-    description: 'Adjust your user profile details, email notifications, and view workspace connection parameters.',
+    id: 'message-history',
+    title: 'Message History',
+    description: 'Check whether messages are Sending, Sent, or Failed.',
     section: 'Using NOLA SMS Pro',
-    subsection: 'Settings',
+    subsection: 'Message History',
     readingTime: '3 min read',
-    purpose: 'Set up your system alerts and keep your profile parameters current.',
+    purpose: 'Message History is where you confirm what happened after clicking Send.',
     steps: [
-      'Open the Settings section and click the Profile tab.',
-      'Verify that your Name, Email, and Phone Number match your active profile.',
-      'Go to the Notifications tab to toggle email reports and low-balance alerts.',
-      'Under the Connected Location tab, confirm that the connected sub-account name matches your HighLevel workspace.',
-      'Click "Save Changes" to apply your preferences.'
+      'Open Message History from the NOLA SMS Pro menu.',
+      'Find the message by recipient number, sender, or send time.',
+      'Check the status: Sending, Sent, or Failed.',
+      'If the status is Sending, wait a few minutes and refresh.',
+      'If the status is Failed, open the message and check the failed reason if one is available.',
+      'If you contact support, include a screenshot, recipient number, send time, message status, and visible error message.'
     ],
     warnings: [
-      'If the Connected Location tab displays a location ID or company name that does not belong to you, stop testing immediately and contact support. Do not send messages from an incorrect workspace.'
+      'Do not click Send repeatedly while a message is still Sending.'
     ],
-    relatedPages: [
-      { id: 'sms-credits', title: 'SMS Credits & Requests' },
-      { id: 'sender-id', title: 'Sender ID & Approval' }
-    ]
-  },
-
-  // --- TROUBLESHOOTING ---
-  {
-    id: 'troubleshooting',
-    title: 'Common Issues & Troubleshooting Guide',
-    description: 'Fix common issues with installation, login, sending failures, and credit balances.',
-    section: 'Troubleshooting',
-    readingTime: '5 min read',
-    purpose: 'Quick fixes for common issues faced by sub-account users.',
-    steps: [
-      'Identify the issue from the list below.',
-      'Follow the step-by-step resolution guide.',
-      'If the issue persists, submit a support ticket.'
-    ],
-    tips: [
-      'Always capture a screenshot of any error panels and note the exact time of the error before contacting support.'
-    ],
-    warnings: [
-      'Do not attempt to reinstall or reconnect multiple times in quick succession. This can cause authorization loops.'
-    ],
-    commonIssues: [
-      'Interrupted Installation: If you close the window before registration, reopen NOLA SMS Pro inside HighLevel to resume.',
-      'Wrong Location: If NOLA displays a sibling location, log out, double-check your active HighLevel location, and click Reconnect.',
-      'Credits Showing Zero: Try refreshing the page. If the credits still show zero, submit a Credit Request to your administrator.',
-      'SMS Failed: Check the phone number format. Ensure it uses the 11-digit 09XXXXXXXXX format. Ensure your credit balance is not zero.',
-      'Sender ID Pending: Carriers require 2-3 business days to approve custom IDs. Use the default NOLASMSPro sender in the meantime.',
-      'Pop-ups Blocked: If the Buy Credits checkout does not open, click the pop-up blocker icon in your browser address bar and choose "Always allow pop-ups from this site".'
-    ],
-    relatedPages: [
-      { id: 'faq', title: 'Frequently Asked Questions' },
-      { id: 'support', title: 'Get Support' }
-    ]
-  },
-
-  // --- FAQ ---
-  {
-    id: 'faq',
-    title: 'Frequently Asked Questions',
-    description: 'Quick answers to common questions about using NOLA SMS Pro.',
-    section: 'FAQ',
-    readingTime: '4 min read',
-    purpose: 'Provide direct answers to frequently asked questions.',
-    faqs: [
+    screenshots: [
       {
-        q: 'How do I request a custom Sender ID?',
-        a: 'Navigate to Settings > Sender IDs, click "Request Custom Sender ID", enter an alphanumeric name of 3 to 11 characters, describe its purpose and submit. An administrator will review and approve it.'
+        filename: '/images/docs/message-history-list.png',
+        alt: 'Message History list showing message statuses.',
+        caption: 'Message History shows Sending, Sent, and Failed statuses.'
       },
       {
-        q: 'Why can\'t I send SMS messages?',
-        a: 'This is usually caused by having a zero credit balance, using an unapproved Sender ID, or entering an incorrectly formatted phone number. Check that you have credits and are using a carrier-approved sender like NOLASMSPro.'
-      },
-      {
-        q: 'Why is my Sender ID status still pending?',
-        a: 'Sender IDs must be submitted to local carriers for registration. This process is managed by administrators and carriers and typically takes 2 to 3 business days. Use the default NOLASMSPro sender until it is approved.'
-      },
-      {
-        q: 'How long does Sender ID or credit approval take?',
-        a: 'Credit refills are usually approved by your system administrator within a few hours. Sender ID approvals depend on carriers and take 2-3 business days.'
-      },
-      {
-        q: 'Why are my SMS credits zero?',
-        a: 'New sub-accounts start with zero credits. You must click "Request Credits" on the Credits tab to ask your administrator for a credit allocation, or purchase a credit pack if direct billing is enabled.'
-      },
-      {
-        q: 'How do I reconnect my account if I see an integration error?',
-        a: 'If you see an integration alert, click the "Reconnect Integration" button, log in with your HighLevel administrator account, approve permissions, and select the correct sub-account location.'
+        filename: '/images/docs/message-history-failed-detail.png',
+        alt: 'Failed message detail with available error information.',
+        caption: 'Open failed messages to see the available error details.'
       }
     ],
     relatedPages: [
-      { id: 'troubleshooting', title: 'Common Issues' },
-      { id: 'support', title: 'Get Support' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
+      { id: 'support', title: 'Support' }
     ]
   },
-
-  // --- SUPPORT ---
   {
-    id: 'support',
-    title: 'Get Support & Contact Help',
-    description: 'Submit support requests and report issues directly to the NOLA team.',
-    section: 'Support',
+    id: 'settings',
+    title: 'Settings',
+    description: 'Review your profile, connected location details, notifications, Sender IDs, and credits.',
+    section: 'Using NOLA SMS Pro',
+    subsection: 'Settings',
     readingTime: '3 min read',
-    purpose: 'Guide users on how to request official support and submit help tickets.',
-    hasTicketForm: true,
+    purpose: 'Settings is where you confirm the account and location are correct before sending.',
     steps: [
-      'Fill out the "Create Support Ticket" form on this page.',
-      'Enter a clear subject summarizing the issue (e.g., "Credits not showing after refill").',
-      'Describe the issue in detail, listing what you did, what happened, and any error message.',
-      'Select a Priority level: Low, Medium, or High.',
-      'Click Submit Ticket.',
-      'Review open tickets in the list below the form to track updates.'
+      'Open Settings from the NOLA SMS Pro menu.',
+      'Review your profile information.',
+      'Check Connected Location and confirm it matches the HighLevel sub-account you installed.',
+      'Open Sender IDs to review default and custom sender options.',
+      'Open Credits to check your balance or request more credits.',
+      'Open Notifications to manage low-balance and delivery alerts.'
     ],
-    tips: [
-      'Check the Common Issues page first to see if a quick fix is available for your problem before submitting a ticket.'
+    warnings: [
+      'If the connected location details do not match your HighLevel sub-account, stop and contact support before sending SMS.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/settings-profile.png',
+        alt: 'Profile settings in NOLA SMS Pro.',
+        caption: 'Profile settings show the user information for the account.'
+      },
+      {
+        filename: '/images/docs/settings-connected-location.png',
+        alt: 'Connected Location settings in NOLA SMS Pro.',
+        caption: 'Connected Location should match the HighLevel sub-account you installed.'
+      },
+      {
+        filename: '/images/docs/settings-notifications.png',
+        alt: 'Notification settings in NOLA SMS Pro.',
+        caption: 'Notifications control alerts such as low balance and delivery updates.'
+      }
     ],
     relatedPages: [
-      { id: 'troubleshooting', title: 'Common Issues' },
-      { id: 'faq', title: 'Frequently Asked Questions' }
+      { id: 'sender-id', title: 'Sender IDs' },
+      { id: 'sms-credits', title: 'SMS Credits' }
+    ]
+  },
+  {
+    id: 'troubleshooting',
+    title: 'Troubleshooting',
+    description: 'Fix common setup, credit, Sender ID, and sending issues.',
+    section: 'Troubleshooting',
+    readingTime: '5 min read',
+    purpose: 'Use this page when something does not look right or a message does not send as expected.',
+    steps: [
+      'Find the issue that matches what you see on screen.',
+      'Follow the next step listed for that issue.',
+      'If the issue continues, contact support with a screenshot and the details requested on the Support page.'
+    ],
+    commonIssues: [
+      'Wrong Location: You see a location name that is not yours. This means the app may be connected to the wrong HighLevel sub-account. Stop and contact support before sending.',
+      'Zero Credits: You see a zero credit balance. This means SMS cannot be sent yet. Request credits or complete checkout if it is available.',
+      'SMS Failed: You see Failed in Message History. This may mean the number, credits, Sender ID, or message content needs attention. Open the failed message and review the visible reason.',
+      'Still Sending: You see Sending for several minutes. This may be a delayed status update. Wait, refresh Message History, and do not click Send again.',
+      'Sender ID Pending: You see Pending next to a custom Sender ID. This means it is not approved yet. Use NOLASMSPro until the custom Sender ID is approved.',
+      'Reconnect Required: You see a reconnect prompt. Follow the prompt once, confirm the correct location, and contact support if it returns.'
+    ],
+    tips: [
+      'For SMS issues, capture the recipient number, send time, message status, and visible error message before contacting support.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/error-wrong-location.png',
+        alt: 'Wrong connected location warning in NOLA SMS Pro.',
+        caption: 'If the wrong location appears, stop and contact support before sending.'
+      },
+      {
+        filename: '/images/docs/error-zero-credits.png',
+        alt: 'Zero credits warning in NOLA SMS Pro.',
+        caption: 'If credits are zero, request credits before sending SMS.'
+      },
+      {
+        filename: '/images/docs/error-sms-failed.png',
+        alt: 'Failed SMS status in Message History.',
+        caption: 'If SMS fails, check the number, credits, Sender ID, and Message History.'
+      },
+      {
+        filename: '/images/docs/error-reconnect-required.png',
+        alt: 'Reconnect required prompt in NOLA SMS Pro.',
+        caption: 'If reconnect is required, follow the reconnect prompt from the app.'
+      }
+    ],
+    relatedPages: [
+      { id: 'faq', title: 'FAQ' },
+      { id: 'support', title: 'Support' }
+    ]
+  },
+  {
+    id: 'faq',
+    title: 'Frequently Asked Questions',
+    description: 'Short answers to common NOLA SMS Pro questions.',
+    section: 'FAQ',
+    readingTime: '4 min read',
+    purpose: 'Use these quick answers when you need a short explanation without reading a full guide.',
+    faqs: [
+      {
+        q: 'Can I send right after installation?',
+        a: 'Yes, if the correct location is connected and SMS credits are available. Use NOLASMSPro for your first send.'
+      },
+      {
+        q: 'Why can I not send SMS?',
+        a: 'The most common causes are zero credits, an invalid phone number, an unapproved Sender ID, or a failed connection. Check Settings, Credits, and Message History.'
+      },
+      {
+        q: 'How many credits does one SMS use?',
+        a: 'A normal 160-character SMS usually uses 1 credit. Longer messages or messages with special characters may use more.'
+      },
+      {
+        q: 'Can I use my own Sender ID?',
+        a: 'Yes. Request it from Settings, then wait until it is approved. Pending Sender IDs cannot be used in Compose.'
+      },
+      {
+        q: 'What should I do if a message fails?',
+        a: 'Open Message History, check the failed reason if available, and avoid clicking Send again until you understand the issue.'
+      },
+      {
+        q: 'What information should I send to support?',
+        a: 'Include a screenshot, HighLevel location name, recipient number, send time, message status, and visible error message.'
+      }
+    ],
+    relatedPages: [
+      { id: 'troubleshooting', title: 'Troubleshooting' },
+      { id: 'support', title: 'Support' }
+    ]
+  },
+  {
+    id: 'support',
+    title: 'Support',
+    description: 'Contact support for setup, credit, Sender ID, or SMS issues.',
+    section: 'Support',
+    readingTime: '3 min read',
+    purpose: 'Send a support request when the guides do not resolve the issue or when you need help with account access, credits, Sender IDs, or failed SMS.',
+    hasTicketForm: true,
+    steps: [
+      'Open the support form on this page.',
+      'Choose the issue type that best matches your problem.',
+      'Enter a short subject.',
+      'Describe what you saw and what you expected to happen.',
+      'For SMS issues, include a screenshot, HighLevel location name, recipient number, send time, message status, and visible error message.',
+      'Submit the ticket and watch for a support response.'
+    ],
+    tips: [
+      'Check Troubleshooting first for common fixes before submitting a ticket.'
+    ],
+    screenshots: [
+      {
+        filename: '/images/docs/support-ticket-form.png',
+        alt: 'NOLA SMS Pro support ticket form.',
+        caption: 'Use the support form to report setup, credit, Sender ID, or SMS issues.'
+      }
+    ],
+    relatedPages: [
+      { id: 'troubleshooting', title: 'Troubleshooting' },
+      { id: 'faq', title: 'FAQ' }
     ]
   }
 ];
@@ -590,7 +636,6 @@ export function getDocPageById(id: string): DocPage | undefined {
 }
 
 export function getNextAndPrevPages(id: string) {
-  // Flatten structural items to calculate order
   const flatItems: { id: string; title: string }[] = [];
   sidebarStructure.forEach((sec) => {
     sec.items.forEach((item) => {

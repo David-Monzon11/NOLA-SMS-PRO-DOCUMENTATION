@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Layers, Settings, ShieldAlert, HelpCircle, LifeBuoy, Search, ChevronDown, ChevronRight } from 'lucide-react';
+import { BookOpen, Layers, Settings, ShieldAlert, HelpCircle, LifeBuoy, Search, ChevronDown, ChevronRight, Sun, Moon } from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
 import { useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 interface SidebarProps {
   onSearchClick: () => void;
@@ -22,6 +23,7 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
 export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile, onCloseMobile }) => {
   const location = useLocation();
   const activeId = location.pathname.split('/docs/')[1] || '';
+  const { theme, toggleTheme } = useTheme();
 
   const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
 
@@ -145,10 +147,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile,
       </nav>
 
       {/* Footer */}
-      <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800/60 flex-shrink-0">
+      <div className="px-4 py-3 border-t border-slate-100 dark:border-slate-800/60 flex-shrink-0 flex items-center justify-between">
         <span className="text-[10px] text-slate-300 dark:text-slate-600 font-medium">
           © 2025 NOLA SMS Pro · v1.0
         </span>
+        <button
+          onClick={toggleTheme}
+          className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {theme === 'light' ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
+        </button>
       </div>
     </div>
   );

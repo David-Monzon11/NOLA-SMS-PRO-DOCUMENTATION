@@ -1,29 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import type { DocPage } from '../data/docsData';
+import type { DocPage, ScreenshotPlan } from '../data/docsData';
 import { docsData, sidebarStructure } from '../data/docsData';
 import { Steps } from './Steps';
 import { TipBox, InfoBox, WarningBox } from './Callouts';
 import { Accordion } from './Accordion';
-import { SenderIdWorkflow, CreditWorkflow } from './Workflow';
 import { InteractiveChecklist } from './InteractiveChecklist';
 import { TicketForm } from './TicketForm';
 import { ScreenshotPlaceholder } from './ScreenshotPlaceholder';
 import { useNavigate, useLocation, useNavigationType } from 'react-router-dom';
-import { AlertTriangle, Clock, BookOpen, Layers, Settings, ShieldAlert, HelpCircle, LifeBuoy } from 'lucide-react';
+import { AlertTriangle, Clock } from 'lucide-react';
 import { WelcomePresentation } from './WelcomePresentation';
 
 interface Props {
   page: DocPage;
 }
-
-const SECTION_ICONS: Record<string, React.ReactNode> = {
-  'Welcome': <BookOpen className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-  'Getting Started': <Layers className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-  'Using NOLA SMS Pro': <Settings className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-  'Troubleshooting': <ShieldAlert className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-  'Frequently Asked Questions': <HelpCircle className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-  'Support & Help': <LifeBuoy className="h-4 w-4 text-[#1F5AAE] dark:text-[#4F8EF7]" />,
-};
 
 // Determine visual preview variant based on page content
 function getPreviewVariant(page: DocPage): 'Application Preview' | 'Step Preview' | 'Feature Preview' | 'Result Preview' {
@@ -35,9 +25,27 @@ function getPreviewVariant(page: DocPage): 'Application Preview' | 'Step Preview
 
 // Section heading used consistently throughout
 const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h2 className="text-[17px] font-bold text-slate-800 dark:text-slate-100 mb-4 mt-10 first:mt-0">
+  <h2 className="text-[17px] font-bold text-slate-800 dark:text-slate-100 mb-3 mt-6 first:mt-0">
     {children}
   </h2>
+);
+
+const ScreenshotGallery: React.FC<{ screenshots: ScreenshotPlan[]; variant: 'Application Preview' | 'Step Preview' | 'Feature Preview' | 'Result Preview' }> = ({ screenshots, variant }) => (
+  <section className="my-7">
+    <div className={`grid gap-4 ${screenshots.length === 1 ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-2'}`}>
+      {screenshots.map((screenshot, idx) => (
+        <ScreenshotPlaceholder
+          key={screenshot.filename}
+          figure={idx + 1}
+          caption={screenshot.caption}
+          alt={screenshot.alt}
+          filename={screenshot.filename}
+          variant={variant}
+          height={screenshots.length > 1 ? 'sm' : 'md'}
+        />
+      ))}
+    </div>
+  </section>
 );
 
 export const DocPageRenderer: React.FC<Props> = ({ page: _page }) => {
@@ -103,119 +111,23 @@ export const DocPageRenderer: React.FC<Props> = ({ page: _page }) => {
 
   const renderPageContent = (p: DocPage) => {
     const previewVariant = getPreviewVariant(p);
-    const showPreview = !['faq', 'support', 'troubleshooting'].includes(p.id);
-
-    if (showPreview) {
-      return (
-        <div key={p.id} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Text Guide */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* ── 1. Page Header ── */}
-            <header className="mb-6 pb-5 border-b border-slate-100 dark:border-slate-800/60">
-              <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#1F5AAE] dark:text-[#4F8EF7] uppercase tracking-wider mb-2">
-                <span>{p.section}</span>
-                {p.subsection && (
-                  <>
-                    <span className="text-slate-300 dark:text-slate-700">/</span>
-                    <span>{p.subsection}</span>
-                  </>
-                )}
-              </div>
-
-              <h3 className="text-[24px] md:text-[28px] font-black text-slate-900 dark:text-white leading-tight tracking-tight">
-                {p.title}
-              </h3>
-
-              <div className="mt-3 flex items-center gap-2 text-[11px] text-slate-400 dark:text-slate-500">
-                <Clock className="h-3.5 w-3.5 flex-shrink-0" />
-                <span>{p.readingTime}</span>
-              </div>
-
-              <p className="mt-3 text-[14px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                {p.description}
-              </p>
-            </header>
-
-            {/* ── 2. Purpose ── */}
-            {p.purpose && (
-              <section className="mb-6">
-                <p className="text-[14px] text-slate-655 dark:text-slate-400 leading-relaxed">
-                  {p.purpose}
-                </p>
-              </section>
-            )}
-
-            {/* ── 3. Steps / Workflows ── */}
-            {p.steps && p.steps.length > 0 && (
-              <section className="mb-6">
-                <SectionHeading>
-                  {p.hasFirstSMSChecklist
-                    ? 'Setup Checklist'
-                    : p.hasWorkflow
-                    ? 'How It Works'
-                    : p.hasTicketForm
-                    ? 'Submit a Request'
-                    : 'Step-by-Step Guide'}
-                </SectionHeading>
-
-                {p.hasFirstSMSChecklist ? (
-                  <InteractiveChecklist />
-                ) : p.hasWorkflow === 'senderId' ? (
-                  <SenderIdWorkflow />
-                ) : p.hasWorkflow === 'credits' ? (
-                  <CreditWorkflow />
-                ) : p.hasTicketForm ? (
-                  <TicketForm />
-                ) : (
-                  <Steps items={p.steps} />
-                )}
-              </section>
-            )}
-
-            {/* ── 4. Callouts ── */}
-            {(p.tips || p.notes || p.warnings) && (
-              <div className="space-y-4">
-                {p.tips?.map((tip, idx) => (
-                  <TipBox key={idx}>{tip}</TipBox>
-                ))}
-                {p.notes?.map((note, idx) => (
-                  <InfoBox key={idx}>{note}</InfoBox>
-                ))}
-                {p.warnings?.map((warn, idx) => (
-                  <WarningBox key={idx}>{warn}</WarningBox>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Right Column: Visual Mockup (Sticky) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
-            <ScreenshotPlaceholder
-              figure={1}
-              caption={`${p.title} — visual overview.`}
-              note="Screenshots will be added once the feature is available in the live app."
-              variant={previewVariant}
-              height="md"
-            />
-          </div>
-        </div>
-      );
-    }
 
     return (
-      <div key={p.id} className="max-w-3xl space-y-6">
-        <header className="mb-6 pb-5 border-b border-slate-100 dark:border-slate-800/60">
-          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#1F5AAE] dark:text-[#4F8EF7] uppercase tracking-wider mb-2">
-            <span>{p.section}</span>
-          </div>
-          <h3 className="text-[24px] md:text-[28px] font-black text-slate-900 dark:text-white leading-tight tracking-tight">
+      <div key={p.id} className="max-w-5xl">
+        <header className="mb-5 border-b border-slate-100 pb-5 dark:border-slate-800/60">
+          <h2 className="text-[24px] md:text-[30px] font-black text-slate-900 dark:text-white leading-tight tracking-tight">
             {p.title}
-          </h3>
-          <p className="mt-3 text-[14px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+          </h2>
+          <div className="mt-3 flex items-center gap-2 text-[11px] text-slate-400 dark:text-slate-500">
+            <Clock className="h-3.5 w-3.5 flex-shrink-0" />
+            <span>{p.readingTime}</span>
+          </div>
+          <p className="mt-3 max-w-3xl text-[14px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
             {p.description}
           </p>
         </header>
 
+        <div className="max-w-3xl space-y-6">
         {p.purpose && (
           <section className="mb-6">
             <p className="text-[14px] text-slate-655 dark:text-slate-400 leading-relaxed">
@@ -227,11 +139,28 @@ export const DocPageRenderer: React.FC<Props> = ({ page: _page }) => {
         {p.steps && p.steps.length > 0 && (
           <section className="mb-6">
             <SectionHeading>
-              {p.hasTicketForm ? 'Submit a Request' : 'Step-by-Step Guide'}
+              {p.hasFirstSMSChecklist
+                ? 'First Send Checklist'
+                : p.hasTicketForm
+                ? 'Submit a Request'
+                : 'Step-by-Step Guide'}
             </SectionHeading>
-            {p.hasTicketForm ? <TicketForm /> : <Steps items={p.steps} />}
+            {p.hasFirstSMSChecklist ? (
+              <InteractiveChecklist />
+            ) : p.hasTicketForm ? (
+              <TicketForm />
+            ) : (
+              <Steps items={p.steps} />
+            )}
           </section>
         )}
+        </div>
+
+        {p.screenshots && p.screenshots.length > 0 && (
+          <ScreenshotGallery screenshots={p.screenshots} variant={previewVariant} />
+        )}
+
+        <div className="max-w-3xl space-y-6">
 
         {p.commonIssues && p.commonIssues.length > 0 && (
           <section className="mb-6">
@@ -275,38 +204,21 @@ export const DocPageRenderer: React.FC<Props> = ({ page: _page }) => {
             ))}
           </div>
         )}
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="space-y-32 pb-32">
+    <div className="space-y-20 pb-20">
       {sidebarStructure.map((section) => (
         <div key={section.title} className="scroll-mt-20">
-          {/* Category Header */}
-          <div className="pb-4 mb-16 border-b border-slate-100 dark:border-slate-800/60">
-            <h2 className="text-xs font-black text-[#1F5AAE] dark:text-[#4F8EF7] uppercase tracking-widest flex items-center gap-2">
-              <span className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-850">
-                {SECTION_ICONS[section.title]}
-              </span>
-              {section.title}
-            </h2>
-          </div>
-
           {/* Sub-pages stack */}
-          <div className="space-y-24">
+          <div className="space-y-16">
             {section.items.map(item => {
               if (item.id === 'welcome') {
                 return (
-                  <section id="welcome" key="welcome" className="scroll-mt-20 space-y-12">
-                    <header className="mb-6 pb-5 border-b border-slate-100 dark:border-slate-800/60 max-w-3xl">
-                      <h1 className="text-[32px] md:text-[40px] font-black text-slate-900 dark:text-white leading-tight tracking-tight">
-                        Welcome to NOLA SMS Pro
-                      </h1>
-                      <p className="mt-3 text-[16px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                        Learn how NOLA SMS Pro integrates with your HighLevel sub-account to streamline your business texting.
-                      </p>
-                    </header>
+                  <section id="welcome" key="welcome" className="scroll-mt-20">
                     <WelcomePresentation />
                   </section>
                 );
@@ -319,7 +231,7 @@ export const DocPageRenderer: React.FC<Props> = ({ page: _page }) => {
                 <section
                   id={subPage.id}
                   key={subPage.id}
-                  className="scroll-mt-20 border-b border-slate-50 dark:border-slate-900/35 pb-20 last:border-b-0 last:pb-0"
+                  className="scroll-mt-20 border-b border-slate-50 dark:border-slate-900/35 pb-12 last:border-b-0 last:pb-0"
                 >
                   {renderPageContent(subPage)}
                 </section>

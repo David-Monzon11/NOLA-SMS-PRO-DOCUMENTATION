@@ -12,15 +12,15 @@ interface HomeProps {
 const quickLinks = [
   {
     icon: <Zap className="h-5 w-5 text-[#1F5AAE]" />,
-    title: 'Quick Start',
-    desc: 'Install and send your first SMS in minutes.',
-    href: '/docs/quick-start',
+    title: 'Install NOLA SMS Pro',
+    desc: 'Connect the correct HighLevel location.',
+    href: '/docs/marketplace-install',
   },
   {
     icon: <MessageSquare className="h-5 w-5 text-violet-500" />,
-    title: 'Sending SMS',
-    desc: 'Individual messages and bulk campaigns.',
-    href: '/docs/sending-sms',
+    title: 'Send Your First SMS',
+    desc: 'Check credits, sender, contact, and status.',
+    href: '/docs/first-sms-checklist',
   },
   {
     icon: <ShieldCheck className="h-5 w-5 text-emerald-500" />,
@@ -37,7 +37,7 @@ const quickLinks = [
   {
     icon: <Settings className="h-5 w-5 text-slate-500" />,
     title: 'Settings',
-    desc: 'Configure your profile, notifications, and location.',
+    desc: 'Review profile, notifications, and location.',
     href: '/docs/settings',
   },
   {
@@ -49,17 +49,17 @@ const quickLinks = [
 ];
 
 const popularArticles = [
-  { title: 'How to request a custom Sender ID', href: '/docs/sender-id' },
-  { title: 'What to do when SMS credits run out', href: '/docs/sms-credits' },
-  { title: 'Understanding message delivery status', href: '/docs/message-history' },
-  { title: 'First SMS checklist for new users', href: '/docs/first-sms-checklist' },
+  { title: 'Install NOLA SMS Pro from HighLevel', href: '/docs/marketplace-install' },
+  { title: 'Send your first SMS', href: '/docs/first-sms-checklist' },
+  { title: 'Use the default NOLASMSPro sender', href: '/docs/sender-id' },
+  { title: 'Check Message History after sending', href: '/docs/message-history' },
 ];
 
 export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
   return (
     <div className="space-y-14">
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="pt-4">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#1F5AAE] dark:text-[#4F8EF7] uppercase tracking-wider mb-5">
@@ -75,13 +75,13 @@ export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
 
         <p className="text-[16px] text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mb-8">
           Step-by-step guides for sending messages, managing contacts, requesting Sender IDs,
-          and keeping your SMS credits topped up — all without technical knowledge.
+          and keeping your SMS credits topped up - all without technical knowledge.
         </p>
 
         {/* CTA row */}
         <div className="flex flex-wrap gap-3">
           <Link
-            to="/docs/quick-start"
+            to="/docs/marketplace-install"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1F5AAE] hover:bg-[#174d99] text-white text-[13px] font-semibold rounded-lg transition-colors shadow-sm"
           >
             Get started <ArrowRight className="h-4 w-4" />
@@ -96,7 +96,7 @@ export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
         </div>
       </section>
 
-      {/* ── Quick links grid ── */}
+      {/* Quick links grid */}
       <section>
         <h2 className="text-[13px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">
           Browse by Topic
@@ -124,7 +124,7 @@ export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
         </div>
       </section>
 
-      {/* ── Popular articles ── */}
+      {/* Popular articles */}
       <section>
         <h2 className="text-[13px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">
           Popular Articles
@@ -145,7 +145,7 @@ export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
         </div>
       </section>
 
-      {/* ── Support CTA ── */}
+      {/* Support CTA */}
       <section className="flex items-start gap-4 p-5 rounded-xl border border-slate-100 dark:border-slate-800/60 bg-slate-50/60 dark:bg-slate-900/30">
         <div className="w-9 h-9 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center flex-shrink-0">
           <MessageSquare className="h-4.5 w-4.5 text-[#1F5AAE] dark:text-[#4F8EF7]" />
