@@ -76,12 +76,6 @@ export const sidebarStructure = [
       { id: 'faq', title: 'FAQ' }
     ]
   },
-  {
-    title: 'Support & Help',
-    items: [
-      { id: 'support', title: 'Support' }
-    ]
-  }
 ];
 
 export const docsData: DocPage[] = [
@@ -191,8 +185,7 @@ export const docsData: DocPage[] = [
       }
     ],
     relatedPages: [
-      { id: 'dashboard-overview', title: 'Dashboard Overview' },
-      { id: 'support', title: 'Support' }
+      { id: 'dashboard-overview', title: 'Dashboard Overview' }
     ]
   },
   {
@@ -465,8 +458,7 @@ export const docsData: DocPage[] = [
       }
     ],
     relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
-      { id: 'support', title: 'Support' }
+      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
     ]
   },
   {
@@ -556,8 +548,7 @@ export const docsData: DocPage[] = [
       }
     ],
     relatedPages: [
-      { id: 'faq', title: 'FAQ' },
-      { id: 'support', title: 'Support' }
+      { id: 'faq', title: 'FAQ' }
     ]
   },
   {
@@ -594,39 +585,7 @@ export const docsData: DocPage[] = [
       }
     ],
     relatedPages: [
-      { id: 'troubleshooting', title: 'Troubleshooting' },
-      { id: 'support', title: 'Support' }
-    ]
-  },
-  {
-    id: 'support',
-    title: 'Support',
-    description: 'Contact support for setup, credit, Sender ID, or SMS issues.',
-    section: 'Support',
-    readingTime: '3 min read',
-    purpose: 'Send a support request when the guides do not resolve the issue or when you need help with account access, credits, Sender IDs, or failed SMS.',
-    hasTicketForm: true,
-    steps: [
-      'Open the support form on this page.',
-      'Choose the issue type that best matches your problem.',
-      'Enter a short subject.',
-      'Describe what you saw and what you expected to happen.',
-      'For SMS issues, include a screenshot, HighLevel location name, recipient number, send time, message status, and visible error message.',
-      'Submit the ticket and watch for a support response.'
-    ],
-    tips: [
-      'Check Troubleshooting first for common fixes before submitting a ticket.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/support-ticket-form.png',
-        alt: 'NOLA SMS Pro support ticket form.',
-        caption: 'Use the support form to report setup, credit, Sender ID, or SMS issues.'
-      }
-    ],
-    relatedPages: [
-      { id: 'troubleshooting', title: 'Troubleshooting' },
-      { id: 'faq', title: 'FAQ' }
+      { id: 'troubleshooting', title: 'Troubleshooting' }
     ]
   }
 ];

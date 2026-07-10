@@ -35,28 +35,42 @@ export const Pagination: React.FC<PaginationProps> = ({ currentId, isMergedSecti
   if (!prevLink && !nextLink) return null;
 
   return (
-    <div className="flex items-center justify-between gap-4 mt-14 pt-6 border-t border-slate-100 dark:border-slate-800/60">
+    <nav className="mt-8 grid gap-3 border-t border-[#D7E7FA] pt-5 dark:border-[#183354] sm:grid-cols-2" aria-label="Previous and next documentation pages">
       {prevLink ? (
         <Link
           to={`/docs/${prevLink.id}`}
-          className="group flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#1F5AAE] dark:hover:text-[#4F8EF7] transition-colors"
+          className="group flex min-h-[88px] items-center gap-3 rounded-lg border border-[#D7E7FA] bg-white p-4 transition-all hover:border-[#9BC4F5] hover:bg-[#F4F9FF] dark:border-[#183354] dark:bg-[#0B1627] dark:hover:border-[#315C8F]"
         >
-          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
-          <span className="truncate max-w-[200px]">{prevLink.title}</span>
+          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#E8F3FF] text-[#6681A4] transition-colors group-hover:text-[#1F5AAE] dark:bg-[#102B4F] dark:group-hover:text-[#72A8FF]">
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[11px] font-bold uppercase tracking-wider text-[#7B93B1]">Previous</span>
+            <span className="mt-1 block truncate text-sm font-semibold text-[#0B2E63] group-hover:text-[#1F5AAE] dark:text-slate-200 dark:group-hover:text-[#72A8FF]">
+              {prevLink.title}
+            </span>
+          </span>
         </Link>
       ) : (
-        <div />
+        <div className="hidden sm:block" />
       )}
 
       {nextLink ? (
         <Link
           to={`/docs/${nextLink.id}`}
-          className="group flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#1F5AAE] dark:hover:text-[#4F8EF7] transition-colors ml-auto"
+          className="group flex min-h-[88px] items-center justify-between gap-3 rounded-lg border border-[#D7E7FA] bg-white p-4 transition-all hover:border-[#9BC4F5] hover:bg-[#F4F9FF] dark:border-[#183354] dark:bg-[#0B1627] dark:hover:border-[#315C8F]"
         >
-          <span className="truncate max-w-[200px]">{nextLink.title}</span>
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          <span className="min-w-0">
+            <span className="block text-[11px] font-bold uppercase tracking-wider text-[#7B93B1]">Next</span>
+            <span className="mt-1 block truncate text-sm font-semibold text-[#0B2E63] group-hover:text-[#1F5AAE] dark:text-slate-200 dark:group-hover:text-[#72A8FF]">
+              {nextLink.title}
+            </span>
+          </span>
+          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#E8F3FF] text-[#6681A4] transition-colors group-hover:text-[#1F5AAE] dark:bg-[#102B4F] dark:group-hover:text-[#72A8FF]">
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
         </Link>
       ) : null}
-    </div>
+    </nav>
   );
 };

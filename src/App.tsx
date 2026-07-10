@@ -3,8 +3,6 @@ import { HashRouter as Router, Routes, Route, Navigate, useParams } from 'react-
 import { ThemeProvider } from './context/ThemeContext';
 import { DocLayout } from './components/DocLayout';
 import { DocPageRenderer } from './components/DocPageRenderer';
-import { Footer } from './components/Footer';
-import { Home } from './pages/Home';
 import { docsData } from './data/docsData';
 
 // Resolve page from route param and render with layout
@@ -21,30 +19,14 @@ const DocPageWrapper: React.FC = () => {
   );
 };
 
-// Landing page with shared layout but custom home content + footer
-const HomeWrapper: React.FC = () => {
-  const welcomeDoc = docsData[0];
-
-  const handleSearchTrigger = () => {
-    window.dispatchEvent(new CustomEvent('open-nola-search'));
-  };
-
-  return (
-    <DocLayout page={welcomeDoc}>
-      <Home onSearchClick={handleSearchTrigger} />
-      <Footer />
-    </DocLayout>
-  );
-};
-
 export default function App() {
   return (
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<HomeWrapper />} />
+          <Route path="/" element={<Navigate to="/docs/welcome" replace />} />
           <Route path="/docs/:id" element={<DocPageWrapper />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/docs/welcome" replace />} />
         </Routes>
       </Router>
     </ThemeProvider>

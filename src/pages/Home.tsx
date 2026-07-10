@@ -157,12 +157,12 @@ export const Home: React.FC<HomeProps> = ({ onSearchClick }) => {
           <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-0.5">
             Submit a support ticket and the NOLA team will get back to you.
           </p>
-          <Link
-            to="/docs/support"
+          <a
+            href="mailto:support@nolasmspro.com"
             className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#1F5AAE] dark:text-[#4F8EF7] mt-2 hover:underline"
           >
-            Open a ticket <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+            Email Support <ArrowRight className="h-3.5 w-3.5" />
+          </a>
         </div>
       </section>
 

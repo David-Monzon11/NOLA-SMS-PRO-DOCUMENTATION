@@ -1,14 +1,40 @@
 import React from 'react';
-import { CreditCard, MapPin, MessageSquare, ShieldCheck } from 'lucide-react';
+import { CreditCard, MapPin, MessageSquare, ShieldCheck, Download, UserRound, History, ArrowRight } from 'lucide-react';
 import { ScreenshotPlaceholder } from './ScreenshotPlaceholder';
 import { defaultSmsReminder } from '../data/docsData';
 import { InfoBox } from './Callouts';
 
-const setupSteps = [
-  'Install NOLA SMS Pro from the HighLevel Marketplace.',
-  'Select the correct sub-account/location.',
-  'Create or sign in to the NOLA account.',
-  'Confirm the dashboard, credits, and Sender ID before sending.'
+const onboarding = [
+  {
+    icon: <BookIcon />,
+    title: 'Welcome',
+    text: 'Start with the product basics and where NOLA SMS Pro appears inside HighLevel.'
+  },
+  {
+    icon: <Download className="h-4 w-4" />,
+    title: 'Installation',
+    text: 'Install from the Marketplace and choose the correct sub-account/location.'
+  },
+  {
+    icon: <UserRound className="h-4 w-4" />,
+    title: 'Account Setup',
+    text: 'Create the owner account or sign in if the location is already registered.'
+  },
+  {
+    icon: <MessageSquare className="h-4 w-4" />,
+    title: 'First SMS',
+    text: 'Confirm credits, sender, recipient, and message wording before sending.'
+  },
+  {
+    icon: <History className="h-4 w-4" />,
+    title: 'Message History',
+    text: 'Check whether each message is Sending, Sent, or Failed.'
+  },
+  {
+    icon: <ArrowRight className="h-4 w-4" />,
+    title: 'Next Steps',
+    text: 'Manage contacts, templates, Sender IDs, credits, and settings.'
+  }
 ];
 
 const checks = [
@@ -34,57 +60,73 @@ const checks = [
   }
 ];
 
+function BookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
+      <path d="M5 5.5C5 4.67 5.67 4 6.5 4H20v15H6.5A1.5 1.5 0 0 1 5 17.5v-12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M5 17.5C5 16.67 5.67 16 6.5 16H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export const WelcomePresentation: React.FC = () => {
   return (
-    <div className="w-full max-w-5xl space-y-7 pb-12">
-      <header className="border-b border-slate-100 pb-5 dark:border-slate-800/60">
-        <h1 className="text-[30px] md:text-[42px] font-black text-slate-900 dark:text-white leading-tight tracking-tight">
+    <div className="w-full space-y-7 pb-2">
+      <header className="max-w-[760px]">
+        <div className="mb-3 text-[12px] font-medium text-slate-400 dark:text-slate-500">
+          Docs / Welcome
+        </div>
+        <h1 className="text-[32px] font-black leading-tight tracking-tight text-slate-950 dark:text-white md:text-[42px]">
           Welcome to NOLA SMS Pro
         </h1>
-        <p className="mt-4 max-w-3xl text-[15px] text-slate-500 dark:text-slate-400 leading-relaxed">
+        <p className="mt-4 text-[16px] leading-7 text-slate-600 dark:text-slate-400">
           NOLA SMS Pro runs inside your HighLevel sub-account after installation. Use these guides to install the app, confirm setup, send your first SMS, and check the message status.
         </p>
       </header>
 
-      <div className="max-w-3xl space-y-6">
+      <div className="max-w-[860px] space-y-6">
         <section>
-          <h2 className="text-[17px] font-bold text-slate-800 dark:text-slate-100 mb-3">
-            First-Time Setup Flow
+          <h2 className="mb-3 text-[20px] font-bold leading-tight text-slate-900 dark:text-white">
+            Onboarding Journey
           </h2>
-          <ol className="space-y-3">
-            {setupSteps.map((step, idx) => (
-              <li key={step} className="flex gap-3">
-                <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#DCEEFF] text-[12px] font-bold text-[#1F5AAE] dark:bg-[#1F5AAE]/20 dark:text-[#4F8EF7]">
-                  {idx + 1}
-                </span>
-                <span className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {step}
-                </span>
-              </li>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {onboarding.map((step) => (
+              <div key={step.title} className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950/20">
+                <div className="mb-2 flex items-center gap-2 text-[#1F5AAE] dark:text-[#4F8EF7]">
+                  {step.icon}
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">{step.title}</h3>
+                </div>
+                <p className="text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
+                  {step.text}
+                </p>
+              </div>
             ))}
-          </ol>
+          </div>
         </section>
       </div>
 
-      <ScreenshotPlaceholder
-        figure={1}
-        caption="NOLA SMS Pro runs inside your HighLevel sub-account after installation."
-        alt="NOLA SMS Pro opened inside the HighLevel sub-account menu."
-        filename="/images/docs/welcome-nola-inside-highlevel.png"
-        variant="Application Preview"
-        height="md"
-      />
+      <div className="max-w-[960px]">
+        <ScreenshotPlaceholder
+          figure={1}
+          caption="NOLA SMS Pro runs inside your HighLevel sub-account after installation."
+          alt="NOLA SMS Pro opened inside the HighLevel sub-account menu."
+          filename="/images/docs/welcome-nola-inside-highlevel.png"
+          variant="Application Preview"
+          mode="large"
+          height="lg"
+        />
+      </div>
 
-      <div className="max-w-3xl space-y-6">
+      <div className="max-w-[760px] space-y-6">
         <InfoBox>{defaultSmsReminder}</InfoBox>
 
         <section>
-          <h2 className="text-[17px] font-bold text-slate-800 dark:text-slate-100 mb-3">
+          <h2 className="mb-3 text-[20px] font-bold leading-tight text-slate-900 dark:text-white">
             Before You Send
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {checks.map((check) => (
-              <div key={check.title} className="p-4 rounded-lg border border-slate-100 dark:border-slate-800/60 bg-white dark:bg-slate-900/30">
+              <div key={check.title} className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950/20">
                 <div className="flex items-center gap-2 text-[#1F5AAE] dark:text-[#4F8EF7]">
                   {check.icon}
                   <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">

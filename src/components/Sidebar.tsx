@@ -1,8 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BookOpen, Layers, Settings, ShieldAlert, HelpCircle, LifeBuoy, Search, ChevronDown, ChevronRight, Sun, Moon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronRight,
+  HelpCircle,
+  Layers,
+  LifeBuoy,
+  Moon,
+  Search,
+  Settings,
+  ShieldAlert,
+  Sun,
+  X,
+} from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
-import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 interface SidebarProps {
@@ -12,151 +24,160 @@ interface SidebarProps {
 }
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
-  'Welcome': <BookOpen className="h-3.5 w-3.5" />,
-  'Getting Started': <Layers className="h-3.5 w-3.5" />,
-  'Using NOLA SMS Pro': <Settings className="h-3.5 w-3.5" />,
-  'Troubleshooting': <ShieldAlert className="h-3.5 w-3.5" />,
-  'Frequently Asked Questions': <HelpCircle className="h-3.5 w-3.5" />,
-  'Support & Help': <LifeBuoy className="h-3.5 w-3.5" />,
+  Welcome: <BookOpen className="h-4 w-4" />,
+  'Getting Started': <Layers className="h-4 w-4" />,
+  'Using NOLA SMS Pro': <Settings className="h-4 w-4" />,
+  Troubleshooting: <ShieldAlert className="h-4 w-4" />,
+  'Frequently Asked Questions': <HelpCircle className="h-4 w-4" />,
+  'Support & Help': <LifeBuoy className="h-4 w-4" />,
 };
+
 
 export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile, onCloseMobile }) => {
   const location = useLocation();
-  const activeId = location.pathname.split('/docs/')[1] || '';
+  const activeId = location.pathname.split('/docs/')[1] || 'welcome';
   const { theme, toggleTheme } = useTheme();
-
   const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
 
   const toggle = (title: string) => {
     setCollapsed(prev => ({ ...prev, [title]: !prev[title] }));
   };
 
-  const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-white dark:bg-[#0C0F1A] border-r border-slate-100 dark:border-slate-800/60">
-
-      {/* Logo */}
-      <Link
-        to="/"
-        className="flex items-center gap-2.5 px-5 h-14 border-b border-slate-100 dark:border-slate-800/60 flex-shrink-0 hover:opacity-80 transition-opacity"
-        onClick={onCloseMobile}
-      >
-        <svg viewBox="0 0 100 100" className="h-7 w-7 flex-shrink-0" fill="none">
-          <rect width="100" height="100" rx="22" fill="#1F5AAE"/>
-          <path d="M25 38H75M25 50H75M25 62H52" stroke="white" strokeWidth="9" strokeLinecap="round"/>
-          <circle cx="70" cy="62" r="9" fill="#4F8EF7"/>
-        </svg>
-        <div>
-          <div className="text-[13px] font-bold text-slate-800 dark:text-white tracking-tight leading-none">
-            NOLA SMS <span className="text-[#1F5AAE] dark:text-[#4F8EF7]">Pro</span>
-          </div>
-          <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-none mt-0.5">
-            User Documentation
-          </div>
-        </div>
-      </Link>
-
-      {/* Search */}
-      <div className="px-3 py-3 border-b border-slate-100 dark:border-slate-800/60 flex-shrink-0">
-        <button
-          onClick={onSearchClick}
-          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-lg hover:border-[#4F8EF7]/40 hover:text-slate-600 dark:hover:text-slate-300 transition-all"
+  const SidebarContent = ({ mobile = false }: { mobile?: boolean }) => (
+    <div className="flex h-full w-full flex-col border-r border-[#D7E7FA] bg-white dark:border-[#183354] dark:bg-[#07111F]">
+      <div className="flex min-h-[88px] flex-shrink-0 items-center gap-3 border-b border-[#D7E7FA] px-5 dark:border-[#183354]">
+        <Link
+          to="/docs/welcome"
+          className="flex min-w-0 flex-1 items-center gap-3 transition-opacity hover:opacity-85"
+          onClick={onCloseMobile}
         >
-          <Search className="h-3.5 w-3.5 flex-shrink-0" />
-          <span className="flex-1 text-left">Search docs...</span>
-          <kbd className="text-[10px] px-1 py-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-slate-400 font-mono">⌘K</kbd>
+          <img src="/logo.png" alt="NOLA SMS Pro Logo" className="h-9 w-9 flex-shrink-0 object-contain rounded-lg" />
+          <div className="min-w-0">
+            <div className="text-[15px] font-black leading-tight text-[#0B2E63] dark:text-white">
+              NOLA SMS <span className="text-[#1F5AAE] dark:text-[#72A8FF]">Pro</span>
+            </div>
+            <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6681A4] dark:text-slate-500">
+              Documentation
+            </div>
+          </div>
+        </Link>
+
+        {mobile && (
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[#5D7596] transition-colors hover:bg-[#EFF6FF] hover:text-[#1F5AAE] dark:text-slate-400 dark:hover:bg-[#10243C] dark:hover:text-[#72A8FF]"
+            aria-label="Close navigation"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      <div className="flex-shrink-0 border-b border-[#D7E7FA] px-4 py-4 dark:border-[#183354]">
+        <button
+          type="button"
+          onClick={onSearchClick}
+          className="flex w-full items-center gap-2 rounded-lg border border-[#BCD7F5] bg-[#F4F9FF] px-3 py-2.5 text-left text-sm text-[#5D7596] transition-all hover:border-[#4F8EF7] hover:bg-white hover:text-[#0B2E63] dark:border-[#1F3D68] dark:bg-[#0B1627] dark:text-slate-400 dark:hover:border-[#4F8EF7] dark:hover:text-slate-100"
+        >
+          <Search className="h-4 w-4 flex-shrink-0 text-[#1F5AAE] dark:text-[#72A8FF]" />
+          <span className="min-w-0 flex-1 truncate">Search documentation</span>
         </button>
       </div>
 
-      {/* Nav tree */}
-      <nav className="flex-1 overflow-y-auto py-3 px-2" aria-label="Documentation navigation">
-        {sidebarStructure.map((section) => {
-          const isSingleItem = section.items.length === 1;
-          const singleItem = section.items[0];
-          const isCollapsed = collapsed[section.title] ?? false;
-          const hasActive = isSingleItem 
-            ? singleItem.id === activeId 
-            : section.items.some(item => item.id === activeId);
+      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Documentation navigation">
+        <div className="space-y-5">
+          {sidebarStructure.map((section) => {
+            const isSingleItem = section.items.length === 1;
+            const singleItem = section.items[0];
+            const isCollapsed = collapsed[section.title] ?? false;
+            const hasActive = section.items.some(item => item.id === activeId);
 
-          if (isSingleItem) {
-            return (
-              <div key={section.title} className="mb-1">
+            if (isSingleItem) {
+              const isActive = singleItem.id === activeId;
+              return (
                 <Link
+                  key={section.title}
                   to={`/docs/${singleItem.id}`}
                   onClick={onCloseMobile}
-                  className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all duration-150
-                    ${hasActive
-                      ? 'text-[#1F5AAE] dark:text-[#4F8EF7] bg-slate-50 dark:bg-slate-800/40'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50/50 dark:hover:bg-slate-800/20'
-                    }`}
+                  className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold transition-colors ${
+                    isActive
+                      ? 'bg-[#E8F3FF] text-[#0B4EA2] ring-1 ring-[#BCD7F5] dark:bg-[#102B4F] dark:text-[#9AC3FF] dark:ring-[#1F3D68]'
+                      : 'text-[#526A8B] hover:bg-[#F4F9FF] hover:text-[#0B2E63] dark:text-slate-400 dark:hover:bg-[#0B1627] dark:hover:text-slate-100'
+                  }`}
                 >
-                  <span className="flex items-center gap-1.5">
+                  <span className={isActive ? 'text-[#1F5AAE] dark:text-[#72A8FF]' : 'text-[#8AA3C1] group-hover:text-[#1F5AAE] dark:text-slate-500 dark:group-hover:text-[#72A8FF]'}>
                     {SECTION_ICONS[section.title]}
-                    {section.title}
                   </span>
+                  <span>{section.title}</span>
                 </Link>
+              );
+            }
+
+            return (
+              <div key={section.title}>
+                <button
+                  type="button"
+                  onClick={() => toggle(section.title)}
+                  className={`group flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
+                    hasActive
+                      ? 'text-[#0B4EA2] dark:text-[#9AC3FF]'
+                      : 'text-[#6681A4] hover:bg-[#F4F9FF] hover:text-[#0B2E63] dark:text-slate-500 dark:hover:bg-[#0B1627] dark:hover:text-slate-200'
+                  }`}
+                >
+                  <span className="flex min-w-0 items-center gap-2.5">
+                    <span className={hasActive ? 'text-[#1F5AAE] dark:text-[#72A8FF]' : 'text-[#8AA3C1] group-hover:text-[#1F5AAE] dark:text-slate-600 dark:group-hover:text-[#72A8FF]'}>
+                      {SECTION_ICONS[section.title]}
+                    </span>
+                    <span className="truncate text-[11px] font-black uppercase tracking-[0.14em]">
+                      {section.title}
+                    </span>
+                  </span>
+                  {isCollapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+                </button>
+
+                {!isCollapsed && (
+                  <div className="mt-2 space-y-1 border-l border-[#D7E7FA] pl-3 dark:border-[#183354]">
+                    {section.items.map((item) => {
+                      const isActive = item.id === activeId;
+                      return (
+                        <Link
+                          key={item.id}
+                          to={`/docs/${item.id}`}
+                          onClick={onCloseMobile}
+                          className={`relative block rounded-lg px-3 py-2 text-[13px] font-semibold leading-snug transition-colors ${
+                            isActive
+                              ? 'bg-[#E8F3FF] text-[#0B4EA2] dark:bg-[#102B4F] dark:text-[#9AC3FF]'
+                              : 'text-[#526A8B] hover:bg-[#F4F9FF] hover:text-[#0B2E63] dark:text-slate-400 dark:hover:bg-[#0B1627] dark:hover:text-slate-100'
+                          }`}
+                        >
+                          {isActive && (
+                            <span className="absolute -left-[13px] top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-full bg-[#1F5AAE] dark:bg-[#72A8FF]" />
+                          )}
+                          {item.title}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
-          }
-
-          return (
-            <div key={section.title} className="mb-1">
-              {/* Section header */}
-              <button
-                onClick={() => toggle(section.title)}
-                className={`w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold uppercase tracking-wider transition-colors
-                  ${hasActive && !isCollapsed
-                    ? 'text-[#1F5AAE] dark:text-[#4F8EF7]'
-                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
-                  }`}
-              >
-                <span className="flex items-center gap-1.5">
-                  {SECTION_ICONS[section.title]}
-                  {section.title}
-                </span>
-                {isCollapsed
-                  ? <ChevronRight className="h-3 w-3 opacity-50" />
-                  : <ChevronDown className="h-3 w-3 opacity-50" />
-                }
-              </button>
-
-              {/* Items */}
-              {!isCollapsed && (
-                <div className="mt-0.5 mb-2 ml-3 pl-3 border-l border-slate-100 dark:border-slate-800/60 space-y-0.5">
-                  {section.items.map(item => {
-                    const isActive = item.id === activeId;
-                    return (
-                      <Link
-                        key={item.id}
-                        to={`/docs/${item.id}`}
-                        onClick={onCloseMobile}
-                        className={`block px-3 py-1.5 rounded-lg text-[13px] transition-all duration-150
-                          ${isActive
-                            ? 'nav-item-active nav-item-active-pad'
-                            : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
-                          }`}
-                      >
-                        {item.title}
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          );
-        })}
+          })}
+        </div>
       </nav>
 
-      {/* Footer */}
-      <div className="px-4 py-3 border-t border-slate-100 dark:border-slate-800/60 flex-shrink-0 flex items-center justify-between">
-        <span className="text-[10px] text-slate-300 dark:text-slate-600 font-medium">
-          © 2025 NOLA SMS Pro · v1.0
-        </span>
+      <div className="flex flex-shrink-0 items-center justify-between border-t border-[#D7E7FA] px-4 py-4 dark:border-[#183354]">
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold text-[#0B2E63] dark:text-slate-200">NOLA SMS Pro</p>
+          <p className="mt-0.5 text-[10px] font-medium text-[#7B93B1] dark:text-slate-600">Version 1.0 docs</p>
+        </div>
         <button
+          type="button"
           onClick={toggleTheme}
-          className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[#D7E7FA] text-[#6681A4] transition-colors hover:border-[#4F8EF7] hover:bg-[#F4F9FF] hover:text-[#1F5AAE] dark:border-[#1F3D68] dark:text-slate-400 dark:hover:bg-[#10243C] dark:hover:text-[#72A8FF]"
           aria-label="Toggle theme"
         >
-          {theme === 'light' ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
+          {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
         </button>
       </div>
     </div>
@@ -164,17 +185,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile,
 
   return (
     <>
-      {/* Desktop */}
-      <aside className="hidden lg:flex w-[260px] flex-shrink-0 h-screen sticky top-0 z-20">
+      <aside className="sticky top-0 z-20 hidden h-screen w-[304px] flex-shrink-0 lg:flex">
         <SidebarContent />
       </aside>
 
-      {/* Mobile overlay */}
       {isOpenOnMobile && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onCloseMobile} />
-          <div className="relative w-[260px] h-full z-50 shadow-2xl">
-            <SidebarContent />
+        <div className="fixed inset-0 z-50 flex lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-[#07111F]/55 backdrop-blur-sm"
+            onClick={onCloseMobile}
+            aria-label="Close navigation"
+          />
+          <div className="relative z-50 h-full w-[304px] max-w-[88vw] shadow-2xl shadow-[#07111F]/25">
+            <SidebarContent mobile />
           </div>
         </div>
       )}

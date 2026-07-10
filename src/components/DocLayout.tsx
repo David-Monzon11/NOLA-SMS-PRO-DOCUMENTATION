@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import { DocSearch } from './DocSearch';
 import { type DocPage } from '../data/docsData';
+import { Menu } from 'lucide-react';
 
 interface DocLayoutProps {
   children: React.ReactNode;
   page: DocPage;
 }
 
-export const DocLayout: React.FC<DocLayoutProps> = ({ children, page: _page }) => {
+export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -30,22 +31,41 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page: _page }) =
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-white dark:bg-[#0C0F1A] text-slate-800 dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-[#F7FAFE] text-[#13233D] transition-colors duration-200 dark:bg-[#07111F] dark:text-slate-100">
+      <div className="flex min-h-screen w-full">
+        <Sidebar
+          onSearchClick={() => setIsSearchOpen(true)}
+          isOpenOnMobile={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        />
 
-      {/* Left Sidebar */}
-      <Sidebar
-        onSearchClick={() => setIsSearchOpen(true)}
-        isOpenOnMobile={isMobileSidebarOpen}
-        onCloseMobile={() => setIsMobileSidebarOpen(false)}
-      />
+        <div className="min-w-0 flex-1 lg:pl-0">
+          <div className="sticky top-0 z-30 border-b border-[#D7E7FA] bg-white/92 px-4 py-3 shadow-sm shadow-[#184B8F]/5 backdrop-blur-xl dark:border-[#1B2E4A] dark:bg-[#07111F]/94 lg:hidden">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setIsMobileSidebarOpen(true)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#BCD7F5] bg-white text-[#1F5AAE] transition-colors hover:border-[#4F8EF7] hover:bg-[#EFF6FF] dark:border-[#1F3D68] dark:bg-[#0B1627] dark:text-[#7FB2FF]"
+                aria-label="Open navigation"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
 
-      {/* Main Column */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-bold text-[#0B2E63] dark:text-white">
+                  {page.title}
+                </p>
+                <p className="truncate text-xs font-medium text-[#5D7596] dark:text-slate-400">
+                  NOLA SMS Pro Documentation
+                </p>
+              </div>
+            </div>
+          </div>
 
-        {/* Page content */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10">
-          {children}
-        </main>
+          <main className="w-full px-4 py-6 sm:px-7 md:py-8 lg:px-10">
+            {children}
+          </main>
+        </div>
       </div>
 
       {/* Global Search Modal */}

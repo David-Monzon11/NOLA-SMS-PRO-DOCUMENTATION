@@ -75,7 +75,7 @@ export const InteractiveChecklist: React.FC = () => {
   };
 
   return (
-    <div className="my-8 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors duration-200 shadow-sm">
+    <div className="my-8 rounded-lg border border-[#D7E7FA] bg-white p-6 shadow-sm shadow-[#184B8F]/5 transition-colors duration-200 dark:border-[#183354] dark:bg-[#0B1627]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Send Your First SMS</h3>
@@ -95,9 +95,9 @@ export const InteractiveChecklist: React.FC = () => {
           <span>Progress</span>
           <span>{completedCount} of {items.length} completed ({progressPercent}%)</span>
         </div>
-        <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-2 w-full overflow-hidden rounded-full bg-[#E8F3FF] dark:bg-[#07111F]">
           <div 
-            className="h-full bg-brand-primary dark:bg-brand-secondary transition-all duration-300"
+            className="h-full bg-[#1F5AAE] transition-all duration-300 dark:bg-[#72A8FF]"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -111,15 +111,15 @@ export const InteractiveChecklist: React.FC = () => {
             <button
               key={item.id}
               onClick={() => toggleItem(item.id)}
-              className={`flex items-start gap-4 w-full p-3 rounded-xl border text-left transition-all duration-200 ${
+              className={`flex w-full items-start gap-4 rounded-lg border p-3 text-left transition-all duration-200 ${
                 isItemChecked
-                  ? 'border-brand-primary/20 bg-brand-accent/10 dark:border-brand-secondary/20 dark:bg-brand-primary/5 text-slate-800 dark:text-slate-200'
-                  : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400'
+                  ? 'border-[#9BC4F5] bg-[#E8F3FF] text-[#0B2E63] dark:border-[#315C8F] dark:bg-[#102B4F] dark:text-slate-200'
+                  : 'border-[#D7E7FA] bg-white text-[#425B7D] hover:border-[#9BC4F5] dark:border-[#183354] dark:bg-[#07111F] dark:text-slate-400 dark:hover:border-[#315C8F]'
               }`}
             >
               <div className="mt-0.5 flex-shrink-0">
                 {isItemChecked ? (
-                  <CheckSquare className="h-5 w-5 text-brand-primary dark:text-brand-secondary" />
+                  <CheckSquare className="h-5 w-5 text-[#1F5AAE] dark:text-[#72A8FF]" />
                 ) : (
                   <Square className="h-5 w-5 text-slate-300 dark:text-slate-600" />
                 )}
@@ -128,7 +128,7 @@ export const InteractiveChecklist: React.FC = () => {
                 <span className={`text-sm font-bold block ${isItemChecked ? 'line-through text-slate-400 dark:text-slate-500' : ''}`}>
                   {item.label}
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-450 block mt-0.5">
+                <span className="mt-0.5 block text-xs text-[#6681A4] dark:text-slate-400">
                   {item.desc}
                 </span>
               </div>
@@ -139,7 +139,7 @@ export const InteractiveChecklist: React.FC = () => {
 
       {/* Success Banner when all completed */}
       {isFinished && (
-        <div className="mt-6 p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/35 dark:bg-emerald-950/20 text-slate-800 dark:text-slate-200 flex items-start gap-3 transition-all duration-200 animate-pulse">
+        <div className="mt-6 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50/60 p-4 text-slate-800 transition-all duration-200 dark:border-emerald-900/35 dark:bg-emerald-950/20 dark:text-slate-200">
           <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
           <div>
             <h4 className="font-bold text-sm text-emerald-900 dark:text-emerald-350 uppercase tracking-wider mb-0.5">Checklist Complete</h4>

@@ -14,17 +14,17 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <div className="divide-y divide-slate-100 dark:divide-slate-800/60 border border-slate-100 dark:border-slate-800/60 rounded-xl overflow-hidden">
+    <div className="overflow-hidden rounded-lg border border-[#D7E7FA] bg-white dark:border-[#183354] dark:bg-[#07111F]">
       {items.map((item, idx) => {
         const isOpen = openIdx === idx;
         return (
           <div key={idx}>
             <button
               onClick={() => setOpenIdx(isOpen ? null : idx)}
-              className={`w-full flex items-center justify-between text-left px-5 py-4 gap-4 transition-colors
+              className={`flex w-full items-center justify-between gap-4 border-b border-[#D7E7FA] px-5 py-4 text-left transition-colors last:border-b-0 dark:border-[#183354]
                 ${isOpen
-                  ? 'bg-[#DCEEFF]/20 dark:bg-[#1F5AAE]/8'
-                  : 'bg-white dark:bg-[#0C0F1A] hover:bg-slate-50 dark:hover:bg-slate-800/20'
+                  ? 'bg-[#E8F3FF] dark:bg-[#102B4F]'
+                  : 'bg-white hover:bg-[#F4F9FF] dark:bg-[#07111F] dark:hover:bg-[#0B1627]'
                 }`}
             >
               <span className="text-[14px] font-medium text-slate-800 dark:text-slate-200 leading-snug">
@@ -36,7 +36,7 @@ export const Accordion: React.FC<AccordionProps> = ({ items }) => {
               />
             </button>
             {isOpen && (
-              <div className="px-5 pb-4 pt-2 bg-[#DCEEFF]/10 dark:bg-[#1F5AAE]/5 border-t border-slate-100 dark:border-slate-800/40">
+              <div className="border-b border-[#D7E7FA] bg-[#F8FBFF] px-5 pb-4 pt-2 dark:border-[#183354] dark:bg-[#0B1627]">
                 <p className="text-[14px] text-slate-600 dark:text-slate-400 leading-relaxed">
                   {item.a}
                 </p>
