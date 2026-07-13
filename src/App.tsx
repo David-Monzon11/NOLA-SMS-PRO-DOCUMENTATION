@@ -10,7 +10,7 @@ const DocPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const page = docsData.find(p => p.id === id);
 
-  if (!page) return <Navigate to="/docs/welcome" replace />;
+  if (!page) return <Navigate to="/docs/welcome-overview" replace />;
 
   return (
     <DocLayout page={page}>

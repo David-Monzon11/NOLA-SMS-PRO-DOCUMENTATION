@@ -66,4 +66,31 @@
   .kbd {
     @apply inline-flex items-center px-1.5 py-0.5 text-[11px] font-mono font-semibold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded shadow-sm;
   }
+
+  /* --- Design System Layout & Typo rules --- */
+
+  /* Section Heading uppercase eyebrow */
+  .doc-eyebrow {
+    @apply text-[11px] font-black uppercase tracking-[0.18em] text-[#1F5AAE] dark:text-[#72A8FF] mb-2 block;
+  }
+
+  /* Document Section Headings */
+  .doc-section-title {
+    @apply text-[24px] font-black tracking-tight text-[#071A33] dark:text-white sm:text-[28px] md:text-[32px] leading-[1.1];
+  }
+
+  /* Standard body text */
+  .doc-body {
+    @apply text-[14px] sm:text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 font-medium mb-5;
+  }
+
+  /* Custom premium card base styling */
+  .premium-card {
+    @apply rounded-2xl border border-[#D7E7FA] bg-white p-5 shadow-sm shadow-[#184B8F]/5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#4F8EF7] hover:shadow-md hover:shadow-[#184B8F]/10 dark:border-[#183354] dark:bg-[#0B1627] dark:hover:border-[#72A8FF];
+  }
+
+  /* Glowing background accent for badges */
+  .badge-accent {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[#BCD7F5] bg-[#E8F3FF]/60 px-3 py-1.5 text-[12px] font-semibold text-[#0B4EA2] dark:border-[#315C8F] dark:bg-[#102B4F]/50 dark:text-[#9AC3FF];
+  }
 }
