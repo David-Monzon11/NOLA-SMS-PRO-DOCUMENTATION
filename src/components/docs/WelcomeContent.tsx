@@ -20,12 +20,10 @@ import {
   DocSection,
   DocSectionHeading,
   SplitLayout,
-  StatGrid,
   InlineCallout,
   FeatureCard,
   ComparisonTable,
   WorkflowDiagram,
-  HighlightPills,
 } from './layout';
 import { IllustrationFrame } from './IllustrationFrame';
 
@@ -41,78 +39,83 @@ interface WelcomeFeature {
 
 const welcomeFeatures: WelcomeFeature[] = [
   {
-    title: 'HighLevel Contacts',
-    description: 'Use contacts from the connected HighLevel sub-account when choosing SMS recipients.',
+    title: 'Zero Data Latency (CRM Sync)',
+    description: 'Avoid export delay and syncing failures. Use contact lists natively matching the connected HighLevel CRM sub-account.',
     docId: 'contacts',
     filename: '/images/docs/contacts-list.png',
-    alt: 'Contacts list inside NOLA SMS Pro.',
+    alt: 'Contacts database sync illustration.',
   },
   {
-    title: 'SMS Templates',
-    description: 'Save reusable message wording and insert templates when composing customer texts.',
+    title: 'Consistent Messaging Tone',
+    description: 'Ensure support replies are standardized and free of spelling errors by saving and inserting text templates.',
     docId: 'templates',
     filename: '/images/docs/templates-list.png',
-    alt: 'Templates list inside NOLA SMS Pro.',
+    alt: 'Templates list illustration.',
   },
   {
-    title: 'Sender IDs',
-    description: 'Send with the default NOLASMSPro sender or request an approved custom Sender ID.',
+    title: 'Trust & Deliverability Boost',
+    description: 'Stop using anonymous numbers. Mask texts with an approved business Sender ID to improve customer open rates.',
     docId: 'sender-id',
     filename: '/images/docs/sender-id-default.png',
-    alt: 'Sender ID screen showing NOLASMSPro as the default sender.',
+    alt: 'Sender ID comparison mockup.',
   },
   {
-    title: 'SMS Credits',
-    description: 'Check your balance, request more credits, and review recent credit activity.',
+    title: 'Outage Prevention (Credits Tracking)',
+    description: 'Never lose connection with your clients. Monitor live credit balances and submit refill requests dynamically.',
     docId: 'sms-credits',
     filename: '/images/docs/credits-balance.png',
-    alt: 'SMS credit balance inside NOLA SMS Pro.',
+    alt: 'Credits check mockup.',
   },
   {
-    title: 'Message History',
-    description: 'Track each message after sending with clear Sending, Sent, and Failed statuses.',
+    title: 'Outbound Gateway Auditing',
+    description: 'Check receipt states instantly. Review live logs displaying carrier-level Sending, Sent, or Failed reports.',
     docId: 'message-history',
     filename: '/images/docs/message-history-list.png',
-    alt: 'Message History list showing message statuses.',
+    alt: 'Message history logs illustration.',
   },
   {
-    title: 'Settings',
-    description: 'Review profile details, connected location, notifications, Sender IDs, and credits.',
+    title: 'Billing Access Controls',
+    description: 'Limit configurations. Set administrative profile settings, location links, and balance notifications.',
     docId: 'settings',
     filename: '/images/docs/settings-profile.png',
-    alt: 'Profile settings in NOLA SMS Pro.',
+    alt: 'Profile configurations illustration.',
   },
+];
+
+const welcomeFeaturesGrid: WelcomeFeature[] = [
+  ...welcomeFeatures,
   {
-    title: 'Dashboard Activity',
-    description: 'See SMS credits, recent activity, alerts, and shortcuts from the dashboard home.',
+    title: 'Shortcuts Home Dashboard',
+    description: 'Monitor active credits, delivery charts, operational alerts, and navigation shortcuts from a single overview.',
     docId: 'dashboard-overview',
     filename: '/images/docs/dashboard-overview-home.png',
-    alt: 'NOLA SMS Pro dashboard home showing credits, activity, alerts, and navigation.',
+    alt: 'Overview dashboard mockup.',
   },
   {
-    title: 'SMS Compose',
-    description: 'Send individual or bulk SMS from inside the connected HighLevel location.',
+    title: 'Dynamic SMS Composer',
+    description: 'Draft custom copy or load dynamic templates to dispatch messages to local receivers securely.',
     docId: 'first-sms-checklist',
     filename: '/images/docs/compose-first-sms.png',
-    alt: 'Compose screen with one SMS message ready to send.',
+    alt: 'Composer outbox view mockup.',
   },
 ];
 
 const coreModules = [
-  { icon: <Users className="h-5 w-5" />, title: 'Contacts', desc: 'Search and select HighLevel contacts directly' },
-  { icon: <FileText className="h-5 w-5" />, title: 'Templates', desc: 'Save and reuse message templates' },
-  { icon: <ShieldCheck className="h-5 w-5" />, title: 'Sender IDs', desc: 'Default or approved custom senders' },
-  { icon: <CreditCard className="h-5 w-5" />, title: 'SMS Credits', desc: 'Monitor and manage credit balance' },
-  { icon: <History className="h-5 w-5" />, title: 'Message History', desc: 'Track delivery statuses in real time' },
-  { icon: <Settings className="h-5 w-5" />, title: 'Settings', desc: 'Configure account and preferences' },
+  { icon: <Users className="h-5 w-5" />, title: 'Contacts (CRM Sync)', desc: 'Direct mapping of HighLevel contact lists' },
+  { icon: <FileText className="h-5 w-5" />, title: 'Templates (Copy Standards)', desc: 'Pre-approved copy drafts with variables' },
+  { icon: <ShieldCheck className="h-5 w-5" />, title: 'Sender IDs (Branded Outbox)', desc: 'Custom text headers registered with local carriers' },
+  { icon: <CreditCard className="h-5 w-5" />, title: 'SMS Credits (Energy Meter)', desc: 'Outbound credit settling and refill request queue' },
+  { icon: <History className="h-5 w-5" />, title: 'Message History (Carrier Logs)', desc: 'Audit trails reporting live receipt reports' },
+  { icon: <Settings className="h-5 w-5" />, title: 'Settings (Admin Center)', desc: 'Access bounds, notification rules, and sub-accounts link' },
 ];
 
-const workflowSteps = [
-  { title: 'Install', desc: 'Add from HighLevel Marketplace' },
-  { title: 'Connect', desc: 'Choose your sub-account location' },
-  { title: 'Setup', desc: 'Create or sign in to owner account' },
-  { title: 'Send', desc: 'Compose and send your first SMS' },
-  { title: 'Track', desc: 'Check delivery in Message History' },
+// OVERHAULED: Structured step flow representing the user's daily in-app messaging journey
+const messagingJourneySteps = [
+  { title: '1. Contact Search', desc: 'Pull verified local mobile profiles directly from CRM.' },
+  { title: '2. Content Compose', desc: 'Select copy drafts or interpolate dynamic text fields.' },
+  { title: '3. Header Branding', desc: 'Apply approved custom Sender ID masks to outbound slots.' },
+  { title: '4. Credit Validation', desc: 'Inspect characters length and settle credit costs automatically.' },
+  { title: '5. Delivery Tracking', desc: 'Monitor status returns for receipt confirmation.' },
 ];
 
 const IntegrationFlow: React.FC = () => (
@@ -141,6 +144,73 @@ const IntegrationFlow: React.FC = () => (
     <p className="text-[12px] text-[#5D7596] dark:text-slate-400 max-w-md leading-relaxed mt-2">
       Direct connection maps your CRM contacts, registers custom Sender IDs, and debits credits, synchronizing outbound message status logs inside your sub-account.
     </p>
+  </div>
+);
+
+// NEW: ecosystem diagram showing module interaction
+const ModuleEcosystem: React.FC = () => (
+  <div className="rounded-2xl border border-blue-200/50 bg-[#F4F9FF] p-6 dark:border-blue-900/25 dark:bg-[#0B1627] flex flex-col justify-center gap-4 text-center">
+    <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest block">Module Ecosystem Map</span>
+    <div className="grid gap-3 grid-cols-2 md:grid-cols-5 text-[11px] font-bold text-slate-800 dark:text-slate-200">
+      <div className="rounded-xl bg-white border border-[#D7E7FA] p-3 dark:bg-[#07111F] dark:border-slate-800 flex flex-col items-center gap-1.5 shadow-sm">
+        <span className="text-[#1F5AAE] dark:text-[#72A8FF]">1. Contacts</span>
+        <span className="text-[9px] text-slate-400 font-medium font-mono">Audience Source</span>
+      </div>
+      <div className="rounded-xl bg-white border border-[#D7E7FA] p-3 dark:bg-[#07111F] dark:border-slate-800 flex flex-col items-center gap-1.5 shadow-sm">
+        <span className="text-[#1F5AAE] dark:text-[#72A8FF]">2. Templates</span>
+        <span className="text-[9px] text-slate-400 font-medium font-mono">Consistent Copy</span>
+      </div>
+      <div className="rounded-xl bg-white border border-[#D7E7FA] p-3 dark:bg-[#07111F] dark:border-slate-800 flex flex-col items-center gap-1.5 shadow-sm">
+        <span className="text-[#1F5AAE] dark:text-[#72A8FF]">3. Sender IDs</span>
+        <span className="text-[9px] text-slate-400 font-medium font-mono">Branded Mask</span>
+      </div>
+      <div className="rounded-xl bg-white border border-[#D7E7FA] p-3 dark:bg-[#07111F] dark:border-slate-800 flex flex-col items-center gap-1.5 shadow-sm">
+        <span className="text-[#1F5AAE] dark:text-[#72A8FF]">4. SMS Credits</span>
+        <span className="text-[9px] text-slate-400 font-medium font-mono">Gateway Fuel</span>
+      </div>
+      <div className="rounded-xl bg-white border border-[#D7E7FA] p-3 dark:bg-[#07111F] dark:border-slate-800 flex flex-col items-center gap-1.5 shadow-sm col-span-2 md:col-span-1">
+        <span className="text-[#1F5AAE] dark:text-[#72A8FF]">5. History</span>
+        <span className="text-[9px] text-slate-400 font-medium font-mono">Real-time Logs</span>
+      </div>
+    </div>
+    <p className="text-[11.5px] text-[#5D7596] dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
+      Contacts provide local keys $\rightarrow$ Templates apply copy layouts $\rightarrow$ Senders mask outgoing blocks $\rightarrow$ Credits settle carrier routing $\rightarrow$ History logs the final receipt records.
+    </p>
+  </div>
+);
+
+// NEW: problems solved grid
+const ProblemsSolved: React.FC = () => (
+  <div className="grid gap-3 sm:grid-cols-3">
+    <div className="rounded-xl border border-red-100 bg-red-50/5 p-4 dark:border-red-950/20 dark:bg-red-950/5">
+      <h4 className="text-[12px] font-black text-red-700 dark:text-red-400 uppercase tracking-wider mb-1.5">Tab Fatigue</h4>
+      <p className="text-[12px] leading-5 text-[#5D7596] dark:text-slate-400">Eliminates switching between CRM databases, contact spreadsheets, and separate SMS billing portals.</p>
+    </div>
+    <div className="rounded-xl border border-red-100 bg-red-50/5 p-4 dark:border-red-950/20 dark:bg-red-950/5">
+      <h4 className="text-[12px] font-black text-red-700 dark:text-red-400 uppercase tracking-wider mb-1.5">Carrier Rejections</h4>
+      <p className="text-[12px] leading-5 text-[#5D7596] dark:text-slate-400">Halts address blocks by enforcing compliant local 11-digit prefixes (`09xxxxxxxx`) natively on CRM sync.</p>
+    </div>
+    <div className="rounded-xl border border-red-100 bg-red-50/5 p-4 dark:border-red-950/20 dark:bg-red-950/5">
+      <h4 className="text-[12px] font-black text-red-700 dark:text-red-400 uppercase tracking-wider mb-1.5">Anonymity Blocks</h4>
+      <p className="text-[12px] leading-5 text-[#5D7596] dark:text-slate-400">Replaces suspicious random number masks with verified, carrier-registered Sender IDs that customers trust.</p>
+    </div>
+  </div>
+);
+
+// NEW: target user profiles panel
+const TargetPersonas: React.FC = () => (
+  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-6">
+    {[
+      { role: 'Agencies', desc: 'Deploy secure, local communication spaces across customer sub-accounts.' },
+      { role: 'Support Desks', desc: 'Reply to client inquiries instantly directly next to CRM conversation threads.' },
+      { role: 'Marketing Ops', desc: 'Schedule consistent promotional announcements using template copies.' },
+      { role: 'Sales Teams', desc: 'Accelerate follow-ups with inline contact validation and credit balance indicators.' },
+    ].map((item) => (
+      <div key={item.role} className="rounded-xl border border-[#D7E7FA] bg-white p-4 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/2">
+        <h4 className="text-[13px] font-black text-[#0B2E63] dark:text-white mb-1">{item.role}</h4>
+        <p className="text-[12px] leading-5 text-[#5D7596] dark:text-slate-400">{item.desc}</p>
+      </div>
+    ))}
   </div>
 );
 
@@ -241,20 +311,20 @@ const WelcomeFeatureModal: React.FC<{
 
 export const WelcomeContent: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const activeFeature = activeIndex === null ? null : welcomeFeatures[activeIndex];
+  const activeFeature = activeIndex === null ? null : welcomeFeaturesGrid[activeIndex];
 
   return (
     <div className="space-y-16 pb-8">
       {/* 1. WELCOME & OVERVIEW */}
       <DocSection id="welcome-overview" className="mb-0">
-        <DocSectionHeading eyebrow="Introduction">Welcome to NOLA SMS Pro</DocSectionHeading>
+        <DocSectionHeading eyebrow="Product Overview">Introducing NOLA SMS Pro</DocSectionHeading>
         <SplitLayout
           visual={
             <div className="space-y-6">
               <IllustrationFrame
                 type="desktop"
-                title="NOLA SMS Pro Dashboard"
-                caption="Integrates natively inside the HighLevel CRM navigation menu."
+                title="Embedded CRM Application Layout"
+                caption="Enables customer messaging directly next to CRM conversation histories."
                 alt="NOLA SMS Pro dashboard preview"
               />
               <IntegrationFlow />
@@ -262,100 +332,78 @@ export const WelcomeContent: React.FC = () => {
           }
         >
           <DocBody>
-            NOLA SMS Pro is a premium, purpose-built SMS communication gateway designed specifically for location dashboards inside HighLevel CRM.
+            NOLA SMS Pro is a native communication portal designed to embed SMS sending directly into location sub-accounts on HighLevel CRM.
           </DocBody>
           <DocBody>
-            Rather than jumping between third-party communication web apps and your CRM, NOLA maps your contacts, billing package logs, reusable messaging structures, and delivery tracking registers into a unified workspace.
+            By linking directly into your CRM, NOLA maps contact indexes, reusable copywriting layouts, branded sending headers, and carrier tracking logs inside one dashboard, removing operational latency for support, sales, and marketing teams.
           </DocBody>
-          <HighlightPills
-            items={['HighLevel Integration', 'Philippine Carrier Mapping', 'Custom Sender IDs', 'SMS credit management', 'Real-time Message Tracking']}
-          />
-          <StatGrid
-            items={[
-              { label: 'Integration Layer', value: 'HighLevel Sub-Account Native' },
-              { label: 'Carrier Network Routing', value: 'Direct Telecom SMS' },
-              { label: 'Audience Focus', value: 'Philippine Agencies, Sales, & Support Teams' },
-              { label: 'Core Modules', value: 'Contacts, Templates, Sender IDs, Credits, Status History' },
-            ]}
-          />
+          
+          <h3 className="text-[13px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-3 mt-6">Core Problems Solved</h3>
+          <ProblemsSolved />
         </SplitLayout>
       </DocSection>
 
       {/* 2. ABOUT NOLA SMS PRO */}
       <DocSection id="welcome-about">
-        <DocSectionHeading eyebrow="Core Philosophy">About NOLA SMS Pro</DocSectionHeading>
+        <DocSectionHeading eyebrow="Design Philosophy">About NOLA SMS Pro</DocSectionHeading>
         <SplitLayout
           reverse
           visual={
-            <IllustrationFrame
-              type="product"
-              title="Native CRM Embedding"
-              caption="Runs directly inside the CRM sub-account without external authentication hops."
-              alt="NOLA SMS Pro inside HighLevel"
-            />
+            <div className="space-y-4">
+              <IllustrationFrame
+                type="product"
+                title="Direct Location Embedding"
+                caption="Provides a unified CRM panel workspace, preventing login hopping."
+                alt="NOLA SMS Pro inside HighLevel"
+              />
+              <ModuleEcosystem />
+            </div>
           }
         >
           <DocBody>
-            NOLA SMS Pro was engineered to solve the contact-syncing and tab-switching friction faced by support and marketing teams using HighLevel.
+            Operating modern messaging workspaces requires administrative controls and data synchronization. We designed NOLA SMS Pro to resolve context dispersion during team outreach.
           </DocBody>
           <DocBody>
-            By linking your client data natively, you remove CSV export errors and maintain complete message logs side-by-side with your client interaction records.
+            Instead of routing client data through external API nodes, NOLA syncs directly, retaining location security controls and preventing manual export leaks.
           </DocBody>
           <InlineCallout title="Product Philosophy">
-            We focus on workflow consistency: keeping teams within their CRM interface so they can message clients, check credit balances, and apply branding masks inside one window.
+            Outreach is a context journey. We focus on administrative control: allowing teams to compose, audit carrier queues, and top up credits inside their workspace.
           </InlineCallout>
           
-          <div className="mt-6 rounded-2xl border border-[#D7E7FA] bg-white p-5 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/3">
-            <h3 className="mb-3 text-[14px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider">Target Workspaces</h3>
-            <ul className="space-y-2.5">
-              {[
-                'CRM agencies deploying local communication workspaces',
-                'Philippine businesses requiring reliable carrier routing',
-                'Marketing operations executing transactional campaigns',
-                'Support desks dispatching real-time notifications',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-[13px] text-[#425B7D] dark:text-slate-300">
-                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#1F5AAE] dark:bg-[#72A8FF]" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h3 className="text-[13px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-3 mt-6">Target Operations</h3>
+          <TargetPersonas />
         </SplitLayout>
       </DocSection>
 
       {/* 3. WHAT MAKES US DIFFERENT */}
       <DocSection id="welcome-different">
-        <DocSectionHeading eyebrow="Differentiators">What Makes NOLA SMS Pro Different</DocSectionHeading>
+        <DocSectionHeading eyebrow="Performance Advantages">What Makes NOLA SMS Pro Different</DocSectionHeading>
         <DocBody>
-          Traditional SMS extensions require complex carrier credentials, third-party authentication pages, and separate contact managers. NOLA SMS Pro consolidates everything into a single layout.
+          Traditional tools require manual contact exports, separate logins, and anonymous sending paths. NOLA SMS Pro routes everything through native CRM nodes.
         </DocBody>
         <ComparisonTable
-          title="Workflow Comparison"
-          traditionalTitle="Traditional SMS Tools"
-          nolaTitle="NOLA SMS Pro Experience"
+          title="Operational Workflow Comparison"
+          traditionalTitle="Standard SMS Tools"
+          nolaTitle="NOLA SMS Pro Platform"
           traditionalItems={[
-            'Exporting contact indexes to CSV and loading to external systems',
-            'Leaving HighLevel CRM to check credit balance and request top-ups',
-            'Manually logging carrier status reports to check delivery',
-            'Complex developer setup required to bind APIs to Locations'
+            'Exporting contact records to spreadsheets for external uploading.',
+            'Leaving the CRM tab to check credit balances or request renewals.',
+            'Navigating external outboxes to review receipt statuses.',
+            'Manual prefix conversions leading to carrier routing rejections.'
           ]}
           nolaItems={[
-            'Synchronized fetching of HighLevel location databases directly',
-            'Immediate credit balances and top-up forms in your Settings',
-            'Granular Sending, Sent, and Failed status trackers in your workspace',
-            'One-click Marketplace authorization via OAuth'
+            'Fetching validated CRM contact databases instantly in real-time.',
+            'Displaying billing packages and top-up forms inside settings.',
+            'Checking real-time carrier delivery receipt reports inside logs.',
+            'Automatic formatting of local 11-digit prefixes on synchronization.'
           ]}
         />
       </DocSection>
 
       {/* 4. CORE MODULES */}
       <DocSection id="welcome-core-modules">
-        <DocSectionHeading eyebrow="Product Architecture">Core Modules</DocSectionHeading>
-        <DocBody>Six integrated utility sets give you complete command of your customer messaging directly from the navigation menu.</DocBody>
-        <div className="mb-6">
-          <IllustrationFrame type="desktop" title="Unified Feature Panel" caption="Contacts, Templates, Senders, Credits, History, and Settings configured in a single toolbar." />
-        </div>
+        <DocSectionHeading eyebrow="Ecosystem Modules">Core Modules</DocSectionHeading>
+        <DocBody>Our six utility directories link contacts, templates, routing headers, and audit trails to fuel continuous messaging operations.</DocBody>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {coreModules.map((module) => (
             <div key={module.title} className="flex gap-3 rounded-2xl border border-[#D7E7FA] bg-white p-5 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/3">
@@ -373,25 +421,25 @@ export const WelcomeContent: React.FC = () => {
 
       {/* 5. THE NOLA SMS PRO EXPERIENCE */}
       <DocSection id="welcome-experience">
-        <DocSectionHeading eyebrow="Onboarding Path">The NOLA SMS Pro Experience</DocSectionHeading>
-        <DocBody>From marketplace authorization to sending and tracking your first branded SMS, NOLA maintains a clear, guided journey.</DocBody>
-        <WorkflowDiagram steps={workflowSteps} />
+        <DocSectionHeading eyebrow="In-App Lifecycle">The NOLA SMS Pro Experience</DocSectionHeading>
+        <DocBody>Follow the operational workflow representing the daily messaging cycle of a support agent using the product.</DocBody>
+        <WorkflowDiagram steps={messagingJourneySteps} />
       </DocSection>
 
-      {/* 6. WHY USE NOLA SMS PRO (WITH ACTIVE MODAL COMPONENT) */}
+      {/* 6. WHY USE NOLA SMS PRO */}
       <DocSection id="welcome-why">
-        <DocSectionHeading eyebrow="Operational Benefits">Why Use NOLA SMS Pro?</DocSectionHeading>
+        <DocSectionHeading eyebrow="ROI & Business Value">Why Use NOLA SMS Pro?</DocSectionHeading>
         <DocBody>
-          Explore how NOLA SMS Pro transforms local communications with custom sender tags, real-time message tracking, and direct CRM variable queries. Click any module below for a detailed walkthrough and preview.
+          Explore the business value of native contact syncs, branded routing headers, and outbox validation. Click any feature card below to see an interactive layout mockup.
         </DocBody>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {welcomeFeatures.map((feature, index) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {welcomeFeaturesGrid.map((feature, index) => (
             <FeatureCard
               key={feature.title}
               title={feature.title}
               description={feature.description}
               onClick={() => setActiveIndex(index)}
-              ctaText="Interactive Preview"
+              ctaText="Interactive Schema"
             />
           ))}
         </div>
@@ -400,8 +448,8 @@ export const WelcomeContent: React.FC = () => {
       <WelcomeFeatureModal
         activeFeature={activeFeature}
         onClose={() => setActiveIndex(null)}
-        onPrevious={() => setActiveIndex((c) => (c === null || c === 0 ? welcomeFeatures.length - 1 : c - 1))}
-        onNext={() => setActiveIndex((c) => (c === null || c === welcomeFeatures.length - 1 ? 0 : c + 1))}
+        onPrevious={() => setActiveIndex((c) => (c === null || c === 0 ? welcomeFeaturesGrid.length - 1 : c - 1))}
+        onNext={() => setActiveIndex((c) => (c === null || c === welcomeFeaturesGrid.length - 1 ? 0 : c + 1))}
       />
     </div>
   );

@@ -140,7 +140,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'About NOLA SMS Pro',
-      desc: 'Discover the product philosophy and see who NOLA SMS Pro is designed for.',
+      desc: 'Let\'s take a look at the product philosophy and understand who NOLA SMS Pro is designed for.',
       id: 'welcome-about'
     }
   },
@@ -157,7 +157,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'What Makes NOLA SMS Pro Different',
-      desc: 'Understand the traditional friction points we eliminate compared to standard messaging setups.',
+      desc: 'Understand the traditional CRM friction points we eliminate compared to standard messaging setups.',
       id: 'welcome-different'
     }
   },
@@ -174,7 +174,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Core Modules',
-      desc: 'Take a high-level tour of the six main functional blocks of the platform.',
+      desc: 'Take a high-level tour of the six main functional modules that power the platform.',
       id: 'welcome-core-modules'
     }
   },
@@ -225,7 +225,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Install NOLA SMS Pro',
-      desc: 'Ready to begin? Let\'s install NOLA SMS Pro from the HighLevel Marketplace.',
+      desc: 'Ready to deploy? Let\'s install NOLA SMS Pro from the HighLevel Marketplace.',
       id: 'marketplace-install'
     }
   },
@@ -291,7 +291,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Create or Sign In',
-      desc: 'Set up your owner account credentials to activate your billing workspace.',
+      desc: 'Now that the app is installed inside HighLevel, let\'s establish your owner account credentials to activate your secure billing workspace.',
       id: 'account-access'
     }
   },
@@ -350,7 +350,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Dashboard Overview',
-      desc: 'Tour the main layout areas and discover where each feature resides.',
+      desc: 'With your owner account secured, let\'s explore the dashboard layout to understand where each messaging tool resides.',
       id: 'dashboard-overview'
     }
   },
@@ -402,7 +402,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Send Your First SMS',
-      desc: 'Complete the pre-flight checks and send your first natural text message safely.',
+      desc: 'Now that you are familiar with the interface, let\'s complete the pre-flight checks and send your first test text message.',
       id: 'first-sms-checklist'
     }
   },
@@ -469,7 +469,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Managing Contacts',
-      desc: 'Learn how NOLA SMS Pro pulls and validates contacts natively from your CRM.',
+      desc: 'Once you have verified carrier sync, learn how NOLA SMS Pro pulls and validates contacts natively from your CRM.',
       id: 'contacts'
     }
   },
@@ -530,7 +530,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'SMS Templates',
-      desc: 'Build message templates to send consistent answers to common customer questions.',
+      desc: 'With your audience list ready, learn how to build reusable message templates to write consistent, professional copy.',
       id: 'templates'
     }
   },
@@ -588,7 +588,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Sender IDs',
-      desc: 'Register custom sender names to replace default NOLASMSPro masks with your business brand.',
+      desc: 'After creating your templates, learn how to register custom brand names to replace default NOLASMSPro sending masks.',
       id: 'sender-id'
     }
   },
@@ -654,7 +654,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'SMS Credits',
-      desc: 'Learn how to top up credits, view current balances, and check billing history.',
+      desc: 'With your brand name set up, explore how to top up SMS credits, monitor balances, and review usage history.',
       id: 'sms-credits'
     }
   },
@@ -720,7 +720,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Message History',
-      desc: 'Verify if your texts are Sending, Sent, or Failed in our delivery log tracker.',
+      desc: 'Now that your gateway is fueled, discover how to monitor sending logs and verify delivery statuses in real-time.',
       id: 'message-history'
     }
   },
@@ -777,7 +777,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Configure Settings',
-      desc: 'Understand location matching, notification emails, and profile layouts in Settings.',
+      desc: 'After auditing message routes, learn how to configure notifications, low-credit emails, and location profiles in Settings.',
       id: 'settings'
     }
   },
@@ -840,7 +840,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Troubleshooting Guide',
-      desc: 'Explore quick fixes for typical setup, balance, and deliverability errors.',
+      desc: 'With your workspace configured, explore how to resolve carrier blocks, reconnection prompts, and balance locks independently.',
       id: 'troubleshooting'
     }
   },
@@ -911,7 +911,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'Frequently Asked Questions',
-      desc: 'Browse general questions and operations answers in our FAQ guide.',
+      desc: 'Still have general questions? Browse quick answers to common questions about NOLA SMS Pro operations.',
       id: 'faq'
     }
   },
