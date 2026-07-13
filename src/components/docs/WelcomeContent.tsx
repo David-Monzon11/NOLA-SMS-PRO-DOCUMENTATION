@@ -113,13 +113,10 @@ export const WelcomeContent: React.FC = () => {
         {/* Body Text */}
         <div className="lg:col-span-7 space-y-4 text-[15px] font-medium leading-7 text-[#425B7D] dark:text-slate-300">
           <p>
-            NOLA SMS Pro is a native SMS platform built directly inside your HighLevel
-            sub-account. It lets you send text messages to Philippine mobile numbers without leaving your CRM, without exporting
-            contact lists, and without switching tools.
+            NOLA SMS Pro is a native SMS messaging platform designed specifically for HighLevel users, enabling you to communicate with Philippine mobile numbers directly from within your sub-account. Instead of relying on third-party applications, exporting contact lists, or switching between multiple tools, you can manage your SMS campaigns, customer conversations, and messaging history in one centralized workspace. The platform integrates seamlessly with your existing HighLevel environment, making SMS communication a natural extension of your daily workflow.
           </p>
           <p>
-            This documentation covers everything from initial setup to daily messaging
-            operations. Start from the beginning, or jump to the section you need.
+            This documentation is your complete guide to getting started and making the most of NOLA SMS Pro. Whether you're installing the application for the first time, configuring your account, sending your first SMS, managing contacts and templates, or troubleshooting common issues, you'll find step-by-step instructions and best practices throughout each section. If you're new to the platform, we recommend following the guides in order. If you're returning to complete a specific task, you can use the navigation menu to jump directly to the topic you need.
           </p>
         </div>
         {/* Illustration Image */}
