@@ -6,13 +6,13 @@ import {
   ChevronRight,
   HelpCircle,
   Layers,
-  LifeBuoy,
   Moon,
+  Rocket,
   Search,
-  Settings,
-  ShieldAlert,
   Sun,
   X,
+  MessageSquare,
+  CreditCard,
 } from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
 import { useTheme } from '../context/ThemeContext';
@@ -24,17 +24,16 @@ interface SidebarProps {
 }
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
-  INTRODUCTION: <BookOpen className="h-4 w-4" />,
-  'Getting Started': <Layers className="h-4 w-4" />,
-  'Using NOLA SMS Pro': <Settings className="h-4 w-4" />,
-  Troubleshooting: <ShieldAlert className="h-4 w-4" />,
-  'Frequently Asked Questions': <HelpCircle className="h-4 w-4" />,
-  'Support & Help': <LifeBuoy className="h-4 w-4" />,
+  OVERVIEW: <BookOpen className="h-4 w-4" />,
+  SETUP: <Rocket className="h-4 w-4" />,
+  MESSAGING: <MessageSquare className="h-4 w-4" />,
+  ACCOUNT: <CreditCard className="h-4 w-4" />,
+  SUPPORT: <HelpCircle className="h-4 w-4" />,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile, onCloseMobile }) => {
   const location = useLocation();
-  const activeId = location.pathname.split('/docs/')[1] || 'welcome-overview';
+  const activeId = location.pathname.split('/docs/')[1] || 'welcome';
   const { theme, toggleTheme } = useTheme();
   
   // Track collapse/expand states for multi-item sections
@@ -69,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile,
       {/* Brand logo container */}
       <div className="flex min-h-[88px] flex-shrink-0 items-center gap-3 border-b border-[#D7E7FA] px-5 dark:border-[#183354]">
         <Link
-          to="/docs/welcome-overview"
+          to="/docs/welcome"
           className="flex min-w-0 flex-1 items-center gap-3 transition-opacity hover:opacity-85"
           onClick={onCloseMobile}
         >

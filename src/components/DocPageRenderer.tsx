@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
-import { useLocation, useNavigationType } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import type { DocPage } from '../data/docsData';
 import { docsData, sidebarStructure } from '../data/docsData';
-import { useScrollSpy } from '../hooks/useScrollSpy';
-import { WelcomeContent, isWelcomePage } from './docs/WelcomeContent';
-import { FeaturePageContent } from './docs/FeaturePageContent';
+import { WelcomeContent } from './docs/WelcomeContent';
 import {
   BookOpen,
   CreditCard,
@@ -13,6 +11,7 @@ import {
   History,
   LayoutDashboard,
   MessageSquare,
+  Rocket,
   Send,
   Settings,
   ShieldAlert,
@@ -21,28 +20,32 @@ import {
   UserPlus,
   Users,
   Wrench,
+  ArrowRightLeft,
 } from 'lucide-react';
 
 interface Props {
   page: DocPage;
 }
 
-const sectionShell =
-  'scroll-mt-[304px] border-b border-[#D7E7FA] py-12 first:pt-0 last:border-b-0 dark:border-[#183354] lg:scroll-mt-[190px]';
-
 const pageIconMap = {
   welcome: BookOpen,
-  'marketplace-install': Store,
-  'account-access': UserPlus,
+  'what-is-nola-sms-pro': BookOpen,
+  'how-nola-sms-pro-works': Wrench,
+  'core-features': LayoutDashboard,
+  'send-your-first-sms': Send,
+  'install-nola-sms-pro': Store,
+  'create-or-sign-in': UserPlus,
+  'connect-highlevel': ArrowRightLeft,
   'dashboard-overview': LayoutDashboard,
-  'first-sms-checklist': Send,
   contacts: Users,
-  templates: FileText,
-  'sender-id': ShieldCheck,
-  'sms-credits': CreditCard,
+  'compose-sms': MessageSquare,
+  'message-templates': FileText,
+  'sender-ids': ShieldCheck,
   'message-history': History,
+  'sms-credits': CreditCard,
   settings: Settings,
   troubleshooting: Wrench,
+  'support-help': HelpCircle,
   faq: HelpCircle,
 } satisfies Record<string, React.ComponentType<{ className?: string }>>;
 
@@ -50,16 +53,13 @@ function getPageIcon(page: DocPage) {
   if (pageIconMap[page.id as keyof typeof pageIconMap]) {
     return pageIconMap[page.id as keyof typeof pageIconMap];
   }
-  if (page.section === 'Troubleshooting') return ShieldAlert;
-  if (page.section === 'FAQ') return HelpCircle;
-  if (page.section === 'Using NOLA SMS Pro') return MessageSquare;
+  if (page.section === 'SUPPORT') return ShieldAlert;
+  if (page.section === 'SETUP') return Rocket;
+  if (page.section === 'MESSAGING') return MessageSquare;
   return BookOpen;
 }
 
 function getHeaderPage(activeId: string, fallback: DocPage): DocPage {
-  if (isWelcomePage({ id: activeId } as DocPage)) {
-    return docsData.find((item) => item.id === 'welcome') ?? fallback;
-  }
   return docsData.find((item) => item.id === activeId) ?? fallback;
 }
 
@@ -93,61 +93,30 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
   );
 };
 
-// NEW: Memoized container component containing all static documentation page trees.
-// Prevents heavy re-renders when the URL activeId changes on scroll ticks.
-const MemoizedDocContent = React.memo(() => {
-  return (
-    <div className="w-full animate-fade-in">
-      {sidebarStructure.map((section) => (
-        <div key={section.title}>
-          {section.title === 'INTRODUCTION' ? (
-            <div className={sectionShell}>
-              <WelcomeContent />
-            </div>
-          ) : (
-            section.items.map((item) => {
-              const subPage = docsData.find((entry) => entry.id === item.id);
-              if (!subPage) return null;
-
-              return (
-                <section id={subPage.id} key={subPage.id} className={sectionShell}>
-                  <FeaturePageContent page={subPage} />
-                </section>
-              );
-            })
-          )}
-        </div>
-      ))}
-    </div>
-  );
-});
-
-MemoizedDocContent.displayName = 'MemoizedDocContent';
-
 export const DocPageRenderer: React.FC<Props> = ({ page }) => {
   const location = useLocation();
-  const navType = useNavigationType();
-  const activeId = location.pathname.split('/docs/')[1] || 'welcome-overview';
+  const activeId = location.pathname.split('/docs/')[1] || 'welcome';
 
-  const sectionIds = useMemo(
+  // Keep sectionIds computed for potential future use
+  const _sectionIds = useMemo(
     () => sidebarStructure.flatMap((section) => section.items.map((item) => item.id)),
     [],
   );
 
-  const { scrollToSection } = useScrollSpy(sectionIds, activeId);
   const headerPage = getHeaderPage(activeId, page);
-
-  useEffect(() => {
-    // If navigation action is direct (like click or popstate), trigger programmatic scroll alignment
-    if (navType === 'PUSH' || navType === 'POP') {
-      scrollToSection(activeId);
-    }
-  }, [activeId, navType, scrollToSection]);
+  const isWelcome = activeId === 'welcome';
 
   return (
     <div className="w-full pb-16" aria-label={`Documentation guide focused on ${page.title}`}>
       <StickyPageHeader page={headerPage} />
-      <MemoizedDocContent />
+      {isWelcome ? (
+        <div className="pt-6">
+          <WelcomeContent />
+        </div>
+      ) : (
+        /* Page content intentionally blank — ready for authoring */
+        null
+      )}
     </div>
   );
 };

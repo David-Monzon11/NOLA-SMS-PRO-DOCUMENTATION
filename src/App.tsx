@@ -10,7 +10,7 @@ const DocPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const page = docsData.find(p => p.id === id);
 
-  if (!page) return <Navigate to="/docs/welcome-overview" replace />;
+  if (!page) return <Navigate to="/docs/welcome" replace />;
 
   return (
     <DocLayout page={page}>
@@ -24,9 +24,9 @@ export default function App() {
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/docs/welcome-overview" replace />} />
+          <Route path="/" element={<Navigate to="/docs/welcome" replace />} />
           <Route path="/docs/:id" element={<DocPageWrapper />} />
-          <Route path="*" element={<Navigate to="/docs/welcome-overview" replace />} />
+          <Route path="*" element={<Navigate to="/docs/welcome" replace />} />
         </Routes>
       </Router>
     </ThemeProvider>

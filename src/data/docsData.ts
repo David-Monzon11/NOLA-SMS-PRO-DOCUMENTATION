@@ -23,951 +23,884 @@ export interface DocPage {
   id: string;
   title: string;
   description: string;
-  section: 'INTRODUCTION' | 'Getting Started' | 'Using NOLA SMS Pro' | 'Troubleshooting' | 'FAQ' | 'Support';
+  section: 'OVERVIEW' | 'SETUP' | 'MESSAGING' | 'ACCOUNT' | 'SUPPORT';
   subsection?: string;
   readingTime: string;
-  purpose: string;
-  whyItMatters?: string;
-  steps?: string[];
-  capabilities?: string[];
-  useCases?: DocPageUseCase[];
+  purpose: string; // 1. What is this?
+  whyItMatters: string; // 2. Why is it important?
+  prerequisites?: string[]; // 3. What do I need before I begin?
+  steps?: string[]; // 4. How do I use it?
+  expectAfter?: string; // 5. What should I expect afterwards?
+  
+  // Custom interactive/visual widgets triggers
+  hasIntegrationFlow?: boolean;
+  hasModuleEcosystem?: boolean;
+  hasProblemsSolved?: boolean;
+  hasTargetPersonas?: boolean;
+  hasFirstSMSChecklist?: boolean;
+  hasTicketForm?: boolean;
+
+  // 6. Common questions / tips
   tips?: string[];
   notes?: string[];
   warnings?: string[];
   commonIssues?: string[];
   faqs?: DocFAQ[];
-  relatedPages?: RelatedPage[];
-  screenshots?: ScreenshotPlan[];
-  hasFirstSMSChecklist?: boolean;
-  hasTicketForm?: boolean;
+
+  // 7. Where should I go next?
   nextPageCTA?: { title: string; desc: string; id: string };
+
+  screenshots?: ScreenshotPlan[];
+  relatedPages?: RelatedPage[];
+  capabilities?: string[];
+  useCases?: DocPageUseCase[];
 }
 
 export const defaultSmsReminder =
-  'After installation, NOLA SMS Pro sends SMS using the default sender NOLASMSPro unless you select an approved custom Sender ID. Messages require available SMS credits. A normal 160-character SMS usually uses 1 credit, and longer messages may use more. Send one natural test message first, then check Message History for the status.';
+  'After installation, NOLA SMS Pro transmits messages using the default sender mask NOLASMSPro until an approved custom Sender ID is active. Sending requires available SMS credits. A standard local SMS is limited to 160 characters per credit segment, with longer or special-character messages drawing multiple credits. Verify status logs in Message History after dispatch.';
 
 export const sidebarStructure = [
   {
-    title: 'INTRODUCTION',
+    title: 'OVERVIEW',
     items: [
-      { id: 'welcome-overview', title: 'Overview' },
-      { id: 'welcome-about', title: 'About NOLA SMS Pro' },
-      { id: 'welcome-different', title: 'What Makes NOLA SMS Pro Different' },
-      { id: 'welcome-core-modules', title: 'Core Modules' },
-      { id: 'welcome-experience', title: 'The NOLA SMS Pro Experience' },
-      { id: 'welcome-why', title: 'Why Use NOLA SMS Pro' }
+      { id: 'welcome', title: 'Welcome' },
+      { id: 'what-is-nola-sms-pro', title: 'What is NOLA SMS Pro?' },
+      { id: 'how-nola-sms-pro-works', title: 'How NOLA SMS Pro Works' },
+      { id: 'core-features', title: 'Core Features' }
     ]
   },
   {
-    title: 'Getting Started',
+    title: 'SETUP',
     items: [
-      { id: 'marketplace-install', title: 'Install NOLA SMS Pro' },
-      { id: 'account-access', title: 'Create or Sign In' },
+      { id: 'install-nola-sms-pro', title: 'Install NOLA SMS Pro' },
+      { id: 'create-or-sign-in', title: 'Create or Sign In' },
+      { id: 'connect-highlevel', title: 'Connect HighLevel' },
       { id: 'dashboard-overview', title: 'Dashboard Overview' },
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
+      { id: 'send-your-first-sms', title: 'Send Your First SMS' }
     ]
   },
   {
-    title: 'Using NOLA SMS Pro',
+    title: 'MESSAGING',
     items: [
       { id: 'contacts', title: 'Contacts' },
-      { id: 'templates', title: 'Templates' },
-      { id: 'sender-id', title: 'Sender IDs' },
+      { id: 'compose-sms', title: 'Compose SMS' },
+      { id: 'message-templates', title: 'Message Templates' },
+      { id: 'sender-ids', title: 'Sender IDs' },
+      { id: 'message-history', title: 'Message History' }
+    ]
+  },
+  {
+    title: 'ACCOUNT',
+    items: [
       { id: 'sms-credits', title: 'SMS Credits' },
-      { id: 'message-history', title: 'Message History' },
       { id: 'settings', title: 'Settings' }
     ]
   },
   {
-    title: 'Troubleshooting',
+    title: 'SUPPORT',
     items: [
-      { id: 'troubleshooting', title: 'Troubleshooting' }
+      { id: 'troubleshooting', title: 'Troubleshooting' },
+      { id: 'support-help', title: 'Support & Help' },
+      { id: 'faq', title: 'Frequently Asked Questions' }
     ]
-  },
-  {
-    title: 'Frequently Asked Questions',
-    items: [
-      { id: 'faq', title: 'FAQ' }
-    ]
-  },
+  }
 ];
 
 export const docsData: DocPage[] = [
   {
     id: 'welcome',
     title: 'Welcome to NOLA SMS Pro',
-    description: 'A complete SMS messaging platform that lives directly inside your HighLevel sub-account.',
-    section: 'INTRODUCTION',
+    description: 'An embedded SMS communication platform operating natively within your HighLevel sub-account.',
+    section: 'OVERVIEW',
     readingTime: '2 min read',
-    purpose: 'NOLA SMS Pro brings SMS sending, HighLevel contacts, reusable templates, Sender IDs, credit management, message status, and account settings into your connected HighLevel sub-account.',
-    whyItMatters: 'Agencies and teams spend hours navigating between multiple dashboards to reach clients. By embedding messaging natively within HighLevel, NOLA SMS Pro preserves context, reduces support friction, and streamlines team communication.',
+    purpose: 'NOLA SMS Pro is a native communication portal built directly inside your HighLevel workspace. This user guide acts as a guided setup journey, designed to take you from installation to sending your first customer text message.',
+    whyItMatters: 'Reaching customer mobiles directly from your CRM keeps conversation logs aligned, ensures faster support replies, and secures customer databases by eliminating manual list exports.',
+    prerequisites: [
+      'An active HighLevel sub-account.',
+      'Administrator level permissions to authorize applications in the HighLevel Marketplace.'
+    ],
     steps: [
-      'Send SMS from the connected HighLevel sub-account.',
-      'Manage HighLevel contacts and reusable SMS templates.',
-      'Use the default sender or an approved custom Sender ID.',
-      'Track SMS credits, message status, notifications, and connected location settings.'
+      'Locate NOLA SMS Pro in the HighLevel Marketplace.',
+      'Connect it to your specific sub-account location.',
+      'Register your admin owner profile for billing and settings configuration.',
+      'Verify credit levels and start sending branded SMS directly next to client CRM profiles.'
     ],
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
+    expectAfter: 'You will have a unified SMS dashboard fully integrated inside your HighLevel sub-account, ready to configure compliance masks and message customer bases in the Philippines.',
+    relatedPages: [
+      { id: 'what-is-nola-sms-pro', title: 'What is NOLA SMS Pro?' },
+      { id: 'install-nola-sms-pro', title: 'Install NOLA SMS Pro' }
     ],
+    nextPageCTA: {
+      title: 'What is NOLA SMS Pro?',
+      desc: 'Understand the business benefits and setup outcomes of NOLA SMS Pro.',
+      id: 'what-is-nola-sms-pro'
+    },
     screenshots: [
       {
         filename: '/images/docs/welcome-nola-inside-highlevel.png',
-        alt: 'NOLA SMS Pro opened inside the HighLevel sub-account menu.',
-        caption: 'NOLA SMS Pro runs inside your HighLevel sub-account after installation.'
+        alt: 'NOLA SMS Pro embedded in HighLevel sub-account menu.',
+        caption: 'Find and access NOLA SMS Pro directly inside your sub-account navigation panel.'
       }
-    ],
-    relatedPages: [
-      { id: 'marketplace-install', title: 'Install NOLA SMS Pro' },
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
-    ],
-    nextPageCTA: {
-      title: 'Install NOLA SMS Pro',
-      desc: 'Get started by installing the application from the HighLevel Marketplace.',
-      id: 'marketplace-install'
-    }
+    ]
   },
   {
-    id: 'welcome-overview',
-    title: 'Overview',
-    description: 'Get an overview of NOLA SMS Pro features.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'NOLA SMS Pro brings SMS sending, HighLevel contacts, reusable templates, Sender IDs, credit tracking, message history, and account settings into your connected HighLevel sub-account.',
-    whyItMatters: 'Documentation is more than a list of tools—it is your guide to building a modern messaging workflow. This portal shows how NOLA SMS Pro connects the key segments of your HighLevel location into a unified workspace.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
+    id: 'what-is-nola-sms-pro',
+    title: 'What is NOLA SMS Pro?',
+    description: 'A native communication portal built to facilitate text messaging with Philippine mobile subscribers.',
+    section: 'OVERVIEW',
+    readingTime: '2 min read',
+    purpose: 'NOLA SMS Pro centralizes contacts lookup, custom copywriting, template storage, credit refills, and carrier logs inside your HighLevel workspace.',
+    whyItMatters: 'Traditional external texting systems cause "tab fatigue" and risk contact data exposure. NOLA SMS Pro replaces these fragmented tools with a secure, embedded outbox right next to your CRM database.',
+    prerequisites: [
+      'HighLevel sub-account location access.',
+      'Philippine-based customer contacts with mobile numbers.'
     ],
-    nextPageCTA: {
-      title: 'About NOLA SMS Pro',
-      desc: 'Let\'s take a look at the product philosophy and understand who NOLA SMS Pro is designed for.',
-      id: 'welcome-about'
-    }
-  },
-  {
-    id: 'welcome-about',
-    title: 'About NOLA SMS Pro',
-    description: 'Learn about what NOLA SMS Pro is.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'NOLA SMS Pro is a dedicated SMS messaging solution that integrates directly with your HighLevel sub-account, simplifying sending and tracking without leaving the platform.',
-    whyItMatters: 'Juggling tabs leads to lost context and slower response times. We built NOLA SMS Pro to remove this friction, keeping your customer data and communication history aligned inside your CRM.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
-    ],
-    nextPageCTA: {
-      title: 'What Makes NOLA SMS Pro Different',
-      desc: 'Understand the traditional CRM friction points we eliminate compared to standard messaging setups.',
-      id: 'welcome-different'
-    }
-  },
-  {
-    id: 'welcome-different',
-    title: 'What Makes NOLA SMS Pro Different',
-    description: 'Discover what sets NOLA SMS Pro apart from other solutions.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'Learn how NOLA SMS Pro simplifies your workflow compared to traditional methods.',
-    whyItMatters: 'Standard setups require manual CSV lists, separate billing accounts, and external carrier configurations. NOLA SMS Pro bridges these steps directly into your CRM workspace with one-click installation.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
-    ],
-    nextPageCTA: {
-      title: 'Core Modules',
-      desc: 'Take a high-level tour of the six main functional modules that power the platform.',
-      id: 'welcome-core-modules'
-    }
-  },
-  {
-    id: 'welcome-core-modules',
-    title: 'Core Modules',
-    description: 'Explore the core capabilities of NOLA SMS Pro.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'Discover the key modules that power NOLA SMS Pro.',
-    whyItMatters: 'A complete messaging system requires coordination between contacts, copy, routing, balances, and delivery logs. NOLA integrates these six elements into one workspace.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
-    ],
-    nextPageCTA: {
-      title: 'The NOLA SMS Pro Experience',
-      desc: 'Visualize the end-to-end journey from initial install to tracking your first outgoing text.',
-      id: 'welcome-experience'
-    }
-  },
-  {
-    id: 'welcome-experience',
-    title: 'The NOLA SMS Pro Experience',
-    description: 'See how NOLA SMS Pro fits into your workflow.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'Walk through the end-to-end experience of using NOLA SMS Pro.',
-    whyItMatters: 'Knowing what to expect guarantees a smooth deployment. We map the customer journey from Marketplace discovery to real-time status reporting so you can verify each checkpoint.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
-    ],
-    nextPageCTA: {
-      title: 'Why Use NOLA SMS Pro',
-      desc: 'Examine the concrete business benefits and ROI of our integrated approach.',
-      id: 'welcome-why'
-    }
-  },
-  {
-    id: 'welcome-why',
-    title: 'Why Use NOLA SMS Pro',
-    description: 'Discover why NOLA SMS Pro is the right choice.',
-    section: 'INTRODUCTION',
-    readingTime: '1 min read',
-    purpose: 'Explore the key features that make NOLA SMS Pro the perfect SMS solution for your HighLevel workflow.',
-    whyItMatters: 'Investing in new tools should yield immediate time savings. NOLA SMS Pro cuts customer reply lag, ensures local compliance formats, and lets your team focus on communication instead of database management.',
-    notes: [
-      'You do not need to download a separate desktop or mobile app.'
-    ],
-    nextPageCTA: {
-      title: 'Install NOLA SMS Pro',
-      desc: 'Ready to deploy? Let\'s install NOLA SMS Pro from the HighLevel Marketplace.',
-      id: 'marketplace-install'
-    }
-  },
-  {
-    id: 'marketplace-install',
-    title: 'Install NOLA SMS Pro',
-    description: 'Install NOLA SMS Pro from the HighLevel Marketplace and connect the correct sub-account/location.',
-    section: 'Getting Started',
-    readingTime: '4 min read',
-    purpose: 'Use this guide when you are installing NOLA SMS Pro for a HighLevel location for the first time.',
-    whyItMatters: 'NOLA SMS Pro requires native integration with your HighLevel sub-account to synchronize contacts, conversations, and account permissions securely. Setting it up correctly ensures your SMS workspace is fully operational from day one.',
     steps: [
-      'Log in to HighLevel.',
-      'Open the Marketplace and search for NOLA SMS Pro.',
-      'Open the NOLA SMS Pro listing and click Install.',
-      'Select the sub-account/location where the app should be installed.',
-      'Review the requested permissions for contacts, conversations, location details, and permission to connect the app.',
-      'Click Allow & Install.',
-      'Follow the redirect to create or sign in to the NOLA account.'
+      'Access the app natively via the HighLevel sub-account menu.',
+      'Avoid duplicate typing by searching contact files synced in real-time.',
+      'Ensure standard, professional replies by loading pre-saved templates.',
+      'Brand your messages using verified custom Sender IDs registered with local networks.'
     ],
-    capabilities: [
-      'Find NOLA SMS Pro in the HighLevel Marketplace listing.',
-      'Target specific HighLevel sub-accounts during provisioning.',
-      'Inspect permissions required to sync contacts and read locations.',
-      'Confirm and grant access with a secure one-click OAuth consent.'
-    ],
-    useCases: [
-      {
-        scenario: 'First-Time Location Provisioning',
-        benefit: 'Adds the NOLA SMS Pro application interface to your sub-account navigation panel so teams can begin sending immediately.'
-      },
-      {
-        scenario: 'Multi-Location Agency Rollouts',
-        benefit: 'Enables administrators to assign dedicated SMS credits and custom Sender IDs to specific client-facing locations.'
-      }
-    ],
-    notes: [
-      'Only approve the install when the selected sub-account/location is correct.'
-    ],
-    warnings: [
-      'If you close the browser window during setup, open NOLA SMS Pro from HighLevel again to continue.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/install-marketplace-listing.png',
-        alt: 'NOLA SMS Pro Marketplace listing in HighLevel.',
-        caption: 'Find NOLA SMS Pro in the HighLevel Marketplace.'
-      },
-      {
-        filename: '/images/docs/install-select-subaccount.png',
-        alt: 'HighLevel install screen for selecting a sub-account location.',
-        caption: 'Select the sub-account/location where the app should be installed.'
-      },
-      {
-        filename: '/images/docs/install-allow-permissions.png',
-        alt: 'HighLevel permission review screen before installing NOLA SMS Pro.',
-        caption: 'Review the install screen, then click Allow & Install.'
-      }
-    ],
+    expectAfter: 'Your support, sales, and marketing teams will communicate directly with mobile leads without transferring files, leaving tabs open, or copying numbers.',
+    hasProblemsSolved: true,
+    hasTargetPersonas: true,
     relatedPages: [
-      { id: 'account-access', title: 'Create or Sign In' },
-      { id: 'troubleshooting', title: 'Troubleshooting' }
+      { id: 'how-nola-sms-pro-works', title: 'How NOLA SMS Pro Works' }
+    ],
+    nextPageCTA: {
+      title: 'How NOLA SMS Pro Works',
+      desc: 'Learn about the carrier routing and credit system behind our dashboard.',
+      id: 'how-nola-sms-pro-works'
+    }
+  },
+  {
+    id: 'how-nola-sms-pro-works',
+    title: 'How NOLA SMS Pro Works',
+    description: 'Bridges your CRM workspace directly to Philippine telco networks via a secure carrier gateway.',
+    section: 'OVERVIEW',
+    readingTime: '3 min read',
+    purpose: 'NOLA SMS Pro connects your sub-account directly to local networks (Globe, Smart, DITO) in the Philippines, delivering messages reliably at localized rates.',
+    whyItMatters: 'Direct local gateway routing ensures fast delivery speeds and compliance with carrier-level spam filters, preventing message blocks.',
+    prerequisites: [
+      'Active SMS credits in your NOLA SMS Pro billing workspace.',
+      'Customer phone numbers using local 11-digit formatting (09XXXXXXXXX).'
+    ],
+    steps: [
+      'Pick a contact: The app reads details from your synced HighLevel directory.',
+      'Format copy: You type a custom message or select a saved standard template.',
+      'Apply identity: You select a sender mask (default NOLASMSPro or your approved Sender ID).',
+      'Debit credits: The system verifies text segment lengths and deducts credits.',
+      'Deliver & Log: Outbound carriers route the block and report live status codes back to your History logs.'
+    ],
+    expectAfter: 'You will understand the pathway of a text message from the Compose panel, through our local gateways, to the subscriber\'s hand.',
+    hasIntegrationFlow: true,
+    hasModuleEcosystem: true,
+    relatedPages: [
+      { id: 'core-features', title: 'Core Features' }
+    ],
+    nextPageCTA: {
+      title: 'Core Features',
+      desc: 'Explore the functional modules of the NOLA SMS Pro workspace.',
+      id: 'core-features'
+    }
+  },
+  {
+    id: 'core-features',
+    title: 'Core Features',
+    description: 'The six functional pillars designed to run a secure, branded SMS outreach program.',
+    section: 'OVERVIEW',
+    readingTime: '2 min read',
+    purpose: 'NOLA SMS Pro is built on six functional modules: Contacts, Compose, Templates, Sender IDs, Credits, and Settings.',
+    whyItMatters: 'By grouping features into standard, focused modules, operators can verify client records, load approved templates, check sending history, and request top-ups in seconds.',
+    prerequisites: [
+      'Basic familiarity with NOLA SMS Pro navigation shortcuts.'
+    ],
+    steps: [
+      'Contacts: Look up or add mobile customer records.',
+      'Compose: Type texts, review credit segments, and dispatch SMS.',
+      'Templates: Organize reusable, pre-written standard message blocks.',
+      'Sender IDs: Manage custom brand headers to replace raw sender numbers.',
+      'Credits: Monitor available gateway credits and request refills.',
+      'Settings: Configure profiles, notification levels, and sub-account integrations.'
+    ],
+    expectAfter: 'You will recognize the primary modules in your sidebar and know where to configure each feature.',
+    relatedPages: [
+      { id: 'install-nola-sms-pro', title: 'Install NOLA SMS Pro' }
+    ],
+    nextPageCTA: {
+      title: 'Install NOLA SMS Pro',
+      desc: 'Deploy the app to your HighLevel sub-account to activate the system.',
+      id: 'install-nola-sms-pro'
+    }
+  },
+  {
+    id: 'install-nola-sms-pro',
+    title: 'Install NOLA SMS Pro',
+    description: 'Deploy NOLA SMS Pro from the Marketplace to your HighLevel sub-account.',
+    section: 'SETUP',
+    readingTime: '3 min read',
+    purpose: 'This guide details how to find, install, and authorize NOLA SMS Pro inside your HighLevel location dashboard.',
+    whyItMatters: 'A correct initial Marketplace authorization establishes secure links, allowing NOLA SMS Pro to sync contacts and log message statuses.',
+    prerequisites: [
+      'HighLevel sub-account location access.',
+      'Administrator rights to approve application OAuth permission scopes.'
+    ],
+    steps: [
+      'Log in to your HighLevel dashboard and navigate to the Marketplace.',
+      'Search for "NOLA SMS Pro" and open the application listing.',
+      'Click the Install button to begin the integration process.',
+      'Select the target HighLevel sub-account from the location dropdown.',
+      'Review permissions (contacts access, message history logging, location details).',
+      'Click Allow & Install to authorize the connection.'
+    ],
+    expectAfter: 'NOLA SMS Pro will load within your HighLevel sub-account menu, ready for administrator profile setup.',
+    relatedPages: [
+      { id: 'create-or-sign-in', title: 'Create or Sign In' }
     ],
     nextPageCTA: {
       title: 'Create or Sign In',
-      desc: 'Now that the app is installed inside HighLevel, let\'s establish your owner account credentials to activate your secure billing workspace.',
-      id: 'account-access'
-    }
-  },
-  {
-    id: 'account-access',
-    title: 'Create or Sign In to Your Account',
-    description: 'Create the NOLA owner account for a new location, or sign in with the existing owner account.',
-    section: 'Getting Started',
-    readingTime: '3 min read',
-    purpose: 'After installation, NOLA SMS Pro asks the location owner to create an account or sign in so the dashboard can open inside HighLevel.',
-    whyItMatters: 'Owner accounts secure your messaging space and link credit transactions, Sender ID requests, and system logs to a verified team email. This separation ensures credit controls and settings remain tamper-proof.',
-    steps: [
-      'If the location is new, enter your name, email address, mobile number, and password.',
-      'Review and accept the NOLA SMS Pro user agreement.',
-      'Click Create Account to finish registration.',
-      'If NOLA says the location is already registered, choose Sign In instead.',
-      'Sign in with the existing owner email and password.',
-      'When you open NOLA SMS Pro from HighLevel later, you may already be signed in.'
-    ],
-    capabilities: [
-      'Establish account owner profiles linked to specific locations.',
-      'Review and accept terms of service and billing structures.',
-      'Retrieve and restore accounts for pre-registered sub-accounts.',
-      'Benefit from persistent, secure session management.'
-    ],
-    useCases: [
+      desc: 'Configure your administrator credentials to secure your workspace.',
+      id: 'create-or-sign-in'
+    },
+    screenshots: [
       {
-        scenario: 'Initial Owner Onboarding',
-        benefit: 'Locks credit controls, account profile settings, and payment details to a single administrator email address.'
+        filename: '/images/docs/install-marketplace-listing.png',
+        alt: 'NOLA SMS Pro in HighLevel Marketplace.',
+        caption: 'Access the NOLA SMS Pro application listing within the HighLevel Marketplace.'
       },
       {
-        scenario: 'Workspace Re-activation',
-        benefit: 'Restores dashboard and credit balances for pre-registered client spaces after permission updates.'
+        filename: '/images/docs/install-select-subaccount.png',
+        alt: 'Select sub-account during installation.',
+        caption: 'Choose the specific sub-account location to assign NOLA SMS Pro.'
+      },
+      {
+        filename: '/images/docs/install-allow-permissions.png',
+        alt: 'Authorize OAuth permissions.',
+        caption: 'Confirm access permissions to establish a secure database connection.'
       }
+    ]
+  },
+  {
+    id: 'create-or-sign-in',
+    title: 'Create or Sign In',
+    description: 'Register your owner profile to access settings, credits, and logs.',
+    section: 'SETUP',
+    readingTime: '2 min read',
+    purpose: 'Setup your administrator login credentials or authenticate an existing account to manage billing and settings.',
+    whyItMatters: 'An owner profile secures your sending configurations, custom brand requests, and credit transactions, preventing unauthorized access.',
+    prerequisites: [
+      'Completed HighLevel Marketplace installation.',
+      'Valid corporate email address for administrative notifications.'
     ],
-    tips: [
-      'Use the owner email your team expects to manage credits, Sender IDs, and support requests.'
+    steps: [
+      'For new locations: Enter your name, corporate email address, and a secure password.',
+      'Review and accept the NOLA SMS Pro service agreement and usage terms.',
+      'Click Create Account to activate your billing workspace.',
+      'For registered locations: Select Sign In instead, and enter your existing credentials.',
+      'Upon verification, the system registers the sub-account mapping.'
     ],
-    warnings: [
-      'Do not create a second account for a location that is already registered. Ask the existing owner to sign in or contact support.'
+    expectAfter: 'You will enter the dashboard. Subsequent app launches will bypass this screen and load your Home page directly.',
+    relatedPages: [
+      { id: 'connect-highlevel', title: 'Connect HighLevel' }
     ],
+    nextPageCTA: {
+      title: 'Connect HighLevel',
+      desc: 'Verify and check the active CRM integration status.',
+      id: 'connect-highlevel'
+    },
     screenshots: [
       {
         filename: '/images/docs/account-create-form.png',
-        alt: 'NOLA SMS Pro account creation form after installation.',
-        caption: 'New locations show the account creation form after installation.'
+        alt: 'Create Admin Account Form.',
+        caption: 'Fill in your name, email, and password to establish your administrator profile.'
       },
       {
         filename: '/images/docs/account-sign-in-existing-owner.png',
-        alt: 'NOLA SMS Pro sign-in screen for an existing location owner.',
-        caption: 'Already registered locations ask the existing owner to sign in.'
+        alt: 'Sign In Existing Administrator Profile.',
+        caption: 'Authenticate with existing credentials for registered locations.'
       }
+    ]
+  },
+  {
+    id: 'connect-highlevel',
+    title: 'Connect HighLevel',
+    description: 'Verify the active integration status between your CRM and NOLA SMS Pro.',
+    section: 'SETUP',
+    readingTime: '2 min read',
+    purpose: 'Check the connection status and confirm that NOLA SMS Pro is connected to the correct HighLevel sub-account.',
+    whyItMatters: 'If NOLA SMS Pro is connected to the wrong sub-account, message logs, contacts, and credits will not sync correctly, which can disrupt your outreach.',
+    prerequisites: [
+      'Completed administrator account signup.',
+      'HighLevel sub-account API permissions active.'
     ],
+    steps: [
+      'Log in to NOLA SMS Pro and open the Home page or Settings.',
+      'Locate the Connection Status panel on the dashboard.',
+      'Confirm that the Connected Location matches your current sub-account name exactly.',
+      'If the indicator displays a disconnect warning, follow the reconnect prompt to re-authorize.'
+    ],
+    expectAfter: 'Your database sync will show as Active, enabling real-time contact and template sync.',
     relatedPages: [
       { id: 'dashboard-overview', title: 'Dashboard Overview' }
     ],
     nextPageCTA: {
       title: 'Dashboard Overview',
-      desc: 'With your owner account secured, let\'s explore the dashboard layout to understand where each messaging tool resides.',
+      desc: 'Familiarize yourself with the panels and modules in NOLA SMS Pro.',
       id: 'dashboard-overview'
-    }
+    },
+    screenshots: [
+      {
+        filename: '/images/docs/settings-connected-location.png',
+        alt: 'Connected Location Verification Screen.',
+        caption: 'Confirm that NOLA SMS Pro maps to your correct HighLevel sub-account.'
+      }
+    ]
   },
   {
     id: 'dashboard-overview',
     title: 'Dashboard Overview',
-    description: 'Understand the main dashboard areas and what each one is used for.',
-    section: 'Getting Started',
+    description: 'Learn the primary tabs and control modules in NOLA SMS Pro.',
+    section: 'SETUP',
     readingTime: '3 min read',
-    purpose: 'Use the dashboard to confirm your location, check credits, send SMS, manage contacts, save templates, and review message status.',
-    whyItMatters: 'The dashboard acts as your central command hub. It aggregates SMS credit balances, real-time activity charts, delivery alert notifications, and quick shortcuts, letting you assess account health at a glance.',
+    purpose: 'Explore the central dashboard command center, navigation shortcuts, and credit counters.',
+    whyItMatters: 'A clear understanding of the dashboard structure helps your sales and support teams send messages, check credits, and audit logs quickly.',
+    prerequisites: [
+      'Active owner profile session.',
+      'Connected HighLevel sub-account.'
+    ],
     steps: [
-      'Home shows your SMS credits, recent activity, alerts, and shortcuts.',
-      'Compose lets you send individual or bulk SMS.',
-      'Contacts lets you add contacts and search existing contacts.',
-      'Templates stores reusable SMS messages.',
-      'Message History shows Sending, Sent, and Failed statuses.',
-      'Settings contains your profile, Sender IDs, notifications, credits, and connected location details.'
+      'Home: Monitor credit counters, recent activity charts, and system announcements.',
+      'Compose: Access the manual chat screen to select contacts, load templates, and send SMS.',
+      'Contacts: Look up synchronized CRM directories and validate phone formatting.',
+      'Templates: Create and save reusable, pre-written standard message blocks.',
+      'Message History: Check detailed status updates (Sending, Sent, Failed) for all messages.',
+      'Settings: Request custom Sender IDs, edit profiles, and set low-credit alerts.'
     ],
-    capabilities: [
-      'View total available SMS credits instantly from the home banner.',
-      'Click quick-action shortcuts for templates, sending, and top-ups.',
-      'Inspect connected location name to confirm CRM sync states.',
-      'Read dynamic alert logs notifying you of low balances or carrier changes.'
-    ],
-    useCases: [
-      {
-        scenario: 'Pre-flight Credit Auditing',
-        benefit: 'Gives teams visibility on credit balances before scheduling or initiating high-volume messages.'
-      },
-      {
-        scenario: 'Rapid Operational Navigation',
-        benefit: 'Provides support reps direct paths to compose boxes, template lists, and message logs.'
-      }
-    ],
-    tips: [
-      'Before your first send, check Home for credits and open Settings to confirm the connected location.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/dashboard-overview-home.png',
-        alt: 'NOLA SMS Pro dashboard home showing credits, activity, alerts, and navigation.',
-        caption: 'The dashboard shows credits, recent activity, alerts, and shortcuts.'
-      }
-    ],
+    expectAfter: 'Your operators will navigate the interface confidently to handle daily client outreach.',
     relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
-      { id: 'settings', title: 'Settings' }
+      { id: 'send-your-first-sms', title: 'Send Your First SMS' }
     ],
     nextPageCTA: {
       title: 'Send Your First SMS',
-      desc: 'Now that you are familiar with the interface, let\'s complete the pre-flight checks and send your first test text message.',
-      id: 'first-sms-checklist'
-    }
-  },
-  {
-    id: 'first-sms-checklist',
-    title: 'Send Your First SMS',
-    description: 'Confirm the required setup items, send one natural message, and check Message History.',
-    section: 'Getting Started',
-    readingTime: '3 min read',
-    purpose: 'Use this checklist for your first normal SMS send after installation.',
-    whyItMatters: 'Your first text message defines your sending profile. Testing with a verified checklist ensures formatting is correct, credits deduct properly, and status logs update before going live with customers.',
-    hasFirstSMSChecklist: true,
-    steps: [
-      'Confirm the connected location is correct.',
-      'Confirm SMS credits are available.',
-      'Use NOLASMSPro for the first send.',
-      'Add or select a contact with a valid 09XXXXXXXXX mobile number.',
-      'Write one natural message instead of a single word like test.',
-      'Click Send once.',
-      'Open Message History and check the status.'
-    ],
-    capabilities: [
-      'Interact with an on-screen interactive checklist for your first send.',
-      'Check locational mapping, credit statuses, and default sender codes.',
-      'Compose a natural message body using real sentence structures.',
-      'Trace logs instantly in Message History to confirm carrier success.'
-    ],
-    useCases: [
-      {
-        scenario: 'Initial Installation Verification',
-        benefit: 'Verifies the integrity of the HighLevel CRM data sync and carrier routes in real time.'
-      },
-      {
-        scenario: 'Sender ID Testing',
-        benefit: 'Confirms that the default NOLASMSPro sender mask passes carrier filters for local networks.'
-      }
-    ],
-    notes: [
-      defaultSmsReminder
-    ],
-    warnings: [
-      'If the message fails or stays on Sending, do not click Send repeatedly. Check Message History first.'
-    ],
+      desc: 'Follow the messaging pipeline to deliver a successful test SMS.',
+      id: 'send-your-first-sms'
+    },
     screenshots: [
       {
-        filename: '/images/docs/compose-first-sms.png',
-        alt: 'Compose screen with one natural SMS message ready to send.',
-        caption: 'Compose one natural test message before sending live SMS.'
-      },
-      {
-        filename: '/images/docs/compose-default-sender.png',
-        alt: 'Compose sender field showing the default NOLASMSPro sender.',
-        caption: 'Use the default NOLASMSPro sender for your first message.'
-      },
-      {
-        filename: '/images/docs/message-history-sent-status.png',
-        alt: 'Message History showing a Sent status after the first SMS.',
-        caption: 'Check Message History after sending to confirm the status.'
+        filename: '/images/docs/dashboard-overview-home.png',
+        alt: 'Home Page Command Center Overview.',
+        caption: 'The Home page aggregates your SMS credits, delivery stats, and quick actions.'
       }
+    ]
+  },
+  {
+    id: 'send-your-first-sms',
+    title: 'Send Your First SMS',
+    description: 'A pre-flight workflow mapping the journey of a text message from composition to delivery.',
+    section: 'SETUP',
+    readingTime: '2 min read',
+    purpose: 'This walkthrough demonstrates the exact operational flow for a typical customer SMS campaign, ensuring team alignment.',
+    whyItMatters: 'Documenting the manual messaging path ensures that operators check balances, use approved templates, and confirm delivery status systematically.',
+    prerequisites: [
+      'An active NOLA SMS Pro installation.',
+      'Initial default credits allocated to your sub-account.'
     ],
+    steps: [
+      'Recipient selection: Choose a valid customer number from Contacts.',
+      'Drafting copy: Type your text or insert a pre-saved Template.',
+      'Sender check: Choose the default NOLASMSPro mask or your approved brand ID.',
+      'Outbox dispatch: Settle credits (1 credit per 160 characters) and click Send.',
+      'Delivery check: Keep Message History open to monitor carrier statuses.'
+    ],
+    expectAfter: 'Your messaging operators will have a simple, repeatable process to draft, brand, and audit client texts.',
+    hasFirstSMSChecklist: true,
     relatedPages: [
-      { id: 'contacts', title: 'Contacts' },
-      { id: 'message-history', title: 'Message History' }
+      { id: 'contacts', title: 'Contacts' }
     ],
     nextPageCTA: {
-      title: 'Managing Contacts',
-      desc: 'Once you have verified carrier sync, learn how NOLA SMS Pro pulls and validates contacts natively from your CRM.',
+      title: 'Contacts',
+      desc: 'Sync and manage client mobile numbers in NOLA SMS Pro.',
       id: 'contacts'
     }
   },
   {
     id: 'contacts',
     title: 'Contacts',
-    description: 'Add, search, and choose contacts for SMS sending.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Contacts',
+    description: 'Search and manage contact records synchronized directly from HighLevel.',
+    section: 'MESSAGING',
     readingTime: '3 min read',
-    purpose: 'Contacts are the people available in the connected HighLevel location.',
-    whyItMatters: 'Native integration with HighLevel means no CSV exports or syncing errors. Contacts are fetched directly from your sub-account, ensuring that name, location, and mobile number variables are always up to date.',
+    purpose: 'Access and search your HighLevel sub-account contacts list in real-time, or add new records directly.',
+    whyItMatters: 'Manual spreadsheet uploads and contact exports lead to data mismatch and duplicate records. NOLA SMS Pro syncs contacts automatically to keep details accurate and secure.',
+    prerequisites: [
+      'Active HighLevel CRM sub-account sync.',
+      'Recipient mobile numbers.'
+    ],
     steps: [
-      'Open Contacts from the NOLA SMS Pro menu.',
-      'Search for an existing contact by name, email, or phone number.',
-      'To add a contact, click Add Contact.',
-      'Enter the contact name and a valid mobile number.',
-      'For Philippine mobile numbers, use the 11-digit format starting with 09, such as 09171234567.',
-      'Save the contact before sending SMS.'
+      'Open the Contacts module from the side menu.',
+      'Search for an existing contact by name, email, or mobile number.',
+      'To add a new record, click the Add Contact button.',
+      'Input the contact name and their local mobile number.',
+      'Format local numbers as 11 digits starting with 09 (e.g. 09171234567).',
+      'Click the Send icon on any contact row to open the Compose panel with their details pre-loaded.'
     ],
-    capabilities: [
-      'Real-time query of HighLevel CRM location contact databases.',
-      'Add new contacts with automatic Philippine mobile format validation.',
-      'Search contact indexes instantly by name, email, or mobile number.',
-      'Initiate compose pathways directly from contact listings.'
-    ],
-    useCases: [
-      {
-        scenario: 'On-Demand Customer Messaging',
-        benefit: 'Find a customer profile inside NOLA and send them a text without copying and pasting phone numbers.'
-      },
-      {
-        scenario: 'CRM Data Compliance',
-        benefit: 'Enforces proper 11-digit mobile spacing to prevent carrier routing issues.'
-      }
-    ],
+    expectAfter: 'Newly added contacts sync back to your HighLevel database instantly, keeping records consistent.',
     tips: [
-      'Do not include spaces, hyphens, or +63 for local sends unless support tells you to use a different format.'
+      'Avoid prefixing local numbers with +63, spaces, or dashes. Keep the format as a simple 11-digit number starting with 09.'
     ],
     warnings: [
-      'Avoid duplicate contacts with the same phone number so the same person does not receive the same SMS twice.'
+      'Ensure contact numbers are unique to prevent duplicate sends and billing errors.'
     ],
+    relatedPages: [
+      { id: 'compose-sms', title: 'Compose SMS' }
+    ],
+    nextPageCTA: {
+      title: 'Compose SMS',
+      desc: 'Learn how to write, template, and dispatch messages to customers.',
+      id: 'compose-sms'
+    },
     screenshots: [
       {
         filename: '/images/docs/contacts-list.png',
-        alt: 'Contacts list inside NOLA SMS Pro.',
-        caption: 'Contacts show the people available in the connected location.'
+        alt: 'Contacts Workspace Sync Panel.',
+        caption: 'Search, review, and select synced customer records directly from the Contacts registry.'
       },
       {
         filename: '/images/docs/contacts-add-contact.png',
-        alt: 'Add Contact form with mobile number field.',
-        caption: 'Add a contact with a valid mobile number before sending a test SMS.'
+        alt: 'Add Customer Contact Dialog.',
+        caption: 'Add new contacts with automatic local formatting checks.'
       }
-    ],
-    relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
-      { id: 'message-history', title: 'Message History' }
-    ],
-    nextPageCTA: {
-      title: 'SMS Templates',
-      desc: 'With your audience list ready, learn how to build reusable message templates to write consistent, professional copy.',
-      id: 'templates'
-    }
+    ]
   },
   {
-    id: 'templates',
-    title: 'Templates',
-    description: 'Save reusable SMS messages that can be inserted in Compose.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Templates',
+    id: 'compose-sms',
+    title: 'Compose SMS',
+    description: 'Personalize, draft, and dispatch text messages to selected recipients.',
+    section: 'MESSAGING',
     readingTime: '3 min read',
-    purpose: 'Templates help you reuse clear, natural SMS wording for common customer messages.',
-    whyItMatters: 'Customer communication requires speed and brand consistency. Templates save your team from retyping standard responses, reducing spelling errors and keeping your messaging voice professional.',
+    purpose: 'The Compose window is your primary workspace to select sender identities, write custom texts, load templates, and send messages.',
+    whyItMatters: 'Personalized compose options help support reps reply to inquiries quickly. Real-time character counts also show estimated credit usage before you click send.',
+    prerequisites: [
+      'A recipient phone number selected.',
+      'Available SMS credits in your account.'
+    ],
     steps: [
-      'Open Templates from the NOLA SMS Pro menu.',
-      'Click Create Template.',
-      'Enter a short template name.',
-      'Write the message body using clear, natural wording.',
-      'Save the template.',
-      'Open Compose and insert the template when you are ready to send.'
+      'Open the Compose module or select a recipient from Contacts.',
+      'Choose your sender mask from the dropdown list (e.g. NOLASMSPro or approved custom ID).',
+      'Type your message in the text editor, or click Templates to load a saved response.',
+      'Verify character count: Standard messages use 1 credit for up to 160 characters.',
+      'Click Send SMS once. The message will enter the carrier queue.'
     ],
-    capabilities: [
-      'Create and save structured, multi-line text templates.',
-      'Organize items in a filterable template database list.',
-      'Quickly fetch and insert templates inside the SMS Compose modal.',
-      'Update or delete templates as customer workflows evolve.'
-    ],
-    useCases: [
-      {
-        scenario: 'Support Auto-Responses',
-        benefit: 'Stores business hours, driving directions, or payment details for customer support dispatch.'
-      },
-      {
-        scenario: 'Marketing Copy Standards',
-        benefit: 'Ensures marketing outreach texts use approved phrasing and tracking links.'
-      }
-    ],
-    tips: [
-      'Keep templates short and direct. Use wording that sounds like a real customer message.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/templates-list.png',
-        alt: 'Templates list inside NOLA SMS Pro.',
-        caption: 'Templates save reusable SMS messages.'
-      },
-      {
-        filename: '/images/docs/templates-create-template.png',
-        alt: 'Create Template form for writing a reusable SMS message.',
-        caption: 'Create a short, natural message that can be inserted in Compose.'
-      }
-    ],
-    relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
-      { id: 'contacts', title: 'Contacts' }
-    ],
-    nextPageCTA: {
-      title: 'Sender IDs',
-      desc: 'After creating your templates, learn how to register custom brand names to replace default NOLASMSPro sending masks.',
-      id: 'sender-id'
-    }
-  },
-  {
-    id: 'sender-id',
-    title: 'Sender IDs',
-    description: 'Use the default sender right away, or request a custom Sender ID for approval.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Sender IDs',
-    readingTime: '3 min read',
-    purpose: 'You can send with NOLASMSPro right away if credits are available. Custom Sender IDs must be requested and approved before they appear in Compose.',
-    whyItMatters: 'Sender IDs build trust. Replacing the default \'NOLASMSPro\' with your business name improves open rates and protects your messages from being flagged as spam by telecom carriers.',
-    steps: [
-      'For your first send, choose NOLASMSPro in Compose.',
-      'To request a custom Sender ID, open Settings and go to Sender IDs.',
-      'Click Request Custom Sender ID.',
-      'Enter the Sender ID name, business purpose, and one sample message.',
-      'Submit the request.',
-      'Wait for the status to show Approved before using it in Compose.'
-    ],
-    capabilities: [
-      'Utilize default carrier sending codes instantly on activation.',
-      'Register custom business Sender IDs (e.g., BRANDNAME).',
-      'Provide business profiles and compliance context directly on request.',
-      'Track real-time carrier registration states (Approved/Pending/Rejected).'
-    ],
-    useCases: [
-      {
-        scenario: 'Branded Company Messaging',
-        benefit: 'Presents your actual trade name in the customer outbox, boosting brand recognition.'
-      },
-      {
-        scenario: 'Carrier Deliverability Optimization',
-        benefit: 'Ensures custom text headers are registered with networks, keeping delivery high.'
-      }
-    ],
+    expectAfter: 'Your message will show as Sending, then transition to Sent or Failed in the Message History panel.',
     notes: [
       defaultSmsReminder
     ],
     warnings: [
-      'Pending or rejected Sender IDs cannot be selected when sending SMS.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/sender-id-default.png',
-        alt: 'Sender ID screen showing NOLASMSPro as the default sender.',
-        caption: 'The default sender is NOLASMSPro.'
-      },
-      {
-        filename: '/images/docs/sender-id-request-form.png',
-        alt: 'Custom Sender ID request form in NOLA SMS Pro.',
-        caption: 'Custom Sender IDs can be requested from Settings.'
-      },
-      {
-        filename: '/images/docs/sender-id-statuses.png',
-        alt: 'Sender ID status list showing pending and approved statuses.',
-        caption: 'Only approved Sender IDs can be selected when sending SMS.'
-      }
+      'If the message remains in a Sending status, do not click Send repeatedly. Wait for the status to resolve in Message History, and inspect troubleshooting logs if needed.'
     ],
     relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
-      { id: 'settings', title: 'Settings' }
+      { id: 'message-templates', title: 'Message Templates' }
     ],
     nextPageCTA: {
-      title: 'SMS Credits',
-      desc: 'With your brand name set up, explore how to top up SMS credits, monitor balances, and review usage history.',
-      id: 'sms-credits'
-    }
-  },
-  {
-    id: 'sms-credits',
-    title: 'SMS Credits',
-    description: 'Check your SMS credit balance, request more credits, and review credit history.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'SMS Credits',
-    readingTime: '3 min read',
-    purpose: 'SMS credits are required before messages can be sent.',
-    whyItMatters: 'SMS credits are the currency of NOLA SMS Pro. Monitoring balances and setting alerts prevents messaging blackouts, ensuring that your team remains connected to clients without interruption.',
-    steps: [
-      'Check your credit balance on Home or in Settings.',
-      'Before sending, confirm the balance is greater than zero.',
-      'If your balance is low or zero, click Request Credits.',
-      'Enter the number of credits you need and submit the request.',
-      'If checkout is available, choose a credit package and complete checkout.',
-      'Use credit history to review recent credit changes and SMS usage.'
-    ],
-    capabilities: [
-      'View credit balances on the Home banner and Settings profile.',
-      'Submit credit replenishment requests for agency approvals.',
-      'Access credit package checkouts directly when configured.',
-      'Review a full audit trail of credit purchases and outbound deductions.'
-    ],
-    useCases: [
+      title: 'Message Templates',
+      desc: 'Save and manage reusable message drafts to standardise replies.',
+      id: 'message-templates'
+    },
+    screenshots: [
       {
-        scenario: 'Billing Reconciliation',
-        benefit: 'Provides granular credit histories to map messaging volumes to company budgets.'
+        filename: '/images/docs/compose-first-sms.png',
+        alt: 'SMS Compose Panel.',
+        caption: 'Draft your message, choose templates, and review credit costs before sending.'
       },
       {
-        scenario: 'Outage Prevention',
-        benefit: 'Checks credit balances before launching large support or promotional sequences.'
+        filename: '/images/docs/compose-default-sender.png',
+        alt: 'Select Sender Mask.',
+        caption: 'Pick the default NOLASMSPro sender mask or approved brand IDs.'
       }
+    ]
+  },
+  {
+    id: 'message-templates',
+    title: 'Message Templates',
+    description: 'Save and reuse pre-written standard message blocks.',
+    section: 'MESSAGING',
+    readingTime: '2 min read',
+    purpose: 'Standard templates let you save and organize frequently sent message structures, like store locations, payment instructions, or promotional alerts.',
+    whyItMatters: 'Writing standard responses manually leads to typos, mismatched details, and slower support times. Saved templates keep your team\'s messages consistent and professional.',
+    prerequisites: [
+      'A planned message content or outline.',
+      'Descriptive title for the template category.'
     ],
+    steps: [
+      'Navigate to the Templates module in the sidebar.',
+      'Click the Create Template button.',
+      'Enter a clear title (e.g. "Payment Instructions").',
+      'Write the message body, keeping formatting clean.',
+      'Click Save Template to store the block.',
+      'To use it, open Compose and select the template from the templates dropdown list.'
+    ],
+    expectAfter: 'The template will be saved and available for all users in the HighLevel sub-account.',
+    tips: [
+      'Structure templates clearly and use simple language. Test template layout length in characters before saving.'
+    ],
+    relatedPages: [
+      { id: 'sender-ids', title: 'Sender IDs' }
+    ],
+    nextPageCTA: {
+      title: 'Sender IDs',
+      desc: 'Request custom business headers to brand your text messages.',
+      id: 'sender-ids'
+    },
+    screenshots: [
+      {
+        filename: '/images/docs/templates-list.png',
+        alt: 'Templates Directory List.',
+        caption: 'Organize and search pre-saved message templates.'
+      },
+      {
+        filename: '/images/docs/templates-create-template.png',
+        alt: 'Create Template Dialog.',
+        caption: 'Enter a template title and body to save the message block.'
+      }
+    ]
+  },
+  {
+    id: 'sender-ids',
+    title: 'Sender IDs',
+    description: 'Request custom brand names to replace default sending numbers.',
+    section: 'MESSAGING',
+    readingTime: '3 min read',
+    purpose: 'Apply for and use custom brand headers (like BRANDNAME) to personalize your outgoing text messages.',
+    whyItMatters: 'Messages sent from random mobile numbers are often ignored or blocked as spam. A custom Sender ID shows your brand name, which builds customer trust and increases open rates.',
+    prerequisites: [
+      'A legally registered business or brand name.',
+      'Corporate registration documents to verify brand ownership during approval.'
+    ],
+    steps: [
+      'Out of the box, use the default carrier mask NOLASMSPro.',
+      'To request a custom Sender ID, open Settings and go to the Sender IDs tab.',
+      'Click Request Custom Sender ID and enter your requested name (up to 11 characters).',
+      'Provide your business purpose and a sample message.',
+      'Submit the application and monitor the status (Approved, Pending, Rejected).'
+    ],
+    expectAfter: 'Approved Sender ID names will automatically appear in your Compose dropdown list.',
     notes: [
       defaultSmsReminder
     ],
-    tips: [
-      'Set a low-balance notification so your team knows when to request more credits.'
-    ],
-    screenshots: [
-      {
-        filename: '/images/docs/credits-balance.png',
-        alt: 'SMS credit balance inside NOLA SMS Pro.',
-        caption: 'Check your available credits before sending SMS.'
-      },
-      {
-        filename: '/images/docs/credits-request-form.png',
-        alt: 'Request Credits form in NOLA SMS Pro.',
-        caption: 'Request more credits if your balance is low or zero.'
-      },
-      {
-        filename: '/images/docs/credits-history.png',
-        alt: 'Credit history table showing recent credit changes.',
-        caption: 'Credit history shows recent credit changes and SMS usage.'
-      }
+    warnings: [
+      'Only approved Sender IDs will appear in the Compose dropdown menu. Pending or rejected entries cannot be used.'
     ],
     relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' },
       { id: 'message-history', title: 'Message History' }
     ],
     nextPageCTA: {
       title: 'Message History',
-      desc: 'Now that your gateway is fueled, discover how to monitor sending logs and verify delivery statuses in real-time.',
+      desc: 'Learn how to monitor carrier statuses and audit outbox records.',
       id: 'message-history'
-    }
+    },
+    screenshots: [
+      {
+        filename: '/images/docs/sender-id-default.png',
+        alt: 'Default Sender ID View.',
+        caption: 'NOLASMSPro is provided as the default sender mask for instant setup.'
+      },
+      {
+        filename: '/images/docs/sender-id-request-form.png',
+        alt: 'Request Branded Sender ID Form.',
+        caption: 'Submit your custom brand name and business purpose for carrier verification.'
+      },
+      {
+        filename: '/images/docs/sender-id-statuses.png',
+        alt: 'Sender ID Registry Queue.',
+        caption: 'Track status reports for your custom Sender ID submissions.'
+      }
+    ]
   },
   {
     id: 'message-history',
     title: 'Message History',
-    description: 'Check whether messages are Sending, Sent, or Failed.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Message History',
+    description: 'Audit and track delivery statuses for sent messages.',
+    section: 'MESSAGING',
     readingTime: '3 min read',
-    purpose: 'Message History is where you confirm what happened after clicking Send.',
-    whyItMatters: 'Every text message has a story. Message History provides full transparency on sending states, carrier delivery reports, and fail reasons, giving you the details needed to keep delivery high.',
+    purpose: 'View complete delivery histories, search outbound logs, and inspect detailed carrier-level delivery codes.',
+    whyItMatters: 'Delivery reports confirm that your customer texts reach their destination. Detailed logs show if messages are pending or failed, and provide error details if a carrier block occurs.',
+    prerequisites: [
+      'Sent messages queued through NOLA SMS Pro.'
+    ],
     steps: [
-      'Open Message History from the NOLA SMS Pro menu.',
-      'Find the message by recipient number, sender, or send time.',
-      'Check the status: Sending, Sent, or Failed.',
-      'If the status is Sending, wait a few minutes and refresh.',
-      'If the status is Failed, open the message and check the failed reason if one is available.',
-      'If you contact support, include a screenshot, recipient number, send time, message status, and visible error message.'
+      'Navigate to the Message History module in the sidebar menu.',
+      'Search the log by recipient phone number, message text, or send date.',
+      'Check the Status column: Sending, Sent (delivered to carrier), or Failed.',
+      'For messages marked Sending, wait a few moments and refresh the log.',
+      'Click on any Failed row to view the detailed carrier reject reasons.'
     ],
-    capabilities: [
-      'Track real-time carrier statuses: Sending, Sent, or Failed.',
-      'Search log history by receiver numbers, senders, and content.',
-      'Drill down into failed messages to inspect carrier rejection reasons.',
-      'Filter and navigate complete historical logs easily.'
-    ],
-    useCases: [
-      {
-        scenario: 'Delivery Troubleshooting',
-        benefit: 'Allows agents to inspect if a customer\'s text bounced due to formatting or network errors.'
-      },
-      {
-        scenario: 'Outreach Verification',
-        benefit: 'Verifies whether critical client alerts or confirmation codes were delivered.'
-      }
-    ],
+    expectAfter: 'You will have a complete, searchable log of your sub-account\'s text message campaigns.',
     warnings: [
-      'Do not click Send repeatedly while a message is still Sending.'
+      'If a message status is stuck on Sending, do not click Send repeatedly. This might indicate a delayed carrier report, and resending will charge duplicate credits.'
     ],
+    relatedPages: [
+      { id: 'sms-credits', title: 'SMS Credits' }
+    ],
+    nextPageCTA: {
+      title: 'SMS Credits',
+      desc: 'Check credit balances and request refills.',
+      id: 'sms-credits'
+    },
     screenshots: [
       {
         filename: '/images/docs/message-history-list.png',
-        alt: 'Message History list showing message statuses.',
-        caption: 'Message History shows Sending, Sent, and Failed statuses.'
+        alt: 'Outbox Message History Log.',
+        caption: 'Monitor sending states, recipient phone numbers, and delivery logs.'
       },
       {
         filename: '/images/docs/message-history-failed-detail.png',
-        alt: 'Failed message detail with available error information.',
-        caption: 'Open failed messages to see the available error details.'
+        alt: 'Failed Message Diagnostic Dialog.',
+        caption: 'Inspect failure reasons to diagnose invalid number formatting or carrier blocks.'
       }
+    ]
+  },
+  {
+    id: 'sms-credits',
+    title: 'SMS Credits',
+    description: 'Monitor credit balances, transaction logs, and top up requests.',
+    section: 'ACCOUNT',
+    readingTime: '3 min read',
+    purpose: 'Track credit usage, view deduction history, and request refills to keep messaging services active.',
+    whyItMatters: 'Outbound messaging requires active credits. If your credit balance drops to zero, manual compose sends and automated campaigns will be blocked.',
+    prerequisites: [
+      'Owner account credentials.',
+      'Selected billing package requirements.'
+    ],
+    steps: [
+      'Check your active credit balance on the Home page banner or in Settings.',
+      'Verify credit levels before starting bulk outreach campaigns.',
+      'If credits are low, open the Credits panel and click Request Credits.',
+      'Choose your package or enter your credit request count and submit.',
+      'Review deduction logs in the Credit History ledger.'
+    ],
+    expectAfter: 'Your credit balance will update as soon as the administrator approves the top-up request.',
+    notes: [
+      defaultSmsReminder
+    ],
+    tips: [
+      'Configure a low-credit notification threshold in Settings to get email alerts before your balance runs out.'
     ],
     relatedPages: [
-      { id: 'first-sms-checklist', title: 'Send Your First SMS' }
+      { id: 'settings', title: 'Settings' }
     ],
     nextPageCTA: {
-      title: 'Configure Settings',
-      desc: 'After auditing message routes, learn how to configure notifications, low-credit emails, and location profiles in Settings.',
+      title: 'Settings',
+      desc: 'Configure notification thresholds, profile settings, and location connections.',
       id: 'settings'
-    }
+    },
+    screenshots: [
+      {
+        filename: '/images/docs/credits-balance.png',
+        alt: 'Credit Balance Counter Widget.',
+        caption: 'Monitor your available credits on the dashboard.'
+      },
+      {
+        filename: '/images/docs/credits-request-form.png',
+        alt: 'Request Credit Refills Panel.',
+        caption: 'Request credits from your agency or top up your account balance.'
+      },
+      {
+        filename: '/images/docs/credits-history.png',
+        alt: 'Credit Transaction History Log.',
+        caption: 'Audit credit additions, allocations, and campaign deductions.'
+      }
+    ]
   },
   {
     id: 'settings',
     title: 'Settings',
-    description: 'Review your profile, connected location details, notifications, Sender IDs, and credits.',
-    section: 'Using NOLA SMS Pro',
-    subsection: 'Settings',
+    description: 'Manage user profiles, location connections, sending defaults, and notification preferences.',
+    section: 'ACCOUNT',
     readingTime: '3 min read',
-    purpose: 'Settings is where you confirm the account and location are correct before sending.',
-    whyItMatters: 'Settings is the control room of NOLA SMS Pro. Managing profile details, connected location scopes, notifications, and Sender ID registries ensures your SMS portal runs securely and exactly as your team needs.',
+    purpose: 'Settings acts as your administrative dashboard, allowing you to update credentials, check connected sub-accounts, request custom Sender IDs, and configure low-credit email notifications.',
+    whyItMatters: 'Managing settings correctly ensures your profile is secure, connected location tokens are valid, and low-credit notifications are active to prevent campaign interruptions.',
+    prerequisites: [
+      'Owner or administrator permissions.'
+    ],
     steps: [
-      'Open Settings from the NOLA SMS Pro menu.',
-      'Review your profile information.',
-      'Check Connected Location and confirm it matches the HighLevel sub-account you installed.',
-      'Open Sender IDs to review default and custom sender options.',
-      'Open Credits to check your balance or request more credits.',
-      'Open Notifications to manage low-balance and delivery alerts.'
+      'Open the Settings module from the sidebar menu.',
+      'Review and update profile details (name, login email, password) under Profile.',
+      'Verify connected location links to make sure they match your CRM sub-account.',
+      'Select the Sender IDs tab to track custom branded sender requests.',
+      'Go to the Notifications tab to configure email threshold warnings.',
+      'Enable the Low Credit Alerts toggle and specify your alert threshold.',
+      'Enter recipient email addresses for the warnings and save settings.'
     ],
-    capabilities: [
-      'Verify the location name maps to the correct HighLevel CRM sub-account.',
-      'Manage profile names, emails, and credentials.',
-      'Configure email threshold alerts for low-credit notifications.',
-      'Link directly to billing top-ups and Sender ID registries.'
-    ],
-    useCases: [
-      {
-        scenario: 'Pre-flight Location Validation',
-        benefit: 'Ensures that location-specific API connections match the CRM client profile.'
-      },
-      {
-        scenario: 'Alert Management',
-        benefit: 'Maintains messaging continuity by automating low-credit notifications.'
-      }
-    ],
+    expectAfter: 'All profile edits, email alerts, and brand requests will update instantly. NOLA SMS Pro will monitor your balance and send warning emails when credits fall below your threshold.',
     warnings: [
-      'If the connected location details do not match your HighLevel sub-account, stop and contact support before sending SMS.'
+      'If the Connected Location details do not match your actual HighLevel sub-account, stop immediately and contact support before sending messages.'
     ],
+    relatedPages: [
+      { id: 'troubleshooting', title: 'Troubleshooting' }
+    ],
+    nextPageCTA: {
+      title: 'Troubleshooting',
+      desc: 'Resolve common connection, credit, and delivery issues.',
+      id: 'troubleshooting'
+    },
     screenshots: [
       {
         filename: '/images/docs/settings-profile.png',
-        alt: 'Profile settings in NOLA SMS Pro.',
-        caption: 'Profile settings show the user information for the account.'
+        alt: 'Profile Settings Panel.',
+        caption: 'Update name, login email, and password settings in the Profile panel.'
       },
       {
         filename: '/images/docs/settings-connected-location.png',
-        alt: 'Connected Location settings in NOLA SMS Pro.',
-        caption: 'Connected Location should match the HighLevel sub-account you installed.'
+        alt: 'Connected Location Mapping Panel.',
+        caption: 'Confirm that NOLA SMS Pro is connected to the correct HighLevel sub-account.'
       },
       {
         filename: '/images/docs/settings-notifications.png',
-        alt: 'Notification settings in NOLA SMS Pro.',
-        caption: 'Notifications control alerts such as low balance and delivery updates.'
+        alt: 'Notifications Settings Dialog.',
+        caption: 'Set credit threshold alerts to receive low-balance email updates.'
       }
-    ],
-    relatedPages: [
-      { id: 'sender-id', title: 'Sender IDs' },
-      { id: 'sms-credits', title: 'SMS Credits' }
-    ],
-    nextPageCTA: {
-      title: 'Troubleshooting Guide',
-      desc: 'With your workspace configured, explore how to resolve carrier blocks, reconnection prompts, and balance locks independently.',
-      id: 'troubleshooting'
-    }
+    ]
   },
   {
     id: 'troubleshooting',
     title: 'Troubleshooting',
-    description: 'Fix common setup, credit, Sender ID, and sending issues.',
-    section: 'Troubleshooting',
-    readingTime: '5 min read',
-    purpose: 'Use this page when something does not look right or a message does not send as expected.',
-    whyItMatters: 'Even the best systems encounter carrier blocks, bad number formats, or integration changes. Having a structured troubleshooting framework helps you resolve issues quickly and keep texts sending.',
+    description: 'Diagnose and resolve common setup, billing, and carrier issues.',
+    section: 'SUPPORT',
+    readingTime: '4 min read',
+    purpose: 'Use this guide to diagnose and resolve common portal errors, credit locks, and delivery failures independently.',
+    whyItMatters: 'Expired CRM integrations, empty credit balances, and incorrect phone number formats can disrupt outreach. A structured diagnostic path helps you resolve these issues quickly.',
+    prerequisites: [
+      'Access to the NOLA SMS Pro dashboard.'
+    ],
     steps: [
-      'Find the issue that matches what you see on screen.',
-      'Follow the next step listed for that issue.',
-      'If the issue continues, contact support with a screenshot and the details requested on the Support page.'
+      'Locate the symptom or error message displayed on your screen.',
+      'Follow the step-by-step diagnostic checklist for that issue.',
+      'If the issue persists, collect details (location name, recipient phone number, error code) and contact support.'
     ],
-    capabilities: [
-      'Diagnose location, CRM, and authentication sync issues.',
-      'Fix credit balances, checkout failures, and billing flags.',
-      'Debug carrier block causes for outgoing SMS campaigns.',
-      'Address custom Sender ID registration and approval delays.'
-    ],
-    useCases: [
-      {
-        scenario: 'Failed Send Diagnosis',
-        benefit: 'Guides agents to inspect Message History failure logs to resolve the issue independently.'
-      },
-      {
-        scenario: 'Sync Recovery',
-        benefit: 'Restores CRM communication connections when HighLevel tokens expire.'
-      }
-    ],
+    expectAfter: 'You will resolve common configuration errors or gather the necessary information to open a support ticket.',
     commonIssues: [
-      'Wrong Location: You see a location name that is not yours. This means the app may be connected to the wrong HighLevel sub-account. Stop and contact support before sending.',
-      'Zero Credits: You see a zero credit balance. This means SMS cannot be sent yet. Request credits or complete checkout if it is available.',
-      'SMS Failed: You see Failed in Message History. This may mean the number, credits, Sender ID, or message content needs attention. Open the failed message and review the visible reason.',
-      'Still Sending: You see Sending for several minutes. This may be a delayed status update. Wait, refresh Message History, and do not click Send again.',
-      'Sender ID Pending: You see Pending next to a custom Sender ID. This means it is not approved yet. Use NOLASMSPro until the custom Sender ID is approved.',
-      'Reconnect Required: You see a reconnect prompt. Follow the prompt once, confirm the correct location, and contact support if it returns.'
+      'Incorrect Location: The Connected Location displays an unfamiliar sub-account name. This occurs when the installation profile is mapped incorrectly. Stop sending and contact support to re-map the location.',
+      'Zero Credits: Outbound sending is blocked due to a zero balance. Request credits or complete a package top-up.',
+      'SMS Failed: Messages display a Failed status in history. This is typically due to invalid number formats, insufficient credits, or spam filters. Check formatting and credit levels.',
+      'Stuck on Sending: Messages remain in a Sending status for more than 5 minutes. This usually indicates a carrier reporting delay. Wait and refresh the page instead of sending again.',
+      'Sender ID Pending: A custom Sender ID is in a pending state. This means telco networks are verifying the registry. Use NOLASMSPro until approval is confirmed.',
+      'Reconnect Prompt: A message asking you to reconnect appears. This is due to an expired HighLevel token. Follow the prompt to authorize permissions again.'
     ],
     tips: [
-      'For SMS issues, capture the recipient number, send time, message status, and visible error message before contacting support.'
+      'Before reaching out to support, note down the HighLevel location name, recipient number, send timestamp, and the exact error code from Message History.'
     ],
+    relatedPages: [
+      { id: 'support-help', title: 'Support & Help' }
+    ],
+    nextPageCTA: {
+      title: 'Support & Help',
+      desc: 'Open a support ticket or find additional help resources.',
+      id: 'support-help'
+    },
     screenshots: [
       {
         filename: '/images/docs/error-wrong-location.png',
-        alt: 'Wrong connected location warning in NOLA SMS Pro.',
-        caption: 'If the wrong location appears, stop and contact support before sending.'
+        alt: 'Location Connection Warning.',
+        caption: 'Verify that the connected location matches your HighLevel sub-account.'
       },
       {
         filename: '/images/docs/error-zero-credits.png',
-        alt: 'Zero credits warning in NOLA SMS Pro.',
-        caption: 'If credits are zero, request credits before sending SMS.'
+        alt: 'Zero Credit Error.',
+        caption: 'Ensure credits are loaded before starting outbound campaigns.'
       },
       {
         filename: '/images/docs/error-sms-failed.png',
-        alt: 'Failed SMS status in Message History.',
-        caption: 'If SMS fails, check the number, credits, Sender ID, and Message History.'
+        alt: 'Failed Message Status in History.',
+        caption: 'Click failed messages in history to view error codes.'
       },
       {
         filename: '/images/docs/error-reconnect-required.png',
-        alt: 'Reconnect required prompt in NOLA SMS Pro.',
-        caption: 'If reconnect is required, follow the reconnect prompt from the app.'
+        alt: 'Reconnect Required Dialog.',
+        caption: 'Authorize NOLA SMS Pro permissions again if a reconnect prompt appears.'
       }
+    ]
+  },
+  {
+    id: 'support-help',
+    title: 'Support & Help',
+    description: 'Create support tickets and check ticket status logs.',
+    section: 'SUPPORT',
+    readingTime: '3 min read',
+    purpose: 'Open a support ticket and check ticket history when you need assistance from the NOLA SMS Pro technical team.',
+    whyItMatters: 'If troubleshooting steps do not resolve an issue, our support desk provides direct help to resolve credit issues, location re-mapping, or carrier delivery failures.',
+    prerequisites: [
+      'Connected location name.',
+      'Detailed description of the issue, recipient phone numbers, and screenshots.'
     ],
+    steps: [
+      'Fill in the ticket form below with a clear subject (e.g. "Credits did not update").',
+      'Select the priority level (Low, Medium, High).',
+      'Describe the issue, including phone numbers and error codes.',
+      'Click Create Ticket to submit your request.',
+      'Track your ticket status in the history log below.'
+    ],
+    expectAfter: 'A support ticket will be created. Our team will review the issue and contact you via email.',
+    hasTicketForm: true,
     relatedPages: [
-      { id: 'faq', title: 'FAQ' }
+      { id: 'faq', title: 'Frequently Asked Questions' }
     ],
     nextPageCTA: {
       title: 'Frequently Asked Questions',
-      desc: 'Still have general questions? Browse quick answers to common questions about NOLA SMS Pro operations.',
+      desc: 'Browse quick answers to common platform questions.',
       id: 'faq'
     }
   },
   {
     id: 'faq',
     title: 'Frequently Asked Questions',
-    description: 'Short answers to common NOLA SMS Pro questions.',
-    section: 'FAQ',
-    readingTime: '4 min read',
-    purpose: 'Use these quick answers when you need a short explanation without reading a full guide.',
-    whyItMatters: 'Quick answers save time. The FAQ section provides straightforward explanations for common credit, sending, formatting, and support questions, getting you back to work in seconds.',
-    capabilities: [
-      'Quick reference lookup for common credit rates.',
-      'Locate Sender ID compliance rules.',
-      'Review location connection protocols.',
-      'Identify critical details needed for fast support resolutions.'
+    description: 'Quick reference answers for billing, credits, and formatting.',
+    section: 'SUPPORT',
+    readingTime: '3 min read',
+    purpose: 'Browse quick answers to frequently asked questions about billing rules, character limits, custom Sender ID approvals, and help resources.',
+    whyItMatters: 'Quick reference FAQs save time, allowing team members to verify rules and formatting constraints without reading full setup guides.',
+    prerequisites: [
+      'General questions about NOLA SMS Pro.'
     ],
-    useCases: [
-      {
-        scenario: 'Rapid Operational Clarification',
-        benefit: 'Reps can verify character count rules or credit rates without raising support tickets.'
-      },
-      {
-        scenario: 'Support Preparation',
-        benefit: 'Aligns troubleshooting data before initiating location support claims.'
-      }
+    steps: [
+      'Review character limits (160 characters per credit segment).',
+      'Note that messages with special characters or emojis use more credits.',
+      'Check Sender ID timelines (approvals take a few business days).',
+      'Verify number formats (always use 11-digit local formatting starting with 09).'
     ],
+    expectAfter: 'Your operators will understand compliance rules, formatting constraints, and support requirements.',
     faqs: [
       {
-        q: 'Can I send right after installation?',
-        a: 'Yes, if the correct location is connected and SMS credits are available. Use NOLASMSPro for your first send.'
+        q: 'Can I send messages immediately after installation?',
+        a: 'Yes, if your sub-account is mapped correctly and you have active credits. You can start sending immediately using the default NOLASMSPro sender mask.'
       },
       {
-        q: 'Why can I not send SMS?',
-        a: 'The most common causes are zero credits, an invalid phone number, an unapproved Sender ID, or a failed connection. Check Settings, Credits, and Message History.'
+        q: 'Why are my outbound messages failing to deliver?',
+        a: 'The most common issues are insufficient credits, invalid local number formats, or network-level spam blocks. Check your credit balance in Settings, verify that recipient numbers are 11 digits starting with 09, and inspect the delivery logs.'
       },
       {
-        q: 'How many credits does one SMS use?',
-        a: 'A normal 160-character SMS usually uses 1 credit. Longer messages or messages with special characters may use more.'
+        q: 'How are SMS credits charged for multi-part messages?',
+        a: 'A standard message uses 1 credit for up to 160 characters. Messages exceeding 160 characters or containing special characters (like emojis) are split into multi-part segments, with each segment drawing 1 credit.'
       },
       {
-        q: 'Can I use my own Sender ID?',
-        a: 'Yes. Request it from Settings, then wait until it is approved. Pending Sender IDs cannot be used in Compose.'
+        q: 'Can I send messages using my own company brand name?',
+        a: 'Yes. You can request a custom Sender ID under Settings. Once approved by local carriers, you can select it from the Compose dropdown.'
       },
       {
-        q: 'What should I do if a message fails?',
-        a: 'Open Message History, check the failed reason if available, and avoid clicking Send again until you understand the issue.'
+        q: 'How long does custom Sender ID registration take?',
+        a: 'Custom Sender ID approvals depend on local carrier timelines, and registration generally takes a few business days. You can track the status in Settings.'
       },
       {
-        q: 'What information should I send to support?',
-        a: 'Include a screenshot, HighLevel location name, recipient number, send time, message status, and visible error message.'
+        q: 'What details should I provide when contacting support?',
+        a: 'Include the connected HighLevel location name, recipient number, send time, and a screenshot of the error description from Message History.'
       }
     ],
     relatedPages: [
-      { id: 'troubleshooting', title: 'Troubleshooting' }
-    ]
+      { id: 'welcome', title: 'Welcome to NOLA SMS Pro' }
+    ],
+    nextPageCTA: {
+      title: 'Welcome',
+      desc: 'Return to the start of the documentation guide.',
+      id: 'welcome'
+    }
   }
 ];
 

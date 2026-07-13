@@ -186,3 +186,115 @@ export const WorkflowDiagram: React.FC<{
     </div>
   </div>
 );
+
+/* NEW: Before vs After Comparison Panel */
+export const BeforeAfterComparison: React.FC<{
+  beforeTitle: string;
+  beforeDesc: string;
+  afterTitle: string;
+  afterDesc: string;
+}> = ({ beforeTitle, beforeDesc, afterTitle, afterDesc }) => (
+  <div className="grid gap-6 md:grid-cols-2 my-6">
+    <div className="rounded-2xl border border-rose-100 bg-rose-50/10 p-5 dark:border-rose-955/20 dark:bg-rose-950/5">
+      <h4 className="text-[13px] font-black text-rose-700 dark:text-rose-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <X className="h-4 w-4" /> {beforeTitle}
+      </h4>
+      <p className="text-[13px] leading-relaxed text-[#5D7596] dark:text-slate-400">{beforeDesc}</p>
+    </div>
+    <div className="rounded-2xl border border-emerald-250 bg-emerald-50/10 p-5 dark:border-emerald-950/20 dark:bg-emerald-950/5">
+      <h4 className="text-[13px] font-black text-emerald-700 dark:text-emerald-450 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <Check className="h-4 w-4" /> {afterTitle}
+      </h4>
+      <p className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-300">{afterDesc}</p>
+    </div>
+  </div>
+);
+
+/* NEW: Workflow Timeline Layout */
+export const WorkflowTimeline: React.FC<{
+  steps: { title: string; desc: string }[];
+}> = ({ steps }) => (
+  <div className="relative my-8 pl-6 border-l-2 border-blue-100 dark:border-blue-900/40 ml-4 space-y-8">
+    {steps.map((step, idx) => (
+      <div key={idx} className="relative">
+        <div className="absolute -left-[35px] top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[#1F5AAE] text-white dark:bg-[#72A8FF] dark:text-[#07111F] text-[10px] font-black shadow-md">
+          {idx + 1}
+        </div>
+        <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white leading-none mb-1.5">{step.title}</h4>
+        <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">{step.desc}</p>
+      </div>
+    ))}
+  </div>
+);
+
+/* NEW: Dashboard Screenshot Callout Layout */
+export const DashboardCallouts: React.FC<{
+  mockup: React.ReactNode;
+  callouts: { title: string; desc: string }[];
+}> = ({ mockup, callouts }) => (
+  <div className="grid gap-8 lg:grid-cols-12 my-6 items-start">
+    <div className="lg:col-span-7">
+      {mockup}
+    </div>
+    <div className="lg:col-span-5 space-y-4">
+      {callouts.map((item, idx) => (
+        <div key={idx} className="flex gap-3 rounded-xl border border-[#D7E7FA] bg-white p-4 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/2">
+          <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg bg-[#E8F3FF] text-[11px] font-black text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#9AC3FF]">
+            {idx + 1}
+          </span>
+          <div>
+            <h4 className="text-[13px] font-black text-[#0B2E63] dark:text-white mb-0.5">{item.title}</h4>
+            <p className="text-[12px] leading-relaxed text-[#5D7596] dark:text-slate-400">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* NEW: Alternating Image/Text Step List Layout */
+export const AlternatingSection: React.FC<{
+  steps: { title: string; desc: string; mockup: React.ReactNode }[];
+}> = ({ steps }) => (
+  <div className="space-y-12 my-8">
+    {steps.map((step, idx) => {
+      const isEven = idx % 2 === 0;
+      return (
+        <div key={idx} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className={isEven ? 'lg:order-1' : 'lg:order-2'}>
+            <div className="flex gap-4">
+              <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#E8F3FF] text-[12px] font-black text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#9AC3FF] border border-[#BCD7F5] dark:border-blue-900/50">
+                {idx + 1}
+              </span>
+              <div>
+                <h4 className="text-[15px] font-black text-[#0B2E63] dark:text-white mb-2">{step.title}</h4>
+                <p className="text-[13.5px] leading-relaxed text-[#425B7D] dark:text-slate-350">{step.desc}</p>
+              </div>
+            </div>
+          </div>
+          <div className={isEven ? 'lg:order-2' : 'lg:order-1'}>
+            {step.mockup}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);
+
+/* NEW: Benefits Grid Cards Layout */
+export const BenefitsGrid: React.FC<{
+  benefits: { title: string; desc: string; highlight?: boolean }[];
+}> = ({ benefits }) => (
+  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 my-6">
+    {benefits.map((item, idx) => (
+      <div key={idx} className={`rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 ${
+        item.highlight 
+          ? 'border-blue-200 bg-gradient-to-br from-blue-50/50 to-white dark:border-blue-900/40 dark:from-[#102B4F]/30 dark:to-[#0B1627]' 
+          : 'border-[#D7E7FA] bg-white dark:border-[#183354] dark:bg-[#0B1627]'
+      }`}>
+        <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white mb-1.5 uppercase tracking-wider">{item.title}</h4>
+        <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-450">{item.desc}</p>
+      </div>
+    ))}
+  </div>
+);
