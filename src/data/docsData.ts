@@ -41,9 +41,11 @@ export const sidebarStructure = [
   {
     title: 'INTRODUCTION',
     items: [
-      { id: 'welcome', title: 'Welcome to NOLA SMS Pro' },
       { id: 'welcome-overview', title: 'Overview' },
       { id: 'welcome-about', title: 'About NOLA SMS Pro' },
+      { id: 'welcome-different', title: 'What Makes NOLA SMS Pro Different' },
+      { id: 'welcome-core-modules', title: 'Core Modules' },
+      { id: 'welcome-experience', title: 'The NOLA SMS Pro Experience' },
       { id: 'welcome-why', title: 'Why Use NOLA SMS Pro' }
     ]
   },
@@ -85,7 +87,7 @@ export const docsData: DocPage[] = [
   {
     id: 'welcome',
     title: 'Welcome to NOLA SMS Pro',
-    description: 'Use NOLA SMS Pro inside your HighLevel sub-account to send SMS, manage contacts, and track message status.',
+    description: 'A complete SMS messaging platform that lives directly inside your HighLevel sub-account.',
     section: 'INTRODUCTION',
     readingTime: '2 min read',
     purpose: 'NOLA SMS Pro brings SMS sending, HighLevel contacts, reusable templates, Sender IDs, credit management, message status, and account settings into your connected HighLevel sub-account.',
@@ -128,6 +130,39 @@ export const docsData: DocPage[] = [
     section: 'INTRODUCTION',
     readingTime: '1 min read',
     purpose: 'NOLA SMS Pro is a dedicated SMS messaging solution that integrates directly with your HighLevel sub-account, simplifying sending and tracking without leaving the platform.',
+    notes: [
+      'You do not need to download a separate desktop or mobile app.'
+    ]
+  },
+  {
+    id: 'welcome-different',
+    title: 'What Makes NOLA SMS Pro Different',
+    description: 'Discover what sets NOLA SMS Pro apart from other solutions.',
+    section: 'INTRODUCTION',
+    readingTime: '1 min read',
+    purpose: 'Learn how NOLA SMS Pro simplifies your workflow compared to traditional methods.',
+    notes: [
+      'You do not need to download a separate desktop or mobile app.'
+    ]
+  },
+  {
+    id: 'welcome-core-modules',
+    title: 'Core Modules',
+    description: 'Explore the core capabilities of NOLA SMS Pro.',
+    section: 'INTRODUCTION',
+    readingTime: '1 min read',
+    purpose: 'Discover the key modules that power NOLA SMS Pro.',
+    notes: [
+      'You do not need to download a separate desktop or mobile app.'
+    ]
+  },
+  {
+    id: 'welcome-experience',
+    title: 'The NOLA SMS Pro Experience',
+    description: 'See how NOLA SMS Pro fits into your workflow.',
+    section: 'INTRODUCTION',
+    readingTime: '1 min read',
+    purpose: 'Walk through the end-to-end experience of using NOLA SMS Pro.',
     notes: [
       'You do not need to download a separate desktop or mobile app.'
     ]

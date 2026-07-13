@@ -47,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onSearchClick, isOpenOnMobile,
     <div className="flex h-full w-full flex-col border-r border-[#D7E7FA] bg-white dark:border-[#183354] dark:bg-[#07111F]">
       <div className="flex min-h-[88px] flex-shrink-0 items-center gap-3 border-b border-[#D7E7FA] px-5 dark:border-[#183354]">
         <Link
-          to="/docs/welcome"
+          to="/docs/welcome-overview"
           className="flex min-w-0 flex-1 items-center gap-3 transition-opacity hover:opacity-85"
           onClick={onCloseMobile}
         >

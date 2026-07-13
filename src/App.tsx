@@ -24,9 +24,9 @@ export default function App() {
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/docs/welcome" replace />} />
+          <Route path="/" element={<Navigate to="/docs/welcome-overview" replace />} />
           <Route path="/docs/:id" element={<DocPageWrapper />} />
-          <Route path="*" element={<Navigate to="/docs/welcome" replace />} />
+          <Route path="*" element={<Navigate to="/docs/welcome-overview" replace />} />
         </Routes>
       </Router>
     </ThemeProvider>

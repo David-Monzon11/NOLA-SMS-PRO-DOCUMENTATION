@@ -514,40 +514,286 @@ const WelcomeFeatureModal: React.FC<{
   );
 };
 
+const QuickFacts: React.FC = () => {
+  const facts = [
+    "Built for HighLevel",
+    "SMS Messaging",
+    "Sender IDs",
+    "Templates",
+    "Message Tracking",
+    "Credit Management",
+  ];
+
+  return (
+    <div className="rounded-lg border border-[#D7E7FA] bg-[#E8F3FF]/50 p-4 dark:border-[#183354] dark:bg-[#102B4F]/30">
+      <h3 className="mb-3 text-[13px] font-black uppercase tracking-[0.14em] text-[#1F5AAE] dark:text-[#72A8FF]">
+        Quick Facts
+      </h3>
+      <ul className="grid grid-cols-2 gap-2">
+        {facts.map((fact, idx) => (
+          <li key={idx} className="flex items-center gap-2 text-[13px] text-[#425B7D] dark:text-slate-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4F8EF7]" />
+            {fact}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const AtAGlance: React.FC = () => {
+  const items = [
+    { label: "Platform", value: "HighLevel" },
+    { label: "Communication", value: "SMS" },
+    { label: "Audience", value: "Businesses, Agencies, Teams" },
+    {
+      label: "Core Modules",
+      value: "Contacts, Templates, Sender IDs, Credits, History",
+    },
+  ];
+
+  return (
+    <div className="rounded-lg border border-[#D7E7FA] bg-white p-4 dark:border-[#183354] dark:bg-[#0B1627]">
+      <h3 className="mb-3 text-[13px] font-black uppercase tracking-[0.14em] text-[#1F5AAE] dark:text-[#72A8FF]">
+        At a Glance
+      </h3>
+      <dl className="space-y-3">
+        {items.map((item, idx) => (
+          <div key={idx}>
+            <dt className="text-[11px] font-black uppercase tracking-[0.14em] text-[#7B93B1] dark:text-slate-500">
+              {item.label}
+            </dt>
+            <dd className="text-[13px] text-[#0B2E63] dark:text-white">
+              {item.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+};
+
+const WorkflowStep: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({
+  icon,
+  title,
+  description,
+}) => (
+  <div className="flex items-start gap-4 rounded-lg border border-[#D7E7FA] bg-white p-4 dark:border-[#183354] dark:bg-[#0B1627]">
+    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
+      {icon}
+    </div>
+    <div>
+      <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white">
+        {title}
+      </h4>
+      <p className="text-[13px] leading-6 text-[#425B7D] dark:text-slate-300">
+        {description}
+      </p>
+    </div>
+  </div>
+);
+
+const ProductPhilosophy: React.FC = () => (
+  <div className="rounded-lg border border-[#D7E7FA] bg-gradient-to-br from-[#1F5AAE]/5 to-[#4F8EF7]/5 p-4 dark:from-[#1F5AAE]/10 dark:to-[#4F8EF7]/10">
+    <h3 className="mb-2 text-[13px] font-black uppercase tracking-[0.14em] text-[#1F5AAE] dark:text-[#72A8FF]">
+      Product Philosophy
+    </h3>
+    <p className="text-[13px] leading-6 text-[#425B7D] dark:text-slate-300">
+      Built for teams that want to stay in their workflow, not switch between tools. Simple, reliable, and integrated directly where you already work.
+    </p>
+  </div>
+);
+
+const ProductComparison: React.FC = () => {
+  return (
+    <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="rounded-lg border border-[#D7E7FA] bg-white p-5 dark:border-[#183354] dark:bg-[#0B1627]">
+        <h3 className="mb-3 text-[14px] font-black text-[#526A8B] dark:text-slate-400">Traditional Workflow</h3>
+        <ul className="space-y-2 text-[13px] text-[#425B7D] dark:text-slate-300">
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-red-400"></span>
+            <span>Switch between multiple tools (HighLevel, SMS platform, contact manager)</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-red-400"></span>
+            <span>Export/import contacts between systems</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-red-400"></span>
+            <span>Lose context when navigating between platforms</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-red-400"></span>
+            <span>Complex setup and integration</span>
+          </li>
+        </ul>
+      </div>
+      <div className="rounded-lg border border-[#BCD7F5] bg-[#E8F3FF]/50 p-5 dark:border-[#315C8F] dark:bg-[#102B4F]/30">
+        <h3 className="mb-3 text-[14px] font-black text-[#0B4EA2] dark:text-[#9AC3FF]">NOLA SMS Pro</h3>
+        <ul className="space-y-2 text-[13px] text-[#425B7D] dark:text-slate-300">
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span>Everything inside your HighLevel sub-account</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span>Native HighLevel contact integration</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span>Stay in context, no tab switching</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span>Simple one-click install from Marketplace</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const CoreModulesSection: React.FC = () => {
+  const modules = [
+    { icon: <Users className="h-5 w-5" />, title: "Contacts", desc: "Manage and search HighLevel contacts directly" },
+    { icon: <FileText className="h-5 w-5" />, title: "Templates", desc: "Save and reuse message templates" },
+    { icon: <ShieldCheck className="h-5 w-5" />, title: "Sender IDs", desc: "Use default or approved custom senders" },
+    { icon: <CreditCard className="h-5 w-5" />, title: "SMS Credits", desc: "Monitor and manage your credit balance" },
+    { icon: <History className="h-5 w-5" />, title: "Message History", desc: "Track delivery statuses in real-time" },
+    { icon: <Settings className="h-5 w-5" />, title: "Settings", desc: "Configure your account and preferences" }
+  ];
+  return (
+    <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      {modules.map((m, i) => (
+        <div key={i} className="flex gap-3 rounded-lg border border-[#D7E7FA] bg-white p-4 dark:border-[#183354] dark:bg-[#0B1627]">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
+            {m.icon}
+          </div>
+          <div className="min-w-0">
+            <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white">{m.title}</h4>
+            <p className="mt-1 text-[13px] leading-6 text-[#425B7D] dark:text-slate-300">{m.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const WorkflowTimeline: React.FC = () => {
+  const steps = [
+    { title: "Install", desc: "Add from HighLevel Marketplace" },
+    { title: "Connect", desc: "Choose your sub-account/location" },
+    { title: "Setup", desc: "Create or sign in to owner account" },
+    { title: "Send", desc: "Compose and send your first SMS" },
+    { title: "Track", desc: "Check delivery in Message History" }
+  ];
+  return (
+    <div className="mt-6 relative">
+      <div className="absolute left-[15px] top-0 h-full w-0.5 bg-[#D7E7FA] dark:bg-[#183354]"></div>
+      <div className="space-y-4">
+        {steps.map((s, i) => (
+          <div key={i} className="relative flex gap-4 pl-9">
+            <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#1F5AAE] text-[11px] font-black text-white shadow-sm dark:border-[#0B1627]">
+              {i + 1}
+            </div>
+            <div className="rounded-lg border border-[#D7E7FA] bg-white p-4 flex-1 dark:border-[#183354] dark:bg-[#0B1627]">
+              <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white">{s.title}</h4>
+              <p className="mt-1 text-[13px] leading-6 text-[#425B7D] dark:text-slate-300">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const WhoItsFor: React.FC = () => {
+  const audiences = [
+    "Agencies managing multiple HighLevel locations",
+    "Business owners using HighLevel for CRM",
+    "Marketing teams sending SMS campaigns",
+    "Customer support teams handling SMS inquiries"
+  ];
+  return (
+    <div className="mt-6 rounded-lg border border-[#D7E7FA] bg-white p-5 dark:border-[#183354] dark:bg-[#0B1627]">
+      <h3 className="mb-3 text-[14px] font-black text-[#0B2E63] dark:text-white">Who It's For</h3>
+      <ul className="space-y-2">
+        {audiences.map((a, i) => (
+          <li key={i} className="flex items-start gap-2 text-[13px] text-[#425B7D] dark:text-slate-300">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#1F5AAE]"></span>
+            <span>{a}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const WelcomeIntroduction: React.FC = () => {
   return (
     <>
-      {/* Welcome Section (anchor for sidebar nav) */}
-      <section id="welcome" className={`${panelWidth} scroll-mt-[304px] lg:scroll-mt-[190px]`} />
-      
       {/* Overview Section */}
-      <section id="welcome-overview" className={`${panelWidth} mb-8 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
-        <div className="max-w-[920px]">
-          <SectionHeading eyebrow="Quick Start">Overview</SectionHeading>
-          <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300">
-            NOLA SMS Pro brings SMS sending, HighLevel contacts, reusable templates, Sender IDs, credit tracking, message history, and account settings into your connected HighLevel sub-account.
-          </p>
+      <section id="welcome-overview" className={`${panelWidth} mb-10 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
+        <SectionHeading eyebrow="Quick Start">Overview</SectionHeading>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 mb-4">
+              NOLA SMS Pro is a complete SMS messaging platform that lives directly inside your HighLevel sub-account.
+            </p>
+            <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300">
+              Send messages, manage contacts, reuse templates, and track delivery—all without leaving your HighLevel workspace.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <QuickFacts />
+            <AtAGlance />
+          </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="welcome-about" className={`${panelWidth} mb-8 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
-        <div className="max-w-[920px]">
-          <SectionHeading eyebrow="Product">About NOLA SMS Pro</SectionHeading>
-          <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300">
-            NOLA SMS Pro is a dedicated SMS messaging solution that integrates directly with your HighLevel sub-account, simplifying sending and tracking without leaving the platform.
-          </p>
+      <section id="welcome-about" className={`${panelWidth} mb-10 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
+        <SectionHeading eyebrow="Product">About NOLA SMS Pro</SectionHeading>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 mb-4">
+              NOLA SMS Pro was built to eliminate the friction of switching between tools to manage SMS messaging with your HighLevel contacts.
+            </p>
+            <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 mb-4">
+              Instead of juggling separate platforms, exporting contacts, or losing context, everything you need is in one place.
+            </p>
+            <ProductPhilosophy />
+          </div>
+          <div className="space-y-4">
+            <WhoItsFor />
+          </div>
         </div>
       </section>
 
-      {/* Why Use section that transitions into feature cards */}
+      {/* What Makes NOLA SMS Pro Different */}
+      <section id="welcome-different" className={`${panelWidth} mb-10 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
+        <SectionHeading eyebrow="Differentiators">What Makes NOLA SMS Pro Different</SectionHeading>
+        <ProductComparison />
+      </section>
+
+      {/* Core Modules */}
+      <section id="welcome-core-modules" className={`${panelWidth} mb-10 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
+        <SectionHeading eyebrow="Features">Core Modules</SectionHeading>
+        <CoreModulesSection />
+      </section>
+
+      {/* The NOLA SMS Pro Experience */}
+      <section id="welcome-experience" className={`${panelWidth} mb-10 scroll-mt-[304px] lg:scroll-mt-[190px]`}>
+        <SectionHeading eyebrow="Workflow">The NOLA SMS Pro Experience</SectionHeading>
+        <WorkflowTimeline />
+      </section>
+
+      {/* Why Use section */}
       <section id="welcome-why" className={`${panelWidth} scroll-mt-[304px] lg:scroll-mt-[190px]`}>
-        <div className="max-w-[920px]">
-          <SectionHeading eyebrow="Benefits">Why Use NOLA SMS Pro?</SectionHeading>
-          <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 mb-6">
-            Explore the key features that make NOLA SMS Pro the perfect SMS solution for your HighLevel workflow:
-          </p>
-        </div>
+        <SectionHeading eyebrow="Benefits">Why Use NOLA SMS Pro?</SectionHeading>
+        <p className="text-[15px] leading-7 text-[#425B7D] dark:text-slate-300 mb-6">
+          NOLA SMS Pro brings practical, workflow-focused tools to your HighLevel experience. Explore the core capabilities below:
+        </p>
       </section>
     </>
   );
@@ -953,7 +1199,7 @@ const FAQSection: React.FC<{ page: DocPage }> = ({ page }) => {
 const PageContent: React.FC<{ page: DocPage }> = ({ page }) => {
   const lessons = useMemo(() => getLessons(page), [page]);
 
-  if (['welcome', 'welcome-overview', 'welcome-about', 'welcome-why'].includes(page.id)) {
+  if (['welcome-overview', 'welcome-about', 'welcome-different', 'welcome-core-modules', 'welcome-experience', 'welcome-why', 'welcome'].includes(page.id)) {
     return (
       <div className="w-full">
         <WelcomeIntroduction />
@@ -978,29 +1224,27 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const navType = useNavigationType();
-  const activeId = location.pathname.split('/docs/')[1] || page.id;
+  const activeId = location.pathname.split('/docs/')[1] || 'welcome-overview';
   const isScrollingFromClickRef = useRef(false);
-  const activePage = docsData.find((item) => item.id === activeId) ?? page;
+  
+  // For introduction sections, use the welcome page as the base for the sticky header title
+  const introSectionIds = ['welcome-overview', 'welcome-about', 'welcome-different', 'welcome-core-modules', 'welcome-experience', 'welcome-why', 'welcome'];
+  const activePage = introSectionIds.includes(activeId) 
+    ? docsData.find((item) => item.id === 'welcome')! 
+    : docsData.find((item) => item.id === activeId) ?? page;
 
   useEffect(() => {
     if (!activeId) return;
 
-    let el = document.getElementById(activeId);
-    // If we're on an intro sub-item, we want to stay on the welcome page and scroll to that section
-    if (['welcome-overview', 'welcome-about', 'welcome-why'].includes(activeId)) {
-      if (el && (navType === 'PUSH' || navType === 'POP')) {
-        isScrollingFromClickRef.current = true;
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        const timer = setTimeout(() => {
-          isScrollingFromClickRef.current = false;
-        }, 1000);
-        return () => clearTimeout(timer);
-      }
-    } else if (el && (navType === 'PUSH' || navType === 'POP')) {
+    const el = document.getElementById(activeId);
+    // For any intro or non-intro section, scroll to it when nav changes
+    if (el && (navType === 'PUSH' || navType === 'POP')) {
       isScrollingFromClickRef.current = true;
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+      // Wait a tick for DOM to be ready
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+      
       const timer = setTimeout(() => {
         isScrollingFromClickRef.current = false;
       }, 1000);
