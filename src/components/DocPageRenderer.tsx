@@ -4,6 +4,11 @@ import type { DocPage } from '../data/docsData';
 import { docsData } from '../data/docsData';
 import { WelcomeContent } from './docs/WelcomeContent';
 import { FeaturePageContent } from './docs/FeaturePageContent';
+import { InstallNolaSmsProContent } from './docs/InstallNolaSmsProContent';
+import { CreateOrSignInContent } from './docs/CreateOrSignInContent';
+import { ConnectedHighlevelContent } from './docs/ConnectedHighlevelContent';
+import { DashboardOverviewContent } from './docs/DashboardOverviewContent';
+import { SendFirstSMSContent } from './docs/SendFirstSMSContent';
 import {
   BookOpen,
   CreditCard,
@@ -100,8 +105,13 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
 
   const headerPage = getHeaderPage(activeId, page);
   const isWelcome = activeId === 'welcome';
-  const isBlankPage = ['what-is-nola-sms-pro', 'how-nola-sms-pro-works', 'core-features'].includes(activeId) ||
-    ['SETUP', 'MESSAGING', 'ACCOUNT', 'SUPPORT'].includes(page.section);
+  const isInstallPage = activeId === 'install-nola-sms-pro';
+  const isCreateOrSignInPage = activeId === 'create-or-sign-in';
+  const isConnectedHighlevelPage = activeId === 'connect-highlevel';
+  const isDashboardOverviewPage = activeId === 'dashboard-overview';
+  const isSendFirstSMSPage = activeId === 'send-your-first-sms';
+  const isBlankPage = !isInstallPage && !isCreateOrSignInPage && !isConnectedHighlevelPage && !isDashboardOverviewPage && !isSendFirstSMSPage && (['what-is-nola-sms-pro', 'how-nola-sms-pro-works', 'core-features'].includes(activeId) ||
+    ['SETUP', 'MESSAGING', 'ACCOUNT', 'SUPPORT'].includes(page.section));
 
   return (
     <div className="w-full pb-16" aria-label={`Documentation guide focused on ${page.title}`}>
@@ -109,6 +119,26 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
       {isWelcome ? (
         <div className="pt-6">
           <WelcomeContent />
+        </div>
+      ) : isInstallPage ? (
+        <div className="pt-6">
+          <InstallNolaSmsProContent page={page} />
+        </div>
+      ) : isCreateOrSignInPage ? (
+        <div className="pt-6">
+          <CreateOrSignInContent page={page} />
+        </div>
+      ) : isConnectedHighlevelPage ? (
+        <div className="pt-6">
+          <ConnectedHighlevelContent page={page} />
+        </div>
+      ) : isDashboardOverviewPage ? (
+        <div className="pt-6">
+          <DashboardOverviewContent page={page} />
+        </div>
+      ) : isSendFirstSMSPage ? (
+        <div className="pt-6">
+          <SendFirstSMSContent page={page} />
         </div>
       ) : isBlankPage ? (
         null
