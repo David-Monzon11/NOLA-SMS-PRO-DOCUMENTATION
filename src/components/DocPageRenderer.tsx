@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import type { DocPage } from '../data/docsData';
 import { docsData } from '../data/docsData';
 import { WelcomeContent } from './docs/WelcomeContent';
+import { FeaturePageContent } from './docs/FeaturePageContent';
 import {
   BookOpen,
   CreditCard,
@@ -99,6 +100,8 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
 
   const headerPage = getHeaderPage(activeId, page);
   const isWelcome = activeId === 'welcome';
+  const isBlankPage = ['what-is-nola-sms-pro', 'how-nola-sms-pro-works', 'core-features'].includes(activeId) ||
+    ['SETUP', 'MESSAGING', 'ACCOUNT', 'SUPPORT'].includes(page.section);
 
   return (
     <div className="w-full pb-16" aria-label={`Documentation guide focused on ${page.title}`}>
@@ -107,9 +110,12 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
         <div className="pt-6">
           <WelcomeContent />
         </div>
-      ) : (
-        /* Page content intentionally blank — ready for authoring */
+      ) : isBlankPage ? (
         null
+      ) : (
+        <div className="pt-6">
+          <FeaturePageContent page={page} />
+        </div>
       )}
     </div>
   );

@@ -13,26 +13,26 @@ import {
 } from 'lucide-react';
 import illustrationImg from '../../assets/illustration.png';
 
-/* ─── Block 2 — What You Can Do ─────────────────────── */
+/* Block 2 — What You Can Do */
 const outcomes = [
   {
     icon: <MessageSquare className="h-6 w-6" />,
     title: 'Send SMS from inside HighLevel',
-    desc: 'Messages dispatch directly from the same workspace your contacts live in — no tab switching, no exports.',
+    desc: 'Compose, send, and manage SMS conversations without leaving your HighLevel workspace.',
   },
   {
     icon: <Smartphone className="h-6 w-6" />,
     title: 'Reach PH mobile numbers reliably',
-    desc: 'Globe, Smart, and DITO are covered by local carrier routing for fast, compliant delivery at local rates.',
+    desc: 'Send SMS to customers across the Philippines with reliable local delivery.',
   },
   {
     icon: <History className="h-6 w-6" />,
     title: 'Keep every message on record',
-    desc: 'Delivery logs, credit usage, and full message history are tracked and visible from one place — always.',
+    desc: 'Access message history, delivery status, and SMS credit activity whenever you need it.',
   },
 ];
 
-/* ─── Block 3 — Browse by Topic ─────────────────────── */
+/* Block 3 — Browse by Topic  */
 const sections = [
   {
     icon: <BookOpen className="h-5 w-5" />,
