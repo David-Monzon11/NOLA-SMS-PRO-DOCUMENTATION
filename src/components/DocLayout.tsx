@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { DocSearch } from './DocSearch';
 import { type DocPage } from '../data/docsData';
-import { 
-  Menu, Sun, Moon, Search, Globe, ChevronRight, 
+import {
+  Menu, Sun, Moon, Search, Globe, ChevronRight,
   Check, Copy, ArrowUp, LifeBuoy
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
@@ -53,13 +53,13 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
     if (page.prerequisites && page.prerequisites.length > 0) tocItems.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
     if (page.steps && page.steps.length > 0) tocItems.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
     if (page.expectAfter) tocItems.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
-    
-    const hasFaqOrTips = (page.tips && page.tips.length > 0) || 
-                         (page.warnings && page.warnings.length > 0) || 
-                         (page.notes && page.notes.length > 0) ||
-                         (page.commonIssues && page.commonIssues.length > 0) ||
-                         (page.faqs && page.faqs.length > 0) ||
-                         page.hasTicketForm;
+
+    const hasFaqOrTips = (page.tips && page.tips.length > 0) ||
+      (page.warnings && page.warnings.length > 0) ||
+      (page.notes && page.notes.length > 0) ||
+      (page.commonIssues && page.commonIssues.length > 0) ||
+      (page.faqs && page.faqs.length > 0) ||
+      page.hasTicketForm;
     if (hasFaqOrTips) {
       tocItems.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
     }
@@ -68,7 +68,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
   // ScrollSpy observer
   useEffect(() => {
     const headings = tocItems.map(item => document.getElementById(item.id));
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -103,7 +103,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] transition-colors duration-200 dark:bg-[#020617] dark:text-slate-100 flex flex-col">
-      
+
       {/* â”€â”€ TOP NAV BAR (Figma Style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="sticky top-0 z-40 w-full bg-white dark:bg-[#020617] border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
         <div className="max-w-[1600px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
@@ -185,7 +185,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
       </div>
 
       <div className="flex-1 flex w-full max-w-[1600px] mx-auto min-h-0">
-        
+
         {/* Column 1: Left Sidebar */}
         <Sidebar
           isOpenOnMobile={isMobileSidebarOpen}
@@ -216,11 +216,10 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
                     )}
                     <a
                       href={`#${item.id}`}
-                      className={`block font-semibold transition-colors leading-relaxed ${
-                        isActive
+                      className={`block font-semibold transition-colors leading-relaxed ${isActive
                           ? 'text-[#334155] dark:text-[#CBD5E1] font-bold'
                           : 'hover:text-slate-800 dark:hover:text-slate-200'
-                      }`}
+                        }`}
                     >
                       {item.label}
                     </a>
