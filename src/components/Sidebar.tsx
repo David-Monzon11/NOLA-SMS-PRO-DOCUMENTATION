@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   BookOpen, ChevronDown, ChevronRight, HelpCircle, X,
-  MessageSquare, CreditCard, Rocket
+  MessageSquare, CreditCard, Rocket, Wrench, LayoutDashboard,
+  Send, Store, UserPlus, ArrowRightLeft, Users, FileText,
+  ShieldCheck, History, Settings
 } from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
 
@@ -17,6 +19,28 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   MESSAGING: <MessageSquare className="h-4 w-4 shrink-0" />,
   ACCOUNT: <CreditCard className="h-4 w-4 shrink-0" />,
   SUPPORT: <HelpCircle className="h-4 w-4 shrink-0" />,
+};
+
+const SUB_PAGE_ICONS: Record<string, React.ReactNode> = {
+  welcome: <BookOpen className="h-3.5 w-3.5 shrink-0" />,
+  'what-is-nola-sms-pro': <BookOpen className="h-3.5 w-3.5 shrink-0" />,
+  'how-nola-sms-pro-works': <Wrench className="h-3.5 w-3.5 shrink-0" />,
+  'core-features': <LayoutDashboard className="h-3.5 w-3.5 shrink-0" />,
+  'send-your-first-sms': <Send className="h-3.5 w-3.5 shrink-0" />,
+  'install-nola-sms-pro': <Store className="h-3.5 w-3.5 shrink-0" />,
+  'create-or-sign-in': <UserPlus className="h-3.5 w-3.5 shrink-0" />,
+  'connect-highlevel': <ArrowRightLeft className="h-3.5 w-3.5 shrink-0" />,
+  'dashboard-overview': <LayoutDashboard className="h-3.5 w-3.5 shrink-0" />,
+  contacts: <Users className="h-3.5 w-3.5 shrink-0" />,
+  'compose-sms': <MessageSquare className="h-3.5 w-3.5 shrink-0" />,
+  'message-templates': <FileText className="h-3.5 w-3.5 shrink-0" />,
+  'sender-ids': <ShieldCheck className="h-3.5 w-3.5 shrink-0" />,
+  'message-history': <History className="h-3.5 w-3.5 shrink-0" />,
+  'sms-credits': <CreditCard className="h-3.5 w-3.5 shrink-0" />,
+  settings: <Settings className="h-3.5 w-3.5 shrink-0" />,
+  troubleshooting: <Wrench className="h-3.5 w-3.5 shrink-0" />,
+  'support-help': <HelpCircle className="h-3.5 w-3.5 shrink-0" />,
+  faq: <HelpCircle className="h-3.5 w-3.5 shrink-0" />,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile }) => {
@@ -112,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                   )}
                 </button>
 
-                {!isCollapsed && (
+                 {!isCollapsed && (
                   <div className="pl-3.5 space-y-1 border-l border-slate-150 dark:border-slate-800/80 ml-5">
                     {section.items.map((item) => {
                       const isActive = item.id === activeId;
@@ -121,16 +145,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                           key={item.id}
                           to={`/docs/${item.id}`}
                           onClick={onCloseMobile}
-                          className={`relative block px-3.5 py-2 text-xs font-semibold leading-relaxed transition-all rounded-full ${
+                          className={`relative flex items-center gap-2 px-3.5 py-2 text-xs font-semibold leading-relaxed transition-all rounded-full ${
                             isActive
                               ? 'bg-[#F1F5F9] dark:bg-[#1E293B] text-[#334155] dark:text-[#CBD5E1] font-bold'
                               : 'text-slate-500 hover:text-slate-850 hover:bg-slate-100/40 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/20'
                           }`}
                         >
-                          {isActive && (
-                            <span className="absolute left-[3px] top-1/2 -translate-y-1/2 h-1.5 w-1.5 rounded-full bg-[#334155] dark:bg-[#CBD5E1]" />
-                          )}
-                          {item.title}
+                          <span className="opacity-75">{SUB_PAGE_ICONS[item.id] || <BookOpen className="h-3.5 w-3.5 shrink-0" />}</span>
+                          <span>{item.title}</span>
                         </Link>
                       );
                     })}

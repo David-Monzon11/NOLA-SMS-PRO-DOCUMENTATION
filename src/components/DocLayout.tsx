@@ -41,20 +41,28 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
 
   // Generate Table of Contents items dynamically based on page fields
   const tocItems: { id: string; label: string }[] = [];
-  if (page.purpose) tocItems.push({ id: `${page.id}-what-is-this`, label: 'Overview & Goal' });
-  if (page.whyItMatters) tocItems.push({ id: `${page.id}-why-is-it-important`, label: 'Value & Impact' });
-  if (page.prerequisites && page.prerequisites.length > 0) tocItems.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
-  if (page.steps && page.steps.length > 0) tocItems.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
-  if (page.expectAfter) tocItems.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
-  
-  const hasFaqOrTips = (page.tips && page.tips.length > 0) || 
-                       (page.warnings && page.warnings.length > 0) || 
-                       (page.notes && page.notes.length > 0) ||
-                       (page.commonIssues && page.commonIssues.length > 0) ||
-                       (page.faqs && page.faqs.length > 0) ||
-                       page.hasTicketForm;
-  if (hasFaqOrTips) {
-    tocItems.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
+  if (page.id === 'welcome') {
+    tocItems.push({ id: 'about-heading', label: 'About' });
+    tocItems.push({ id: 'what-you-can-do-heading', label: 'What You Can Do' });
+    tocItems.push({ id: 'quick-start-heading', label: 'Fastest Path' });
+    tocItems.push({ id: 'browse-heading', label: 'Browse by Topic' });
+    tocItems.push({ id: 'before-start-heading', label: 'Before You Start' });
+  } else {
+    if (page.purpose) tocItems.push({ id: `${page.id}-what-is-this`, label: 'Overview & Goal' });
+    if (page.whyItMatters) tocItems.push({ id: `${page.id}-why-is-it-important`, label: 'Value & Impact' });
+    if (page.prerequisites && page.prerequisites.length > 0) tocItems.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
+    if (page.steps && page.steps.length > 0) tocItems.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
+    if (page.expectAfter) tocItems.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
+    
+    const hasFaqOrTips = (page.tips && page.tips.length > 0) || 
+                         (page.warnings && page.warnings.length > 0) || 
+                         (page.notes && page.notes.length > 0) ||
+                         (page.commonIssues && page.commonIssues.length > 0) ||
+                         (page.faqs && page.faqs.length > 0) ||
+                         page.hasTicketForm;
+    if (hasFaqOrTips) {
+      tocItems.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
+    }
   }
 
   // ScrollSpy observer
@@ -137,7 +145,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
         </div>
       </header>
 
-      {/* â”€â”€ SUB-HEADER ROW (Figma style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── SUB-HEADER ROW (Figma style) ────────────────────── */}
       <div className="sticky top-16 z-30 w-full border-b border-slate-200/80 bg-white/88 px-4 py-2.5 text-xs shadow-sm shadow-slate-200/40 backdrop-blur-xl transition-colors duration-200 dark:border-slate-800/80 dark:bg-[#020617]/88 dark:shadow-none">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -149,28 +157,25 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
               <Menu className="h-4 w-4" />
             </button>
 
-            <span className="hidden flex-shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 font-bold text-slate-600 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-300 sm:inline-flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-slate-500 dark:bg-slate-300" />
-              Dev Team Workspace
-            </span>
-
             <nav className="flex min-w-0 items-center gap-1.5 overflow-hidden rounded-full border border-slate-200 bg-white px-2.5 py-1.5 font-semibold text-slate-500 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-400">
-              <span className="hidden sm:inline">Help Center</span>
+              <span className="hidden sm:inline">Docs</span>
               <ChevronRight className="hidden h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600 sm:block" />
-              <span className="hidden sm:inline">API</span>
+              <span className="hidden sm:inline capitalize">{page.section.toLowerCase()}</span>
+              {page.subsection && (
+                <>
+                  <ChevronRight className="hidden h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600 sm:block" />
+                  <span className="hidden sm:inline">{page.subsection}</span>
+                </>
+              )}
               <ChevronRight className="h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600" />
               <span className="truncate text-slate-900 dark:text-slate-100">{page.title}</span>
             </nav>
           </div>
 
           <div className="flex flex-shrink-0 items-center gap-2">
-            <button className="hidden items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-400 dark:hover:text-slate-100 sm:inline-flex">
-              <Globe className="h-3.5 w-3.5" />
-              <span>English, USA</span>
-            </button>
             <a
               href="#/docs/support-help"
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 font-bold text-slate-600 transition-colors hover:text-slate-950 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-300 dark:hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 font-bold text-slate-600 transition-colors hover:text-slate-955 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-300 dark:hover:text-white"
             >
               <LifeBuoy className="h-3.5 w-3.5" />
               <span>Support</span>
@@ -188,28 +193,13 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
         />
 
         {/* Column 2: Main Document Pane */}
-        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 overflow-y-auto">
+        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 overflow-y-auto scroll-smooth">
           {children}
         </main>
 
         {/* Column 3: Right Sidebar (On this page) */}
         {tocItems.length > 0 && (
           <aside className="w-[250px] shrink-0 sticky top-[7.25rem] h-[calc(100vh-7.25rem)] overflow-y-auto hidden xl:block border-l border-slate-200 dark:border-slate-800 py-6 pl-5 text-xs text-slate-500 dark:text-slate-400">
-            {/* Copy Command Code */}
-            <div className="mb-6">
-              <button
-                onClick={copyToClipboard}
-                className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#111827] hover:border-[#334155]/35 hover:shadow-sm text-left font-mono font-semibold transition-all relative overflow-hidden group active:scale-[0.98]"
-              >
-                <span className="truncate text-[#334155] dark:text-[#CBD5E1]">npm i nola-sms-pro</span>
-                {copiedText ? (
-                  <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
-                ) : (
-                  <Copy className="h-3.5 w-3.5 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 shrink-0 transition-colors" />
-                )}
-              </button>
-            </div>
-
             {/* Heading */}
             <h4 className="font-black text-[#0F172A] dark:text-white uppercase tracking-wider mb-4 text-[10px]">
               On this page

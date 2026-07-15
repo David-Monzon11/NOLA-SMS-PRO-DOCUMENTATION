@@ -29,6 +29,8 @@ import {
   Users,
   Wrench,
   ArrowRightLeft,
+  CheckCircle2,
+  Compass,
 } from 'lucide-react';
 
 interface Props {
@@ -73,6 +75,84 @@ function getHeaderPage(activeId: string, fallback: DocPage): DocPage {
 
 const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
   const Icon = getPageIcon(page);
+  const isWelcomeHeader = page.id === 'welcome';
+
+  if (isWelcomeHeader) {
+    return (
+      <header id="about-heading" className="mb-8">
+        {/* Full-bleed hero banner — image covers the entire card */}
+        <div
+          className="relative overflow-hidden rounded-[20px] min-h-[280px] lg:min-h-[320px]"
+          style={{
+            backgroundImage: 'url(/hero-banner.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center right',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {/* Left-side gradient overlay so text stays legible */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(10,18,35,0.92) 0%, rgba(10,18,35,0.80) 38%, rgba(10,18,35,0.30) 65%, transparent 100%)',
+            }}
+          />
+          {/* Bottom fade on mobile so content doesn't clash with the image */}
+          <div
+            className="pointer-events-none absolute inset-0 lg:hidden"
+            style={{
+              background: 'linear-gradient(180deg, rgba(10,18,35,0.60) 0%, rgba(10,18,35,0.92) 100%)',
+            }}
+          />
+
+          {/* Content — left-aligned text only, the phone is IN the image */}
+          <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 sm:px-10 sm:py-12 lg:max-w-[55%] lg:py-16 xl:max-w-[50%]">
+            {/* Badges */}
+            <div className="mb-6 flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-300 backdrop-blur-sm">
+                <Compass className="h-3 w-3" />
+                Start here
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-3 py-1 text-[11px] font-bold text-emerald-300 backdrop-blur-sm">
+                <CheckCircle2 className="h-3 w-3" />
+                HighLevel native
+              </span>
+            </div>
+
+            {/* Heading */}
+            <h1 className="text-[28px] font-black leading-[1.06] tracking-tight text-white sm:text-[36px] lg:text-[40px] xl:text-[44px]">
+              Get started with<br />
+              <span className="text-blue-200">NOLA SMS Pro</span>
+            </h1>
+
+            {/* Subtext */}
+            <p className="mt-5 max-w-[420px] text-[13px] font-medium leading-7 text-slate-300 sm:text-[14px]">
+              Install the app, connect your HighLevel sub-account, send your first SMS, and track delivery — all from one embedded workspace.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                to="/docs/install-nola-sms-pro"
+                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[13px] font-bold text-white shadow-xl transition-all hover:brightness-110 active:scale-[0.97]"
+                style={{ background: 'linear-gradient(135deg, #1a6fcc, #1252a3)' }}
+              >
+                <Rocket className="h-3.5 w-3.5" />
+                Quick start
+              </Link>
+              <Link
+                to="/docs/what-is-nola-sms-pro"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 py-2.5 text-[13px] font-bold text-white backdrop-blur-sm transition-all hover:bg-white/18 hover:border-white/30 active:scale-[0.97]"
+              >
+                Overview
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="mb-7">
@@ -147,7 +227,7 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
   const activeSection = sidebarStructure.find((sec) =>
     sec.items.some((item) => item.id === activeId)
   );
-  const showTabs = activeSection && (activeSection.title === 'OVERVIEW' || activeSection.title === 'MESSAGING');
+  const showTabs = activeSection && !isWelcome && (activeSection.title === 'OVERVIEW' || activeSection.title === 'MESSAGING');
   
   // Non-overview/messaging pages in SETUP, ACCOUNT, SUPPORT that don't have contents populated yet
   const isBlankPage = !showTabs && !isInstallPage && !isCreateOrSignInPage && !isConnectedHighlevelPage && !isDashboardOverviewPage && !isSendFirstSMSPage && ['SETUP', 'ACCOUNT', 'SUPPORT'].includes(page.section);
