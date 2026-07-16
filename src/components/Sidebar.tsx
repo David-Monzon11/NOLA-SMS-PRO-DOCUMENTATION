@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   BookOpen, ChevronDown, ChevronRight, HelpCircle, X,
   MessageSquare, CreditCard, Rocket, Wrench, LayoutDashboard,
-  Send, Store, UserPlus, ArrowRightLeft, Users, FileText,
-  ShieldCheck, History, Settings, Compass, Info
+  ShieldCheck, History, Settings, Compass, Info, Workflow, Zap,
+  Send, Store, UserPlus, ArrowRightLeft, Users, FileText
 } from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
 
@@ -17,6 +17,7 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   OVERVIEW: <BookOpen className="h-4 w-4 shrink-0" />,
   SETUP: <Rocket className="h-4 w-4 shrink-0" />,
   MESSAGING: <MessageSquare className="h-4 w-4 shrink-0" />,
+  WORKFLOW: <Workflow className="h-4 w-4 shrink-0" />,
   ACCOUNT: <CreditCard className="h-4 w-4 shrink-0" />,
   SUPPORT: <HelpCircle className="h-4 w-4 shrink-0" />,
 };
@@ -41,6 +42,8 @@ const SUB_PAGE_ICONS: Record<string, React.ReactNode> = {
   troubleshooting: <Wrench className="h-3.5 w-3.5 shrink-0" />,
   'support-help': <HelpCircle className="h-3.5 w-3.5 shrink-0" />,
   faq: <HelpCircle className="h-3.5 w-3.5 shrink-0" />,
+  automation: <Zap className="h-3.5 w-3.5 shrink-0" />,
+  'ghl-conversation': <ArrowRightLeft className="h-3.5 w-3.5 shrink-0" />,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile }) => {

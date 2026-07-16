@@ -19,17 +19,26 @@ export interface DocPageUseCase {
   benefit: string;
 }
 
+export interface DocStep {
+  title: string;
+  badge?: string;
+  badgeColor?: string; // bg-blue-50 text-blue-600, etc.
+  desc: string;
+  details?: string[];
+  iconName?: string; // lucide icon name string
+}
+
 export interface DocPage {
   id: string;
   title: string;
   description: string;
-  section: 'OVERVIEW' | 'SETUP' | 'MESSAGING' | 'ACCOUNT' | 'SUPPORT';
+  section: 'OVERVIEW' | 'SETUP' | 'MESSAGING' | 'ACCOUNT' | 'SUPPORT' | 'WORKFLOW';
   subsection?: string;
   readingTime: string;
   purpose: string; // 1. What is this?
   whyItMatters: string; // 2. Why is it important?
   prerequisites?: string[]; // 3. What do I need before I begin?
-  steps?: string[]; // 4. How do I use it?
+  steps?: string[] | DocStep[]; // 4. How do I use it?
   expectAfter?: string; // 5. What should I expect afterwards?
   
   // Custom interactive/visual widgets triggers
@@ -86,6 +95,13 @@ export const sidebarStructure = [
       { id: 'message-templates', title: 'Message Templates' },
       { id: 'sender-ids', title: 'Sender IDs' },
       { id: 'message-history', title: 'Message History' }
+    ]
+  },
+  {
+    title: 'WORKFLOW',
+    items: [
+      { id: 'automation', title: 'Automation' },
+      { id: 'ghl-conversation', title: 'GHL Conversation' }
     ]
   },
   {
@@ -365,15 +381,39 @@ export const docsData: DocPage[] = [
       'A test contact with a valid Philippine mobile number formatted as 09XXXXXXXXX.'
     ],
     steps: [
-      'Navigate to Contacts and select Add Contact. Save a test contact using your own mobile number.',
-      'Open Compose SMS.',
-      'Select your test contact as the recipient.',
-      'Choose the default sender identity NOLASMSPro.',
-      'Compose a natural message (e.g. "Hi, this is a delivery test from NOLA SMS Pro. No reply is required.").',
-      'Review the character count before sending (1 standard SMS = 160 characters).',
-      'Click Send once.',
-      'Verify that the SMS arrives on your physical mobile handset.',
-      'Open Message History and confirm the message status displays Sent or Delivered.'
+      {
+        iconName: 'UserCheck',
+        title: 'Access Contact List',
+        badge: 'SELECT RECIPIENT',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Select your test contact from the contacts directory.',
+        details: [
+          'Locate your own Philippine mobile number for first-flight tests.',
+          'Click the chat bubble icon to load the composition panel.'
+        ]
+      },
+      {
+        iconName: 'MessageSquare',
+        title: 'Draft Test Message',
+        badge: 'GSM-7 TEXT',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Type a natural test message in the composer outbox.',
+        details: [
+          'Avoid repetitive spam words like "test message" or "testing".',
+          'Use: "Hi, this is a delivery check from NOLA SMS Pro. No reply is required."'
+        ]
+      },
+      {
+        iconName: 'Send',
+        title: 'Dispatch & Review Logs',
+        badge: 'DELIVERY LOGS',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Click Send and track live status codes inside history logs.',
+        details: [
+          'Check outbox to confirm state shifts: Sending -> Sent.',
+          'Verify that your SMS credits wallet reflects segment deductions.'
+        ]
+      }
     ],
     expectAfter: 'Once your test SMS is successfully received and the message status shows Delivered, your setup is complete and you are ready to begin normal messaging operations.',
     nextPageCTA: {
@@ -399,10 +439,41 @@ export const docsData: DocPage[] = [
       'Customer records populated in your HighLevel CRM with mobile numbers.'
     ],
     steps: [
-      'Navigate to the Contacts tab in the sidebar navigation.',
-      'Format validation: Ensure phone numbers follow the 11-digit local format (09XXXXXXXXX) without country codes or spaces.',
-      'Search filters: Use the search field to query contacts by name, email, or phone number.',
-      'Tag synchronization: Select contacts to view and filter based on their active GHL tags.'
+      {
+        iconName: 'Search',
+        title: 'Lookup Contacts',
+        badge: 'LOOKUP & FILTER',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Find existing CRM contacts dynamically using the real-time query interface.',
+        details: [
+          'Search field matches contact name, email, or local Philippine number.',
+          'Filters contacts instantaneously on input to prevent database lag.',
+          'Shows active CRM tags so support teams see client attributes directly.'
+        ]
+      },
+      {
+        iconName: 'PlusCircle',
+        title: 'Add New Contacts',
+        badge: 'CREATE RECORD',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Add new clients directly to your sub-account with local validation guidelines.',
+        details: [
+          'Requires first name, last name, and valid mobile number.',
+          'Auto-validates Philippine prefixes (e.g. 09XXXXXXXXX) on save.',
+          'Instantly syncs the contact record back to GoHighLevel CRM database.'
+        ]
+      },
+      {
+        iconName: 'UserCheck',
+        title: 'Verify Status Maps',
+        badge: 'REAL-TIME SYNC',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Ensure contact connectivity metrics are accurate before composition.',
+        details: [
+          'Retrieve active token credentials status from location settings.',
+          'Review offline sync indicators if GHL CRM API experiences carrier latency.'
+        ]
+      }
     ],
     expectAfter: 'You can quickly select contacts, view their details, and launch the composer to send a message immediately.',
     tips: [
@@ -449,11 +520,51 @@ export const docsData: DocPage[] = [
       'An approved Sender ID or fallback system default NOLASMSPro.'
     ],
     steps: [
-      'Select a contact from your synced list or enter a destination number.',
-      'Choose your preferred sending identity (Sender ID) from the dropdown selector.',
-      'Draft your custom message in the compose body box or load a pre-written template.',
-      'Review character segments: Check standard GSM-7 limits (160 chars) or Unicode limits (70 chars) on the counter.',
-      'Click the Send button to dispatch the SMS through local Philippine carriers.'
+      {
+        iconName: 'UserPlus',
+        title: 'Select Recipient',
+        badge: 'CONTACT LINK',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Pick a contact from your synced list or enter a destination number.',
+        details: [
+          'Click recipient selectors to search by name or GHL tag.',
+          'Ensure target phone matches the local carrier format.'
+        ]
+      },
+      {
+        iconName: 'Shield',
+        title: 'Choose Sender ID',
+        badge: 'BRAND MASK',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Select your verified brand name identity to mask outgoing text blocks.',
+        details: [
+          'Dropdown shows approved custom Sender ID headers.',
+          'Fallback default NOLASMSPro is always available.'
+        ]
+      },
+      {
+        iconName: 'FileText',
+        title: 'Draft or Load Template',
+        badge: 'COMPOSER COPY',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Type custom message copy or load a pre-saved templates library.',
+        details: [
+          'Select standard blueprints to load pre-written layout copies.',
+          'Variables like {{contact.first_name}} resolve dynamically on dispatch.'
+        ]
+      },
+      {
+        iconName: 'Hash',
+        title: 'Review Credits & Limits',
+        badge: 'COST CALCULATOR',
+        badgeColor: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400',
+        desc: 'Calculate segment costs based on character limits before sending.',
+        details: [
+          'Monitors standard GSM-7 limits (160 characters per SMS credit).',
+          'Emojis or special chars convert to Unicode (70 characters limit).',
+          'Click Send to route the finalized SMS to domestic local networks.'
+        ]
+      }
     ],
     expectAfter: 'Your message will be sent to the carrier queue, credits will be deducted based on the calculated segment count, and transmission status will log in your outbox.',
     tips: [
@@ -494,11 +605,39 @@ export const docsData: DocPage[] = [
       'Understanding of standard personalization tags (e.g. {{contact.first_name}}).'
     ],
     steps: [
-      'Navigate to the Templates tab in the sidebar menu.',
-      'Click the Create Template button to open the template designer.',
-      'Enter a clear template name and write the default message body.',
-      'Insert dynamic CRM variables or tags for personalized fields.',
-      'Save the template. It will instantly appear in the Composer dropdown menu.'
+      {
+        iconName: 'FolderPlus',
+        title: 'Initiate Template Creation',
+        badge: 'NEW BLUEPRINT',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Navigate to templates directory and open the blueprint designer.',
+        details: [
+          'Click the "Create Template" button on the dashboard library.',
+          'Select a category to sort notifications from campaign copy.'
+        ]
+      },
+      {
+        iconName: 'FileEdit',
+        title: 'Draft Template Copy',
+        badge: 'DYNAMIC TEXT',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Type the message body and insert custom CRM placeholders.',
+        details: [
+          'Use dynamic merge fields matching GHL contact database fields.',
+          'Keep templates concise to stay within standard segment limits.'
+        ]
+      },
+      {
+        iconName: 'Save',
+        title: 'Save & Register',
+        badge: 'IMMEDIATE UPDATE',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Save template logs to location directory for immediate team use.',
+        details: [
+          'Review details to confirm dynamic parameters render correctly.',
+          'Saved files instantly appear in Composer dropdown list.'
+        ]
+      }
     ],
     expectAfter: 'Your template is stored locally in the NOLA SMS DB, scoped to your specific location ID and ready for use in the outbox.',
     tips: [
@@ -540,11 +679,39 @@ export const docsData: DocPage[] = [
       'Valid business registration or authorization documents matching your requested brand mask.'
     ],
     steps: [
-      'Review custom Sender ID benefits over anonymous generic numbers.',
-      'Navigate to the Sender IDs tab and click Request Sender ID.',
-      'Enter your desired brand header (maximum 11 characters, letters and numbers only).',
-      'Upload the required carrier documentation showing trademark or business ownership.',
-      'Submit the request and track its approval status in the registry panel.'
+      {
+        iconName: 'HelpCircle',
+        title: 'Review Brand Header Rules',
+        badge: 'PRE-FLIGHT RULES',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Understand carrier guidelines for registering custom branded masks.',
+        details: [
+          'Requested masks must match business names or registered trademarks.',
+          'Standard masks support 3 to 11 alphanumeric characters.'
+        ]
+      },
+      {
+        iconName: 'PlusCircle',
+        title: 'Initiate ID Request',
+        badge: 'REGISTRY DISPATCH',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Open the Sender IDs panel and click "Request Sender ID".',
+        details: [
+          'Type the requested alphanumeric mask exactly as it should appear.',
+          'Upload business licenses, SEC certifications, or authority letters.'
+        ]
+      },
+      {
+        iconName: 'ShieldCheck',
+        title: 'Track Activation Status',
+        badge: 'APPROVAL STAGES',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Monitor approval logs updated as networks register your brand header.',
+        details: [
+          'Status is marked as Pending (under carrier review), Approved, or Rejected.',
+          'Once approved, masks automatically populate the outbox Composer dropdown.'
+        ]
+      }
     ],
     expectAfter: 'Once approved by local networks, the Sender ID is saved to your location integrations and becomes selectable in the Compose panel.',
     tips: [
@@ -589,10 +756,39 @@ export const docsData: DocPage[] = [
       'Outbound or inbound messages processed by your location.'
     ],
     steps: [
-      'Navigate to the Message History tab in the sidebar menu.',
-      'Inspect the log table: Review chronological lists of sent texts, recipient phone numbers, and credits used.',
-      'Filter and search: Use date range picker, recipient phone number, or status filters to isolate specific logs.',
-      'Check delivery state updates: Look for real-time status changes updated via cloud synchronization crons.'
+      {
+        iconName: 'List',
+        title: 'Navigate Outbox Logs',
+        badge: 'AUDIT LEDGER',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Open the Message History workspace to inspect past text campaigns.',
+        details: [
+          'Review chronological lists of sent texts with timestamps.',
+          'Examine credits consumed and destination numbers at a glance.'
+        ]
+      },
+      {
+        iconName: 'Filter',
+        title: 'Apply Search Filters',
+        badge: 'QUERY ISOLATION',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Isolate specific messages using advanced table search fields.',
+        details: [
+          'Filter by date ranges, target numbers, or delivery statuses.',
+          'Query text body strings to verify copy compliance logs.'
+        ]
+      },
+      {
+        iconName: 'RefreshCw',
+        title: 'Track Carrier Status Receipts',
+        badge: 'SYNC UPDATE',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Observe updates updated via background synchronization workers.',
+        details: [
+          'Pending status updates automatically query domestic gateways.',
+          'Expose carrier error codes for troubleshooting failed dispatches.'
+        ]
+      }
     ],
     expectAfter: 'You will have complete audit trails of all messaging traffic, including specific error codes returned by local gateways for failed dispatches.',
     tips: [
@@ -622,8 +818,52 @@ export const docsData: DocPage[] = [
     description: 'Monitor credit balances, transaction logs, and top up requests.',
     section: 'ACCOUNT',
     readingTime: '3 min read',
-    purpose: '',
-    whyItMatters: ''
+    purpose: 'Monitor your available SMS credits, review credit transaction history, and purchase additional credit packages.',
+    whyItMatters: 'Maintaining an active credit balance prevents message delivery failures and ensures uninterrupted customer communication.',
+    prerequisites: [
+      'Active owner account login is required to access billing and credits settings.'
+    ],
+    steps: [
+      {
+        iconName: 'Wallet',
+        title: 'Check Active Balance',
+        badge: 'CREDITS BALANCE',
+        badgeColor: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400',
+        desc: 'Monitor available SMS credits from the top dashboard banner.',
+        details: [
+          'Displays active balance, credits consumed today, and monthly totals.',
+          'Keeps transaction logs synchronized across sub-account ledgers.'
+        ]
+      },
+      {
+        iconName: 'ShoppingBag',
+        title: 'Select Refill Packages',
+        badge: 'BILLING PACKAGES',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Select from custom packages (10, 500, 1100, 2750, 6000 credits).',
+        details: [
+          'Click Checkout to launch secure Stripe billing payments.',
+          'Purchase package top-ups dynamically to replenish your wallet.'
+        ]
+      },
+      {
+        iconName: 'History',
+        title: 'Audit Ledger Logs',
+        badge: 'LEDGER LOGS',
+        badgeColor: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400',
+        desc: 'Inspect ledger logs showing credits used for outreach campaigns.',
+        details: [
+          'Lists Timestamp, credit adjustment amount, and description.',
+          'Filters entries by transaction date range or campaign ID.'
+        ]
+      }
+    ],
+    expectAfter: 'Your updated SMS credit balance will be reflected on the dashboard and transaction ledgers, ready for message composition.',
+    nextPageCTA: {
+      title: 'Settings',
+      desc: 'Configure user profiles, notification alert thresholds, and defaults.',
+      id: 'settings'
+    }
   },
   {
     id: 'settings',
@@ -631,8 +871,52 @@ export const docsData: DocPage[] = [
     description: 'Manage user profiles, location connections, sending defaults, and notification preferences.',
     section: 'ACCOUNT',
     readingTime: '3 min read',
-    purpose: '',
-    whyItMatters: ''
+    purpose: 'Manage your administrator profile, verify connected GoHighLevel locations, and configure notification alerts.',
+    whyItMatters: 'Ensuring your location mappings and threshold configurations are set correctly secures account access and gives warning alerts before credits run out.',
+    prerequisites: [
+      'Administrator level permissions for the GoHighLevel location sub-account.'
+    ],
+    steps: [
+      {
+        iconName: 'User',
+        title: 'Manage Profile Details',
+        badge: 'ADMIN PROFILE',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Update administrative credentials and default sending preferences.',
+        details: [
+          'Modify user login email, name, and account password parameters.',
+          'Verify OTP tokens for password updates to secure access.'
+        ]
+      },
+      {
+        iconName: 'MapPin',
+        title: 'Verify Location Details',
+        badge: 'GHL MAPPING',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Confirm connected HighLevel sub-account location configurations.',
+        details: [
+          'Review active company scopes, location ID mapping, and status.',
+          'Check marketplace connection tokens mapping sub-accounts.'
+        ]
+      },
+      {
+        iconName: 'Bell',
+        title: 'Configure Alerts Threshold',
+        badge: 'ALERT NOTIF',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Set notification thresholds to receive warning emails.',
+        details: [
+          'Alerts trigger when credits drop below your custom target limit.',
+          'Verify profile email is active to receive campaign warnings.'
+        ]
+      }
+    ],
+    expectAfter: 'Your administrator profile settings, connected location keys, and default sending masks will be updated and secured.',
+    nextPageCTA: {
+      title: 'Troubleshooting',
+      desc: 'Diagnose and resolve common setup, billing, and carrier issues.',
+      id: 'troubleshooting'
+    }
   },
   {
     id: 'troubleshooting',
@@ -640,8 +924,55 @@ export const docsData: DocPage[] = [
     description: 'Diagnose and resolve common setup, billing, and carrier issues.',
     section: 'SUPPORT',
     readingTime: '4 min read',
-    purpose: '',
-    whyItMatters: ''
+    purpose: 'Identify, diagnose, and resolve common API connection, billing checkout, and message delivery failures.',
+    whyItMatters: 'Quickly resolving setup or routing blockages prevents campaign down-time and restores sync flows.',
+    prerequisites: [
+      'An active NOLA SMS Pro dashboard session or access to the screen displaying the reported error is required.'
+    ],
+    steps: [
+      {
+        iconName: 'MapPin',
+        title: 'Location Sync Resolution',
+        badge: 'SYNC REPAIR',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Fix "Location Not Detected" errors within GoHighLevel sub-account dashboards.',
+        details: [
+          'Confirm that NOLA custom menu parameters are set correctly.',
+          'Select "Pass contact/user info as query parameters" inside Custom Menu Settings.',
+          'Reload the browser page to refresh sub-account scopes mapping.'
+        ]
+      },
+      {
+        iconName: 'AlertCircle',
+        title: 'Message Delivery Audit',
+        badge: 'OUTBOX REPAIR',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Diagnose message delays, network bounces, and credit wallet blocks.',
+        details: [
+          'Check SMS Credits balance card on dashboard to confirm positive credits.',
+          'Verify numbers format: must follow local PH 11-digit system.',
+          'Avoid spam filters by removing repetitive test phrases from draft copies.'
+        ]
+      },
+      {
+        iconName: 'RefreshCw',
+        title: 'Re-Authorize Connection',
+        badge: 'OAUTH HANDSHAKE',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Refresh authorization tokens when sub-account credentials expire.',
+        details: [
+          'Click the Reconnect GHL API button on the connection alert dialog.',
+          'Log in to GoHighLevel with sub-account admin credentials.',
+          'Choose the correct location ID mapping and approve requested permissions.'
+        ]
+      }
+    ],
+    expectAfter: 'Connection issues are resolved, contact database synchronization resumes, and SMS delivery services are restored.',
+    nextPageCTA: {
+      title: 'Support & Help',
+      desc: 'Create support tickets and track ticket status logs.',
+      id: 'support-help'
+    }
   },
   {
     id: 'support-help',
@@ -649,8 +980,64 @@ export const docsData: DocPage[] = [
     description: 'Create support tickets and check ticket status logs.',
     section: 'SUPPORT',
     readingTime: '3 min read',
-    purpose: '',
-    whyItMatters: ''
+    purpose: 'Submit support tickets for help with credit billing, custom Sender ID configurations, or integration issues.',
+    whyItMatters: 'Direct access to support engineers ensures complex carrier problems or transaction issues are resolved quickly.',
+    prerequisites: [
+      'Active owner login is required to access the ticketing console.'
+    ],
+    steps: [
+      {
+        iconName: 'HelpCircle',
+        title: 'Open Help Panel',
+        badge: 'SUPPORT HELP',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Open the support console directly inside NOLA SMS Pro sidebar.',
+        details: [
+          'Click Create Support Ticket on the ticketing panel.'
+        ]
+      },
+      {
+        iconName: 'ListCollapse',
+        title: 'Select Ticket Category',
+        badge: 'BILLING & SETUP',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Sort help requests by credits billing, Sender ID, or setups.',
+        details: [
+          'Helps support engineers route tickets to appropriate developers.'
+        ]
+      },
+      {
+        iconName: 'FileText',
+        title: 'Provide Diagnostics',
+        badge: 'AUDIT DETAILS',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Enter detailed descriptions of your error or billing concern.',
+        details: [
+          'Always include recipient phone numbers and carrier status codes.',
+          'Attach diagnostics screenshot files for setup or oauth errors.'
+        ]
+      },
+      {
+        iconName: 'CheckSquare',
+        title: 'Submit & Track Tickets',
+        badge: 'REAL-TIME LEDGER',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Submit the help request and track update logs on your dashboard.',
+        details: [
+          'Responses are sent directly to your administrative profile email.'
+        ]
+      }
+    ],
+    expectAfter: 'Your ticket is saved in the support queue and dispatched to our engineers; responses log directly to your dashboard.',
+    notes: [
+      'When reporting a message delivery failure, always include the destination phone number, timestamp of dispatch, and the exact carrier error code.'
+    ],
+    hasTicketForm: true,
+    nextPageCTA: {
+      title: 'Frequently Asked Questions',
+      desc: 'Quick reference answers for billing, credits, and formatting.',
+      id: 'faq'
+    }
   },
   {
     id: 'faq',
@@ -658,8 +1045,163 @@ export const docsData: DocPage[] = [
     description: 'Quick reference answers for billing, credits, and formatting.',
     section: 'SUPPORT',
     readingTime: '3 min read',
-    purpose: '',
-    whyItMatters: ''
+    purpose: 'Find quick reference answers to common questions about character segment billing, carrier masks, and sub-account setups.',
+    whyItMatters: 'Instant self-service answers resolve layout or routing queries without waiting for ticket support.',
+    steps: [
+      'Read Frequently Asked Questions: Search the categorised list of accordion panels below to find instant answers.',
+      'Submit ticket support: If your question is not resolved, click Support & Help to contact development teams directly.'
+    ],
+    expectAfter: 'Common questions regarding message segment billing, alphanumeric sender ID registration times, and trial credit limits are answered.',
+    faqs: [
+      {
+        q: 'How do character limits and SMS credit deductions work?',
+        a: 'A standard SMS contains up to 160 characters. Messages containing emojis, special characters, or non-standard characters reduce the available character count per segment. When a message exceeds the supported limit, it is automatically split into multiple SMS segments, consuming additional SMS credits for each recipient.'
+      },
+      {
+        q: 'Can recipients reply to my messages?',
+        a: 'NOLA SMS Pro sends messages using alphanumeric sender identities such as NOLASMSPro or approved custom Sender IDs. Because these sender identities support one-way outbound messaging, recipients cannot reply directly. To verify delivery, confirm that the SMS was received on the recipient\'s mobile device.'
+      },
+      {
+        q: 'How long does Custom Sender ID approval take?',
+        a: 'Custom Sender IDs require approval from participating telecommunications providers. The standard review process typically takes 5–7 business days, depending on carrier verification.'
+      },
+      {
+        q: 'Can I set up multiple GoHighLevel sub-accounts?',
+        a: 'Yes. NOLA SMS Pro supports multiple GoHighLevel locations. Each sub-account must be installed separately through the GoHighLevel Marketplace and configured independently.'
+      },
+      {
+        q: 'How do trial SMS credits work?',
+        a: 'Each newly registered location receives 10 free trial SMS credits. These credits can be used for initial testing. After the trial credits are exhausted, additional SMS credits must be purchased before sending more messages.'
+      }
+    ]
+  },
+  {
+    id: 'automation',
+    title: 'Automation',
+    description: 'Trigger outbound text messages automatically using GoHighLevel custom workflow actions.',
+    section: 'WORKFLOW',
+    readingTime: '3 min read',
+    purpose: 'Integrate NOLA SMS Pro sending capabilities into GoHighLevel workflows to trigger instant SMS confirmations, billing alerts, or marketing dispatches automatically based on CRM events.',
+    whyItMatters: 'Automating messages eliminates manual outbox typing, ensures sub-second response times to client inquiries, and handles bulk communications dynamically using lead triggers.',
+    prerequisites: [
+      'Administrator permissions in the GoHighLevel location dashboard.',
+      'Completed app installation and active API connection badge in Settings.',
+      'Positive SMS credits balance in your wallet.'
+    ],
+    steps: [
+      {
+        iconName: 'Settings',
+        title: 'Open GHL Workflows',
+        badge: 'WORKFLOW ENGINE',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Access your GoHighLevel dashboard and open the automation tab.',
+        details: [
+          'Click Workflows in the automation menu.',
+          'Create a new workflow by selecting "Start from scratch".'
+        ]
+      },
+      {
+        iconName: 'Zap',
+        title: 'Define Trigger Event',
+        badge: 'LEAD ACTION',
+        badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+        desc: 'Choose the starting CRM trigger node to initiate the workflow.',
+        details: [
+          'Map actions to booking submissions, CRM stage changes, or tags.',
+          'Verify active trigger filters capture correct target contacts.'
+        ]
+      },
+      {
+        iconName: 'PlusCircle',
+        title: 'Insert NOLA Custom Action',
+        badge: 'WEBHOOK ACTION',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Click the "+" node in the builder and select NOLA SMS Pro.',
+        details: [
+          'Map recipient number dynamically using {{contact.phone}}.',
+          'Choose your approved custom Sender ID from the identity list.',
+          'Type your personalized message layout body.'
+        ]
+      },
+      {
+        iconName: 'Play',
+        title: 'Publish & Test',
+        badge: 'LIVE DISPATCH',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Toggle workflow state to Published and run a test lead contact.',
+        details: [
+          'Confirm SMS segment costs debit successfully from wallet.',
+          'Track live receipt status codes inside NOLA Message History.'
+        ]
+      }
+    ],
+    expectAfter: 'Outbound SMS notifications will execute automatically in the background whenever contacts enter your GoHighLevel trigger node.',
+    nextPageCTA: {
+      title: 'GHL Conversation',
+      desc: 'Learn how SMS logs synchronize back into native Conversations.',
+      id: 'ghl-conversation'
+    },
+    relatedPages: [
+      { id: 'ghl-conversation', title: 'GHL Conversation' },
+      { id: 'compose-sms', title: 'Compose SMS' }
+    ]
+  },
+  {
+    id: 'ghl-conversation',
+    title: 'GHL Conversation',
+    description: 'Sync and manage customer text logs directly inside GoHighLevel\'s native conversations tab.',
+    section: 'WORKFLOW',
+    readingTime: '3 min read',
+    purpose: 'Bridge outbound and inbound messages sent via NOLA SMS Pro into the GoHighLevel native conversations timeline for a unified client contact log.',
+    whyItMatters: 'Having a single, complete timeline of all phone calls, emails, and SMS prevents team members from sending duplicate messages and ensures sales history is fully preserved inside the GHL customer profile.',
+    prerequisites: [
+      'Completed Marketplace installation with the required database read/write permissions.',
+      'Real-time API connection showing Active status.'
+    ],
+    steps: [
+      {
+        iconName: 'ShieldAlert',
+        title: 'Review Sync Scopes',
+        badge: 'OAUTH SCOPES',
+        badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+        desc: 'Verify that GHL Marketplace installation scopes include conversations permissions.',
+        details: [
+          'Requires both conversations.readonly and conversations.write scopes.',
+          'Locks or updates sync hooks dynamically upon sub-account changes.'
+        ]
+      },
+      {
+        iconName: 'MessageSquare',
+        title: 'Dispatch Messaging Traffic',
+        badge: 'TEST CONVERSATION',
+        badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+        desc: 'Send an SMS from either NOLA outbox Composer, Contacts list, or triggers.',
+        details: [
+          'Verify message delivers to Semaphore gateway successfully.'
+        ]
+      },
+      {
+        iconName: 'History',
+        title: 'Audit GHL Sync Timeline',
+        badge: 'NATIVE ALIGNMENT',
+        badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+        desc: 'Navigate to GHL native Conversations tab to confirm the SMS matches customer profile.',
+        details: [
+          'Text segments append dynamically inside the GHL contact stream.',
+          'Responses are fully synced to allow unified CRM communications.'
+        ]
+      }
+    ],
+    expectAfter: 'Outgoing and incoming carrier message statuses are dynamically synced between the NOLA SMS database and your native HighLevel conversation view.',
+    nextPageCTA: {
+      title: 'SMS Credits',
+      desc: 'Understand how credits are deducted and how to request top-ups.',
+      id: 'sms-credits'
+    },
+    relatedPages: [
+      { id: 'automation', title: 'Automation' },
+      { id: 'message-history', title: 'Message History' }
+    ]
   }
 ];
 
