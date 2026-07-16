@@ -47,7 +47,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
   // 1. Render Overview (Question 1: What is this?)
   const renderWhatIsThis = () => {
     // Welcome page: Clean full-width product preview (no hero text, no eyebrow, no purpose callout)
-    if (page.id === 'welcome') {
+    if (page.id === 'overview') {
       return (
         <div className="w-full">
           {primaryScreenshot ? (
@@ -844,7 +844,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
     <div className="space-y-12">
       
       {/* HEADER METADATA — hidden on Welcome, shown on all other pages */}
-      {page.id !== 'welcome' && (
+      {page.id !== 'overview' && (
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4 dark:border-[#1E293B]">
           <span className="inline-flex items-center gap-1.5 rounded-md bg-[#F1F5F9] px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-[#334155] dark:bg-[#1E293B] dark:text-[#E2E8F0]">
             {page.readingTime}
@@ -857,7 +857,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
 
       {/* 1. WHAT IS THIS? */}
       <DocSection id={`${page.id}-what-is-this`}>
-        {page.id !== 'welcome' && (
+        {page.id !== 'overview' && (
           <DocSectionHeading eyebrow="1. What is this?">Overview & Goal</DocSectionHeading>
         )}
         {renderWhatIsThis()}

@@ -48,7 +48,7 @@ interface Props {
 }
 
 const pageIconMap = {
-  welcome: BookOpen,
+  overview: Compass,
   'what-is-nola-sms-pro': BookOpen,
   'how-nola-sms-pro-works': Wrench,
   'core-features': LayoutDashboard,
@@ -85,11 +85,33 @@ function getHeaderPage(activeId: string, fallback: DocPage): DocPage {
 
 const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
   const Icon = getPageIcon(page);
-  const isWelcomeHeader = page.id === 'welcome';
+  const isWelcomeHeader = page.id === 'overview';
   const isWhatIsHeader = page.id === 'what-is-nola-sms-pro';
   const isHowWorksHeader = page.id === 'how-nola-sms-pro-works';
   const isCoreFeaturesHeader = page.id === 'core-features';
 
+  const renderOverviewBadges = ({
+    primary,
+    primaryIcon,
+    secondary,
+    secondaryIcon,
+  }: {
+    primary: string;
+    primaryIcon: React.ReactNode;
+    secondary: string;
+    secondaryIcon: React.ReactNode;
+  }) => (
+    <div className="mb-5 flex flex-wrap items-center gap-2.5">
+      <span className="inline-flex min-h-7 items-center gap-1.5 rounded-full border border-white/55 bg-white/75 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#0B2E63] shadow-sm shadow-blue-900/5 backdrop-blur-md dark:border-white/10 dark:bg-white/10 dark:text-blue-100">
+        {primaryIcon}
+        {primary}
+      </span>
+      <span className="inline-flex min-h-7 items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50/80 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-800 shadow-sm shadow-emerald-900/5 backdrop-blur-md dark:border-emerald-300/15 dark:bg-emerald-400/10 dark:text-emerald-100">
+        {secondaryIcon}
+        {secondary}
+      </span>
+    </div>
+  );
   // Helper to render overview-style hero banners without background images
   const renderOverviewBanner = ({
     badge1,
@@ -119,16 +141,12 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
         <div className="absolute bottom-[-50%] left-[-10%] h-[300px] w-[300px] rounded-full bg-emerald-500/5 blur-[80px] dark:bg-emerald-500/5" />
         
         <div className="relative z-10 flex h-full flex-col justify-center px-8 py-8 sm:px-10 sm:py-10">
-          <div className="mb-3.5 flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300/40 bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 backdrop-blur-sm">
-              {badge1Icon}
-              {badge1}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/40 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-800 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-300 backdrop-blur-sm">
-              {badge2Icon}
-              {badge2}
-            </span>
-          </div>
+          {renderOverviewBadges({
+            primary: badge1,
+            primaryIcon: badge1Icon,
+            secondary: badge2,
+            secondaryIcon: badge2Icon,
+          })}
           <h1 className="text-[26px] font-black leading-[1.1] tracking-tight text-[#0a1e3d] dark:text-white sm:text-[32px]">
             {headline} {headlineAccent && <span className="text-blue-800 dark:text-blue-300">{headlineAccent}</span>}
           </h1>
@@ -159,18 +177,14 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
           <div className="pointer-events-none absolute inset-0 lg:hidden bg-gradient-to-b from-[#bae6fd]/30 to-[#93c5fd]/90 dark:from-transparent dark:to-[#0a1223]/95" />
           
           <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 sm:px-10 sm:py-12 lg:max-w-[55%] lg:py-16 xl:max-w-[50%]">
-            <div className="mb-6 flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-700 dark:border-blue-400/30 dark:bg-blue-500/15 dark:text-blue-300 backdrop-blur-sm">
-                <Compass className="h-3 w-3" />
-                Start here
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300 backdrop-blur-sm">
-                <CheckCircle2 className="h-3 w-3" />
-                HighLevel native
-              </span>
-            </div>
+            {renderOverviewBadges({
+              primary: 'Overview',
+              primaryIcon: <Compass className="h-3 w-3" />,
+              secondary: 'HighLevel native',
+              secondaryIcon: <CheckCircle2 className="h-3 w-3" />,
+            })}
             <h1 className="text-[26px] font-black leading-[1.1] tracking-tight text-[#0a1e3d] dark:text-white sm:text-[32px]">
-              Get started with <span className="text-blue-800 dark:text-blue-200">NOLA SMS Pro</span>
+              Welcome to <span className="text-blue-800 dark:text-blue-200">NOLA SMS Pro</span>
             </h1>
             <p className="mt-5 max-w-[420px] text-[13px] font-semibold leading-7 text-[#1e3a5f] dark:text-slate-200 sm:text-[14px]">
               Install the app, connect your HighLevel sub-account, send your first SMS, and track delivery — all from one embedded workspace.
@@ -188,7 +202,7 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
                 to="/docs/what-is-nola-sms-pro"
                 className="inline-flex items-center gap-2 rounded-lg border border-blue-200/60 bg-white/90 px-5 py-2.5 text-[13px] font-bold text-blue-700 backdrop-blur-sm transition-all hover:bg-blue-50/80 active:scale-[0.97] dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/18 dark:hover:border-white/30"
               >
-                Overview
+                What is NOLA SMS Pro?
               </Link>
             </div>
           </div>
@@ -200,7 +214,7 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
   if (isWhatIsHeader) {
     return renderOverviewBanner({
       id: 'what-is-nola-sms-pro-what-is-this',
-      badge1: 'Overview',
+      badge1: 'Intro',
       badge1Icon: <BookOpen className="h-3 w-3" />,
       badge2: 'HighLevel Native',
       badge2Icon: <CheckCircle2 className="h-3 w-3" />,
@@ -295,10 +309,10 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
 };
 export const DocPageRenderer: React.FC<Props> = ({ page }) => {
   const location = useLocation();
-  const activeId = location.pathname.split('/docs/')[1] || 'welcome';
+  const activeId = location.pathname.split('/docs/')[1] || 'overview';
 
   const headerPage = getHeaderPage(activeId, page);
-  const isWelcome = activeId === 'welcome';
+  const isWelcome = activeId === 'overview';
   const isInstallPage = activeId === 'install-nola-sms-pro';
   const isCreateOrSignInPage = activeId === 'create-or-sign-in';
   const isConnectedHighlevelPage = activeId === 'connect-highlevel';

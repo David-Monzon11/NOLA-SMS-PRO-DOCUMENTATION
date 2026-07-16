@@ -63,7 +63,6 @@ export const sidebarStructure = [
   {
     title: 'OVERVIEW',
     items: [
-      { id: 'welcome', title: 'Welcome' },
       { id: 'what-is-nola-sms-pro', title: 'What is NOLA SMS Pro?' },
       { id: 'how-nola-sms-pro-works', title: 'How NOLA SMS Pro Works' },
       { id: 'core-features', title: 'Core Features' }
@@ -108,8 +107,8 @@ export const sidebarStructure = [
 
 export const docsData: DocPage[] = [
   {
-    id: 'welcome',
-    title: 'Welcome to NOLA SMS Pro',
+    id: 'overview',
+    title: 'Overview',
     description: 'An embedded SMS communication platform operating natively within your HighLevel sub-account.',
     section: 'OVERVIEW',
     readingTime: '2 min read',
@@ -260,7 +259,7 @@ export const docsData: DocPage[] = [
       id: 'create-or-sign-in'
     },
     relatedPages: [
-      { id: 'welcome', title: 'Welcome to NOLA SMS Pro' },
+      { id: 'overview', title: 'Overview' },
       { id: 'create-or-sign-in', title: 'Create or Sign In' }
     ]
   },
@@ -669,7 +668,7 @@ export function getDocPageById(id: string): DocPage | undefined {
 }
 
 export function getNextAndPrevPages(id: string) {
-  const flatItems: { id: string; title: string }[] = [];
+  const flatItems: { id: string; title: string }[] = [{ id: 'overview', title: 'Overview' }];
   sidebarStructure.forEach((sec) => {
     sec.items.forEach((item) => {
       flatItems.push({ id: item.id, title: item.title });

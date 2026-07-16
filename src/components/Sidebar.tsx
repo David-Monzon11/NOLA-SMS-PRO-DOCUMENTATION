@@ -4,7 +4,7 @@ import {
   BookOpen, ChevronDown, ChevronRight, HelpCircle, X,
   MessageSquare, CreditCard, Rocket, Wrench, LayoutDashboard,
   Send, Store, UserPlus, ArrowRightLeft, Users, FileText,
-  ShieldCheck, History, Settings
+  ShieldCheck, History, Settings, Compass, Info
 } from 'lucide-react';
 import { sidebarStructure } from '../data/docsData';
 
@@ -22,8 +22,8 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
 };
 
 const SUB_PAGE_ICONS: Record<string, React.ReactNode> = {
-  welcome: <BookOpen className="h-3.5 w-3.5 shrink-0" />,
-  'what-is-nola-sms-pro': <BookOpen className="h-3.5 w-3.5 shrink-0" />,
+  overview: <Compass className="h-3.5 w-3.5 shrink-0" />,
+  'what-is-nola-sms-pro': <Info className="h-3.5 w-3.5 shrink-0" />,
   'how-nola-sms-pro-works': <Wrench className="h-3.5 w-3.5 shrink-0" />,
   'core-features': <LayoutDashboard className="h-3.5 w-3.5 shrink-0" />,
   'send-your-first-sms': <Send className="h-3.5 w-3.5 shrink-0" />,
@@ -45,7 +45,7 @@ const SUB_PAGE_ICONS: Record<string, React.ReactNode> = {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile }) => {
   const location = useLocation();
-  const activeId = location.pathname.split('/docs/')[1] || 'welcome';
+  const activeId = location.pathname.split('/docs/')[1] || 'overview';
 
   // Map database section names to figma mockup headers
   const getFigmaHeader = (title: string) => {
@@ -106,6 +106,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
 
       {/* Main navigation list */}
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+
+        <div className="space-y-2">
+          <Link
+            to="/docs/overview"
+            onClick={onCloseMobile}
+            className={`flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-sm font-black transition-all ${
+              activeId === 'overview'
+                ? 'bg-[#F1F5F9] text-[#334155] shadow-sm dark:bg-[#1E293B] dark:text-[#CBD5E1]'
+                : 'text-slate-600 hover:bg-slate-100/70 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800/30 dark:hover:text-white'
+            }`}
+          >
+            <span className={activeId === 'overview' ? 'text-[#334155] dark:text-[#CBD5E1]' : 'text-slate-400 dark:text-slate-500'}>
+              <Compass className="h-4 w-4 shrink-0" />
+            </span>
+            <span>Overview</span>
+          </Link>
+        </div>
 
         {/* Collapsible Section Folders */}
         <div className="space-y-5">

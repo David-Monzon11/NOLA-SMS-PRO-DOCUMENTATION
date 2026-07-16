@@ -14,6 +14,48 @@ interface DocLayoutProps {
   page: DocPage;
 }
 
+const customPageTocItems: Record<string, { id: string; label: string }[]> = {
+  'sms-credits': [
+    { id: 'credits-key-objective', label: 'Key Objective' },
+    { id: 'credits-prerequisites', label: 'Prerequisites' },
+    { id: 'credit-monitoring-stepper', label: 'Credit Monitoring' },
+    { id: 'purchasing-credits-stepper', label: 'Purchasing Credits' },
+    { id: 'auditing-transactions-stepper', label: 'Auditing Transactions' },
+    { id: 'credits-consumption-warning', label: 'Credit Rules' },
+    { id: 'credits-expected-outcome', label: 'Expected Outcome' },
+  ],
+  settings: [
+    { id: 'settings-key-objective', label: 'Key Objective' },
+    { id: 'settings-prerequisites', label: 'Prerequisites' },
+    { id: 'profile-management-stepper', label: 'Profile Management' },
+    { id: 'integration-check-stepper', label: 'Integration Check' },
+    { id: 'notification-configuration-stepper', label: 'Notifications' },
+    { id: 'settings-location-warning', label: 'Location Warning' },
+    { id: 'settings-best-practices', label: 'Best Practices' },
+    { id: 'settings-expected-outcome', label: 'Expected Outcome' },
+  ],
+  troubleshooting: [
+    { id: 'troubleshooting-key-objective', label: 'Key Objective' },
+    { id: 'troubleshooting-prerequisites', label: 'Prerequisites' },
+    { id: 'location-errors-stepper', label: 'Location Errors' },
+    { id: 'message-delivery-failures-stepper', label: 'Delivery Failures' },
+    { id: 'reconnect-prompts-stepper', label: 'Reconnect Prompts' },
+    { id: 'troubleshooting-expected-outcome', label: 'Expected Outcome' },
+  ],
+  'support-help': [
+    { id: 'support-key-objective', label: 'Key Objective' },
+    { id: 'support-prerequisites', label: 'Prerequisites' },
+    { id: 'ticket-submission-stepper', label: 'Ticket Submission' },
+    { id: 'support-details-critical', label: 'SMS Issue Details' },
+    { id: 'ticket-tracking-stepper', label: 'Ticket Tracking' },
+    { id: 'support-expected-outcome', label: 'Expected Outcome' },
+  ],
+  faq: [
+    { id: 'faq-key-objective', label: 'Key Objective' },
+    { id: 'faq-accordion-section', label: 'FAQ' },
+    { id: 'faq-need-more-help', label: 'Need More Help' },
+  ],
+};
 
 export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
   const { theme, toggleTheme } = useTheme();
@@ -41,7 +83,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
   // Generate Table of Contents items — memoised so the array reference is stable
   const tocItems = useMemo<{ id: string; label: string }[]>(() => {
     const items: { id: string; label: string }[] = [];
-    if (page.id === 'welcome') {
+    if (page.id === 'overview') {
       items.push({ id: 'about-heading', label: 'About' });
       items.push({ id: 'what-you-can-do-heading', label: 'What You Can Do' });
       items.push({ id: 'quick-start-heading', label: 'Fastest Path' });
@@ -58,6 +100,8 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
     } else if (page.id === 'core-features') {
       items.push({ id: 'core-features-modules', label: 'Functional Modules' });
       items.push({ id: 'core-features-settings', label: 'Settings & Profiles' });
+    } else if (customPageTocItems[page.id]) {
+      items.push(...customPageTocItems[page.id]);
     } else {
       if (page.purpose) items.push({ id: `${page.id}-what-is-this`, label: 'Overview & Goal' });
       if (page.whyItMatters) items.push({ id: `${page.id}-why-is-it-important`, label: 'Value & Impact' });
@@ -158,7 +202,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
     if (!main) return;
 
     // Welcome first TOC item → scroll to very top
-    if (page.id === 'welcome' && id === 'about-heading') {
+    if (page.id === 'overview' && id === 'about-heading') {
       main.scrollTo({ top: 0, behavior: 'smooth' });
       setActiveHeading(id);
       return;
@@ -182,6 +226,13 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
     }
   };
 
+  const breadcrumbSectionLabel = page.id === 'overview'
+    ? null
+    : page.section === 'OVERVIEW'
+      ? 'Intro'
+      : page.section === 'SETUP'
+        ? 'Getting started'
+        : page.section.charAt(0) + page.section.slice(1).toLowerCase();
   return (
     <div className="h-screen overflow-hidden bg-[#F8FAFC] text-[#0F172A] transition-colors duration-200 dark:bg-[#020617] dark:text-slate-100 flex flex-col">
 
@@ -190,7 +241,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
         <div className="max-w-[1600px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Left: Brand Logo & version */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <Link to="/docs/welcome" className="flex items-center gap-2">
+            <Link to="/docs/overview" className="flex items-center gap-2">
               <img src="/logo.png" alt="NOLA Logo" className="h-8 w-8 object-contain rounded-lg" />
               <span className="text-[16px] font-black text-[#0F172A] dark:text-white tracking-tight">
                 NOLA SMS <span className="text-[#334155] dark:text-[#CBD5E1]">Pro</span>
@@ -241,14 +292,18 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
             <nav className="flex min-w-0 items-center gap-1.5 overflow-hidden rounded-full border border-slate-200 bg-white px-2.5 py-1.5 font-semibold text-slate-500 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-400">
               <span className="hidden sm:inline">Docs</span>
               <ChevronRight className="hidden h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600 sm:block" />
-              <span className="hidden sm:inline capitalize">{page.section.toLowerCase()}</span>
-              {page.subsection && (
+              {breadcrumbSectionLabel && (
                 <>
-                  <ChevronRight className="hidden h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600 sm:block" />
-                  <span className="hidden sm:inline">{page.subsection}</span>
+                  <span className="hidden sm:inline">{breadcrumbSectionLabel}</span>
+                  {page.subsection && (
+                    <>
+                      <ChevronRight className="hidden h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600 sm:block" />
+                      <span className="hidden sm:inline">{page.subsection}</span>
+                    </>
+                  )}
+                  <ChevronRight className="h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600" />
                 </>
               )}
-              <ChevronRight className="h-3 w-3 flex-shrink-0 text-slate-300 dark:text-slate-600" />
               <span className="truncate text-slate-900 dark:text-slate-100">{page.title}</span>
             </nav>
           </div>
