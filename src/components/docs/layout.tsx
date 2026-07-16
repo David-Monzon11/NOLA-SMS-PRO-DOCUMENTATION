@@ -8,7 +8,7 @@ export const DocSection: React.FC<{
 }> = ({ id, children, className = '' }) => (
   <section
     id={id}
-    className={`doc-section scroll-mt-[304px] lg:scroll-mt-[190px] ${className}`}
+    className={`doc-section scroll-mt-[128px] lg:scroll-mt-[128px] ${className}`}
   >
     {children}
   </section>

@@ -86,11 +86,63 @@ function getHeaderPage(activeId: string, fallback: DocPage): DocPage {
 const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
   const Icon = getPageIcon(page);
   const isWelcomeHeader = page.id === 'welcome';
+  const isWhatIsHeader = page.id === 'what-is-nola-sms-pro';
+  const isHowWorksHeader = page.id === 'how-nola-sms-pro-works';
+  const isCoreFeaturesHeader = page.id === 'core-features';
+
+  // Helper to render overview-style hero banners without background images
+  const renderOverviewBanner = ({
+    badge1,
+    badge1Icon,
+    badge2,
+    badge2Icon,
+    headline,
+    headlineAccent,
+    subtext,
+    id,
+  }: {
+    badge1: string;
+    badge1Icon: React.ReactNode;
+    badge2: string;
+    badge2Icon: React.ReactNode;
+    headline: string;
+    headlineAccent?: string;
+    subtext: string;
+    id: string;
+  }) => (
+    <header id={id} className="mb-8">
+      <div
+        className="relative overflow-hidden rounded-[20px] min-h-[160px] bg-gradient-to-br from-[#bae6fd] via-[#93c5fd] to-[#3b82f6] dark:from-[#0F172A] dark:to-[#1E293B]"
+      >
+        {/* Soft background glow decoration */}
+        <div className="absolute top-[-50%] right-[-10%] h-[300px] w-[300px] rounded-full bg-blue-500/10 blur-[80px] dark:bg-blue-500/10" />
+        <div className="absolute bottom-[-50%] left-[-10%] h-[300px] w-[300px] rounded-full bg-emerald-500/5 blur-[80px] dark:bg-emerald-500/5" />
+        
+        <div className="relative z-10 flex h-full flex-col justify-center px-8 py-8 sm:px-10 sm:py-10">
+          <div className="mb-3.5 flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300/40 bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 backdrop-blur-sm">
+              {badge1Icon}
+              {badge1}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/40 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-800 dark:border-emerald-400/20 dark:bg-emerald-500/10 dark:text-emerald-300 backdrop-blur-sm">
+              {badge2Icon}
+              {badge2}
+            </span>
+          </div>
+          <h1 className="text-[26px] font-black leading-[1.1] tracking-tight text-[#0a1e3d] dark:text-white sm:text-[32px]">
+            {headline} {headlineAccent && <span className="text-blue-800 dark:text-blue-300">{headlineAccent}</span>}
+          </h1>
+          <p className="mt-3 max-w-[760px] text-[13px] font-semibold leading-6 text-[#1e3a5f] dark:text-slate-200 sm:text-[13.5px]">
+            {subtext}
+          </p>
+        </div>
+      </div>
+    </header>
+  );
 
   if (isWelcomeHeader) {
     return (
       <header id="about-heading" className="mb-8">
-        {/* Full-bleed hero banner — image covers the entire card */}
         <div
           className="relative overflow-hidden rounded-[20px] min-h-[280px] lg:min-h-[320px]"
           style={{
@@ -100,48 +152,29 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          {/* Left-side gradient overlay so text stays legible */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(90deg, rgba(10,18,35,0.92) 0%, rgba(10,18,35,0.80) 38%, rgba(10,18,35,0.30) 65%, transparent 100%)',
-            }}
-          />
-          {/* Bottom fade on mobile so content doesn't clash with the image */}
-          <div
-            className="pointer-events-none absolute inset-0 lg:hidden"
-            style={{
-              background: 'linear-gradient(180deg, rgba(10,18,35,0.60) 0%, rgba(10,18,35,0.92) 100%)',
-            }}
-          />
-
-          {/* Content — left-aligned text only, the phone is IN the image */}
+          {/* Desktop theme-adaptive overlay: rich deep blue in light mode */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#bae6fd] via-[#93c5fd]/95 to-transparent dark:from-[#0a1223] dark:via-[#0a1223]/95 dark:to-transparent" />
+          
+          {/* Mobile theme-adaptive overlay: rich deep blue in light mode */}
+          <div className="pointer-events-none absolute inset-0 lg:hidden bg-gradient-to-b from-[#bae6fd]/30 to-[#93c5fd]/90 dark:from-transparent dark:to-[#0a1223]/95" />
+          
           <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 sm:px-10 sm:py-12 lg:max-w-[55%] lg:py-16 xl:max-w-[50%]">
-            {/* Badges */}
             <div className="mb-6 flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-300 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-700 dark:border-blue-400/30 dark:bg-blue-500/15 dark:text-blue-300 backdrop-blur-sm">
                 <Compass className="h-3 w-3" />
                 Start here
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-3 py-1 text-[11px] font-bold text-emerald-300 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300 backdrop-blur-sm">
                 <CheckCircle2 className="h-3 w-3" />
                 HighLevel native
               </span>
             </div>
-
-            {/* Heading */}
-            <h1 className="text-[28px] font-black leading-[1.06] tracking-tight text-white sm:text-[36px] lg:text-[40px] xl:text-[44px]">
-              Get started with<br />
-              <span className="text-blue-200">NOLA SMS Pro</span>
+            <h1 className="text-[26px] font-black leading-[1.1] tracking-tight text-[#0a1e3d] dark:text-white sm:text-[32px]">
+              Get started with <span className="text-blue-800 dark:text-blue-200">NOLA SMS Pro</span>
             </h1>
-
-            {/* Subtext */}
-            <p className="mt-5 max-w-[420px] text-[13px] font-medium leading-7 text-slate-300 sm:text-[14px]">
+            <p className="mt-5 max-w-[420px] text-[13px] font-semibold leading-7 text-[#1e3a5f] dark:text-slate-200 sm:text-[14px]">
               Install the app, connect your HighLevel sub-account, send your first SMS, and track delivery — all from one embedded workspace.
             </p>
-
-            {/* CTA Buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/docs/install-nola-sms-pro"
@@ -153,7 +186,7 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
               </Link>
               <Link
                 to="/docs/what-is-nola-sms-pro"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-5 py-2.5 text-[13px] font-bold text-white backdrop-blur-sm transition-all hover:bg-white/18 hover:border-white/30 active:scale-[0.97]"
+                className="inline-flex items-center gap-2 rounded-lg border border-blue-200/60 bg-white/90 px-5 py-2.5 text-[13px] font-bold text-blue-700 backdrop-blur-sm transition-all hover:bg-blue-50/80 active:scale-[0.97] dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/18 dark:hover:border-white/30"
               >
                 Overview
               </Link>
@@ -162,6 +195,45 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
         </div>
       </header>
     );
+  }
+
+  if (isWhatIsHeader) {
+    return renderOverviewBanner({
+      id: 'what-is-nola-sms-pro-what-is-this',
+      badge1: 'Overview',
+      badge1Icon: <BookOpen className="h-3 w-3" />,
+      badge2: 'HighLevel Native',
+      badge2Icon: <CheckCircle2 className="h-3 w-3" />,
+      headline: 'What is',
+      headlineAccent: 'NOLA SMS Pro?',
+      subtext: 'A native SMS platform embedded directly inside your HighLevel sub-account — contacts, compose, templates, sender IDs, credits, and message logs all in one workspace.',
+    });
+  }
+
+  if (isHowWorksHeader) {
+    return renderOverviewBanner({
+      id: 'how-nola-sms-pro-works-what-is-this',
+      badge1: 'Under the Hood',
+      badge1Icon: <Wrench className="h-3 w-3" />,
+      badge2: 'PH Carrier Gateway',
+      badge2Icon: <CheckCircle2 className="h-3 w-3" />,
+      headline: 'How NOLA SMS Pro',
+      headlineAccent: 'Works',
+      subtext: 'Your message travels from the Compose panel through a Semaphore carrier gateway, is validated, credit-deducted, and delivered directly to Globe, Smart, or DITO subscribers in the Philippines.',
+    });
+  }
+
+  if (isCoreFeaturesHeader) {
+    return renderOverviewBanner({
+      id: 'core-features-what-is-this',
+      badge1: 'Feature Map',
+      badge1Icon: <LayoutDashboard className="h-3 w-3" />,
+      badge2: '6 Modules',
+      badge2Icon: <CheckCircle2 className="h-3 w-3" />,
+      headline: 'Core',
+      headlineAccent: 'Features',
+      subtext: 'Six focused modules — Contacts, Compose, Templates, Sender IDs, Credits Wallet, and Message History — give you complete control over your Philippine SMS outreach from within HighLevel.',
+    });
   }
 
   return (
@@ -260,27 +332,7 @@ export const DocPageRenderer: React.FC<Props> = ({ page }) => {
       
       {showTabs && activeSection ? (
         <div className="space-y-6">
-          {/* Custom Tabs Navigation List */}
-          <div className="sticky top-[7.25rem] z-20 mb-7 flex gap-1 overflow-x-auto rounded-xl border border-slate-200 bg-white/92 p-1.5 shadow-sm shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-[#020617]/92 dark:shadow-none">
-            {activeSection.items.map((item) => {
-              const isActive = item.id === activeId;
-              return (
-                <Link
-                  key={item.id}
-                  to={`/docs/${item.id}`}
-                  className={`min-w-fit px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-200 whitespace-nowrap ${
-                    isActive
-                      ? 'bg-slate-900 text-white shadow-sm dark:bg-slate-800 dark:text-white font-bold'
-                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-100'
-                  }`}
-                >
-                  {item.title}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Tab Content Panel */}
+          {/* Tab Content Panel — inner tab nav removed; sidebar + pagination handle navigation */}
           <div>
             {isWelcome ? (
               <WelcomeContent />

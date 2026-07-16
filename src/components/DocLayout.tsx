@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { DocSearch } from './DocSearch';
@@ -38,66 +38,152 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
     };
   }, []);
 
-  // Generate Table of Contents items dynamically based on page fields
-  const tocItems: { id: string; label: string }[] = [];
-  if (page.id === 'welcome') {
-    tocItems.push({ id: 'about-heading', label: 'About' });
-    tocItems.push({ id: 'what-you-can-do-heading', label: 'What You Can Do' });
-    tocItems.push({ id: 'quick-start-heading', label: 'Fastest Path' });
-    tocItems.push({ id: 'browse-heading', label: 'Browse by Topic' });
-    tocItems.push({ id: 'before-start-heading', label: 'Before You Start' });
-  } else {
-    if (page.purpose) tocItems.push({ id: `${page.id}-what-is-this`, label: 'Overview & Goal' });
-    if (page.whyItMatters) tocItems.push({ id: `${page.id}-why-is-it-important`, label: 'Value & Impact' });
-    if (page.prerequisites && page.prerequisites.length > 0) tocItems.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
-    if (page.steps && page.steps.length > 0) tocItems.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
-    if (page.expectAfter) tocItems.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
+  // Generate Table of Contents items — memoised so the array reference is stable
+  const tocItems = useMemo<{ id: string; label: string }[]>(() => {
+    const items: { id: string; label: string }[] = [];
+    if (page.id === 'welcome') {
+      items.push({ id: 'about-heading', label: 'About' });
+      items.push({ id: 'what-you-can-do-heading', label: 'What You Can Do' });
+      items.push({ id: 'quick-start-heading', label: 'Fastest Path' });
+      items.push({ id: 'browse-heading', label: 'Browse by Topic' });
+      items.push({ id: 'before-start-heading', label: 'Before You Start' });
+    } else if (page.id === 'what-is-nola-sms-pro') {
+      items.push({ id: 'what-is-overview', label: 'Overview' });
+      items.push({ id: 'what-is-value', label: 'Key Business Value' });
+      items.push({ id: 'what-is-carriers', label: 'Supported Carriers' });
+    } else if (page.id === 'how-nola-sms-pro-works') {
+      items.push({ id: 'how-it-works-gateway', label: 'Gateway Architecture' });
+      items.push({ id: 'how-it-works-rules', label: 'Credits & Formatting' });
+      items.push({ id: 'how-it-works-flow', label: 'Message Flow' });
+    } else if (page.id === 'core-features') {
+      items.push({ id: 'core-features-modules', label: 'Functional Modules' });
+      items.push({ id: 'core-features-settings', label: 'Settings & Profiles' });
+    } else {
+      if (page.purpose) items.push({ id: `${page.id}-what-is-this`, label: 'Overview & Goal' });
+      if (page.whyItMatters) items.push({ id: `${page.id}-why-is-it-important`, label: 'Value & Impact' });
+      if (page.prerequisites && page.prerequisites.length > 0) items.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
+      if (page.steps && page.steps.length > 0) items.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
+      if (page.expectAfter) items.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
 
-    const hasFaqOrTips = (page.tips && page.tips.length > 0) ||
-      (page.warnings && page.warnings.length > 0) ||
-      (page.notes && page.notes.length > 0) ||
-      (page.commonIssues && page.commonIssues.length > 0) ||
-      (page.faqs && page.faqs.length > 0) ||
-      page.hasTicketForm;
-    if (hasFaqOrTips) {
-      tocItems.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
+      const hasFaqOrTips =
+        (page.tips && page.tips.length > 0) ||
+        (page.warnings && page.warnings.length > 0) ||
+        (page.notes && page.notes.length > 0) ||
+        (page.commonIssues && page.commonIssues.length > 0) ||
+        (page.faqs && page.faqs.length > 0) ||
+        page.hasTicketForm;
+      if (hasFaqOrTips) {
+        items.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
+      }
     }
-  }
+    return items;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page.id]);
 
-  // ScrollSpy observer
+  // Keep a ref so scroll handler always reads the latest tocItems without re-registering
+  const tocItemsRef = useRef(tocItems);
   useEffect(() => {
-    const headings = tocItems.map(item => document.getElementById(item.id));
+    tocItemsRef.current = tocItems;
+  }, [tocItems]);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveHeading(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: '-100px 0px -60% 0px', threshold: 0.1 }
-    );
+  const mainRef = React.useRef<HTMLDivElement>(null);
 
-    headings.forEach((heading) => {
-      if (heading) observer.observe(heading);
-    });
+
+
+  // ScrollSpy — registers once per page navigation, reads tocItems via ref (no stale closure)
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main) return;
+
+    // Reset scroll & active heading when navigating to a new page
+    main.scrollTop = 0;
+    setActiveHeading('');
+
+    const handleScroll = () => {
+      const items = tocItemsRef.current;
+      const headings = items
+        .map(item => ({ id: item.id, element: document.getElementById(item.id) }))
+        .filter((h): h is { id: string; element: HTMLElement } => h.element !== null);
+
+      if (headings.length === 0) return;
+
+      // At the very top → first item
+      if (main.scrollTop <= 10) {
+        setActiveHeading(headings[0].id);
+        return;
+      }
+
+      // At the very bottom → last item
+      const isAtBottom = main.scrollHeight - main.scrollTop - main.clientHeight <= 10;
+      if (isAtBottom) {
+        setActiveHeading(headings[headings.length - 1].id);
+        return;
+      }
+
+      const mainRect = main.getBoundingClientRect();
+      // The "trigger line" is 96px from the top of the scroll container
+      const triggerLine = mainRect.top + 96;
+      let currentActive = headings[0].id;
+
+      for (const heading of headings) {
+        const rect = heading.element.getBoundingClientRect();
+        if (rect.top <= triggerLine) {
+          currentActive = heading.id;
+        } else {
+          break;
+        }
+      }
+
+      setActiveHeading(currentActive);
+    };
+
+    main.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Fire after DOM has settled (React has finished rendering page content)
+    const t1 = setTimeout(handleScroll, 50);
+    const t2 = setTimeout(handleScroll, 300);
 
     return () => {
-      headings.forEach((heading) => {
-        if (heading) observer.unobserve(heading);
-      });
+      main.removeEventListener('scroll', handleScroll);
+      clearTimeout(t1);
+      clearTimeout(t2);
     };
-  }, [tocItems, page.id]);
+  // Only re-register when the page actually changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page.id]);
 
+  const handleTocClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const main = mainRef.current;
+    if (!main) return;
 
+    // Welcome first TOC item → scroll to very top
+    if (page.id === 'welcome' && id === 'about-heading') {
+      main.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveHeading(id);
+      return;
+    }
+
+    const element = document.getElementById(id);
+    if (element) {
+      // Calculate offset relative to main's scrollable area
+      const mainRect = main.getBoundingClientRect();
+      const elemRect = element.getBoundingClientRect();
+      const scrollOffset = elemRect.top - mainRect.top + main.scrollTop - 24;
+      main.scrollTo({ top: scrollOffset, behavior: 'smooth' });
+      setActiveHeading(id);
+      window.history.pushState(null, '', `#${id}`);
+    }
+  };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] transition-colors duration-200 dark:bg-[#020617] dark:text-slate-100 flex flex-col">
+    <div className="h-screen overflow-hidden bg-[#F8FAFC] text-[#0F172A] transition-colors duration-200 dark:bg-[#020617] dark:text-slate-100 flex flex-col">
 
       {/* â”€â”€ TOP NAV BAR (Figma Style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="sticky top-0 z-40 w-full bg-white dark:bg-[#020617] border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
@@ -179,7 +265,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex w-full max-w-[1600px] mx-auto min-h-0">
+      <div className="flex-1 flex w-full max-w-[1600px] mx-auto overflow-hidden">
 
         {/* Column 1: Left Sidebar */}
         <Sidebar
@@ -188,13 +274,13 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
         />
 
         {/* Column 2: Main Document Pane */}
-        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 overflow-y-auto scroll-smooth">
+        <main ref={mainRef} className="flex-1 min-w-0 px-4 md:px-8 py-6 overflow-y-auto scroll-smooth">
           {children}
         </main>
 
         {/* Column 3: Right Sidebar (On this page) */}
         {tocItems.length > 0 && (
-          <aside className="w-[250px] shrink-0 sticky top-[7.25rem] h-[calc(100vh-7.25rem)] overflow-y-auto hidden xl:block border-l border-slate-200 dark:border-slate-800 py-6 pl-5 text-xs text-slate-500 dark:text-slate-400">
+          <aside className="w-[250px] shrink-0 h-full overflow-y-auto hidden xl:flex flex-col border-l border-slate-200 dark:border-slate-800 py-6 pl-5 text-xs text-slate-500 dark:text-slate-400">
             {/* Heading */}
             <h4 className="font-black text-[#0F172A] dark:text-white uppercase tracking-wider mb-4 text-[10px]">
               On this page
@@ -211,6 +297,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
                     )}
                     <a
                       href={`#${item.id}`}
+                      onClick={(e) => handleTocClick(e, item.id)}
                       className={`block font-semibold transition-colors leading-relaxed ${isActive
                           ? 'text-[#334155] dark:text-[#CBD5E1] font-bold'
                           : 'hover:text-slate-800 dark:hover:text-slate-200'

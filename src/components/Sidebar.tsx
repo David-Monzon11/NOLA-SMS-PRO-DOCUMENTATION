@@ -169,7 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="sticky top-[7.25rem] h-[calc(100vh-7.25rem)] w-[292px] flex-shrink-0 hidden lg:flex border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] z-10 transition-colors duration-200">
+      <aside className="h-full w-[292px] flex-shrink-0 hidden lg:flex border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] z-10 transition-colors duration-200 overflow-y-auto">
         <SidebarContent />
       </aside>
 

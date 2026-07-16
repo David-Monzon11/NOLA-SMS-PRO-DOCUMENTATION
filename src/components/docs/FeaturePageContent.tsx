@@ -66,7 +66,42 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
       );
     }
 
-    // Default Overview Presentation
+    const isOverviewPage = page.id === 'what-is-nola-sms-pro' || page.id === 'how-nola-sms-pro-works' || page.id === 'core-features';
+
+    if (isOverviewPage) {
+      return (
+        <div className="w-full space-y-6">
+          <div className="w-full">
+            {primaryScreenshot ? (
+              <ScreenshotPlaceholder
+                caption={primaryScreenshot.caption}
+                alt={primaryScreenshot.alt}
+                filename={primaryScreenshot.filename}
+                variant="Application Preview"
+                mode="large"
+                height="md"
+              />
+            ) : (
+              <IllustrationFrame
+                type="desktop"
+                title={page.title}
+                caption={page.description}
+              />
+            )}
+          </div>
+          <div className="flex items-start gap-3 rounded-2xl border-l-4 border-[#334155] bg-white px-5 py-4 shadow-sm shadow-[#0F172A]/3 dark:border-[#CBD5E1] dark:bg-[#111827]">
+            <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#334155] dark:text-[#CBD5E1]" />
+            <div>
+              <p className="text-[13.5px] leading-relaxed text-[#475569] dark:text-slate-355 font-medium">
+                {page.purpose}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Default Overview Presentation for other pages
     return (
       <SplitLayout
         visual={
@@ -413,6 +448,397 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
       </div>
     );
   };
+
+  const isOverviewPage = page.id === 'what-is-nola-sms-pro' || page.id === 'how-nola-sms-pro-works' || page.id === 'core-features';
+
+  if (isOverviewPage) {
+    return (
+      <div className="space-y-12">
+
+        {/* ─── WHAT IS NOLA SMS PRO ─── */}
+        {page.id === 'what-is-nola-sms-pro' && (
+          <div className="space-y-10 text-slate-700 dark:text-slate-300">
+
+            <DocSection id="what-is-overview">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Unified Philippine SMS Platform</h2>
+              <p className="text-[14.5px] leading-7 mb-4">
+                NOLA SMS Pro is a native communication portal embedded directly inside your GoHighLevel sub-account. It is purpose-built for businesses that need to reach Philippine mobile subscribers across Globe, Smart, and DITO networks — without ever leaving the CRM dashboard.
+              </p>
+              <p className="text-[14.5px] leading-7 mb-4">
+                Instead of toggling between a third-party SMS tool and your CRM, NOLA SMS Pro puts everything in one place: your contacts, message history, templates, sender identity, and billing credits — all available from a single sidebar entry in HighLevel.
+              </p>
+              <p className="text-[14.5px] leading-7">
+                The platform is built on top of a robust dual-gateway backend design, supporting both <strong>Semaphore</strong> (the primary domestic aggregator) and <strong>UniSMS</strong> (the secondary API gateway). This dual configuration ensures high delivery rates, local priority routing, and automatic failover handling.
+              </p>
+            </DocSection>
+
+            <DocSection id="what-is-value">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-5">Why Teams Use NOLA SMS Pro</h2>
+
+              <p className="text-[14.5px] leading-7 mb-6">
+                Traditional SMS workflows require exporting a contact list, importing it into a separate messaging tool, sending, then reconciling delivery reports back into the CRM. NOLA SMS Pro eliminates every step of that cycle.
+              </p>
+
+              <div className="space-y-5">
+                <div className="border-l-2 border-blue-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[15px] mb-1">No More Tab Switching</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Agents stay in GoHighLevel. Contacts are pulled in real time from the same database powering your pipelines, automations, and conversations — no exports, no stale lists.
+                  </p>
+                </div>
+                <div className="border-l-2 border-emerald-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[15px] mb-1">Branded Sender Identity</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Register a custom Sender ID — your brand name or campaign alias — so recipients see <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">YOURBRAND</code> instead of a random mobile number. This boosts open rates and reduces spam filtering.
+                  </p>
+                </div>
+                <div className="border-l-2 border-amber-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[15px] mb-1">Localized Credit Billing</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Credits are denominated per SMS segment. One credit = one 160-character message to a Philippine number. Your sub-account has its own credit wallet that your agency can top up anytime, keeping billing predictable and usage transparent.
+                  </p>
+                </div>
+                <div className="border-l-2 border-purple-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[15px] mb-1">Template Library for Consistency</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Marketing and support teams can store pre-approved message blocks — promotions, appointment reminders, payment confirmations — and load them into the compose window in one click. Every agent sends the same accurate message.
+                  </p>
+                </div>
+                <div className="border-l-2 border-rose-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[15px] mb-1">Full Delivery Audit Trail</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Every dispatched message is logged with a carrier status code: <strong>Sending</strong>, <strong>Sent</strong>, or <strong>Failed</strong>. Message History lets you drill down by date, recipient, or sender to audit campaign performance.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 dark:border-amber-800/40 dark:bg-amber-900/10">
+                <p className="text-[13px] font-semibold text-amber-800 dark:text-amber-300">
+                  <strong>Who is this for?</strong> — NOLA SMS Pro is designed for GoHighLevel agencies and sub-account operators managing Philippine customer bases: real estate teams, clinics, lending companies, logistics operations, and e-commerce stores that rely on SMS for last-mile communication.
+                </p>
+              </div>
+            </DocSection>
+
+            <DocSection id="what-is-carriers">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Supported Networks & Delivery Reach</h2>
+              <p className="text-[14.5px] leading-7 mb-5">
+                Messages sent through NOLA SMS Pro are routed via Semaphore or UniSMS to all Philippine mobile carriers. As of the current release, delivery is supported for:
+              </p>
+              <div className="grid gap-4 sm:grid-cols-3 mb-6">
+                {[
+                  { name: 'Globe Telecom', note: 'Includes TM (Touch Mobile) prepaid subscribers', color: 'border-blue-200 dark:border-blue-800/40 bg-blue-50 dark:bg-blue-900/10' },
+                  { name: 'Smart Communications', note: 'Includes TNT (Talk N Text) and Sun Cellular', color: 'border-emerald-200 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-900/10' },
+                  { name: 'DITO Telecommunity', note: 'Third major carrier, growing national coverage', color: 'border-purple-200 dark:border-purple-800/40 bg-purple-50 dark:bg-purple-900/10' },
+                ].map((carrier) => (
+                  <div key={carrier.name} className={`rounded-xl border p-4 ${carrier.color}`}>
+                    <p className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">{carrier.name}</p>
+                    <p className="text-[12.5px] text-slate-500 dark:text-slate-400 leading-5">{carrier.note}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                All recipient numbers must follow the Philippine 11-digit mobile format: <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">09XXXXXXXXX</code>. Numbers with international country codes (+63) are normalized automatically by our backend formatter.
+              </p>
+            </DocSection>
+
+          </div>
+        )}
+
+        {/* ─── HOW NOLA SMS PRO WORKS ─── */}
+        {page.id === 'how-nola-sms-pro-works' && (
+          <div className="space-y-10 text-slate-700 dark:text-slate-300">
+
+            <DocSection id="how-it-works-gateway">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Gateway Architecture & Providers</h2>
+              <p className="text-[14.5px] leading-7 mb-4">
+                At its core, NOLA SMS Pro bridges your CRM workspace directly to Philippine telco networks. The platform relies on a dual-provider model using two API gateways:
+              </p>
+
+              <div className="grid gap-6 sm:grid-cols-2 mb-6">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-2 bg-slate-50/50 dark:bg-slate-900/30">
+                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">Semaphore Gateway</h3>
+                  <p className="text-[13px] leading-6 text-slate-600 dark:text-slate-400">
+                    Acts as the primary carrier aggregator for standard local routing. Highly optimized for domestic Philippine traffic, delivering messages at high speeds to Globe and Smart.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-2 bg-slate-50/50 dark:bg-slate-900/30">
+                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">UniSMS Gateway</h3>
+                  <p className="text-[13px] leading-6 text-slate-600 dark:text-slate-400">
+                    Acts as the secondary API gateway. Used as the automated failover backup route, for dedicated custom Sender IDs, or when subaccounts explicitly configure UniSMS custom API keys.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-[14.5px] leading-7 mb-4">
+                The active provider is managed via the backend configuration under Firestore's admin settings. It supports three routing strategies:
+              </p>
+
+              <ul className="list-disc pl-5 space-y-2.5 text-[14px] leading-6 mb-6">
+                <li><strong>Semaphore-only:</strong> Routes all standard messages through Semaphore.</li>
+                <li><strong>UniSMS-only:</strong> Directs all messages to UniSMS.</li>
+                <li><strong>Auto-Failover:</strong> Primary routing is attempted via Semaphore. If Semaphore returns a network timeout, an HTTP 5xx server error, or a cURL error, the backend automatically logs the incident and fails over to UniSMS to ensure message delivery.</li>
+              </ul>
+
+              <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 dark:border-blue-800/40 dark:bg-blue-900/10">
+                <p className="text-[13px] leading-6 text-blue-800 dark:text-blue-300">
+                  <strong>Important:</strong> NOLA SMS Pro requires an active credit balance before any message is dispatched. The system checks your wallet on every send. If credits fall to zero, messages will fail until the account is topped up.
+                </p>
+              </div>
+            </DocSection>
+
+            <DocSection id="how-it-works-rules">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Credits, Segments & Formatting Rules</h2>
+              <p className="text-[14.5px] leading-7 mb-5">
+                SMS credits are consumed per message segment. Understanding how segments work prevents unexpected credit deductions when sending longer or templated messages.
+              </p>
+
+              <div className="space-y-4 mb-6">
+                <div className="border-l-2 border-blue-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">Standard GSM-7 Messages</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    A message using only standard Latin characters (letters, numbers, basic punctuation) is encoded in GSM-7. Each segment holds up to <strong>160 characters</strong>. A 200-character message uses 2 credits.
+                  </p>
+                </div>
+                <div className="border-l-2 border-emerald-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">Unicode / Special Characters</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Messages containing emoji, accented characters, or non-Latin scripts switch to Unicode encoding. Unicode segments hold only <strong>70 characters</strong> each. Avoid emoji in high-volume campaigns to minimize credit usage.
+                  </p>
+                </div>
+                <div className="border-l-2 border-amber-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">Recipient Number Format</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Only Philippine mobile numbers in 11-digit format starting with <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">09</code> are accepted (e.g. <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">09171234567</code>). Mobile formats using country code <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">+63</code> or <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">639</code> are normalized automatically on the backend.
+                  </p>
+                </div>
+                <div className="border-l-2 border-purple-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">UniSMS Spam Protection Filter</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    To prevent carrier blocks and spam penalty flags, our backend contains strict pre-flight validation rules. Generic test phrases (such as <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">test</code>, <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">sms test</code>, or <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">NOLA SMS test</code>) are rejected <strong>before the provider call</strong> with <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">error=unisms_likely_spam</code>.
+                  </p>
+                </div>
+                <div className="border-l-2 border-rose-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">Credit Deduction Timing</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Credits are reserved and deducted at the moment of dispatch — before carrier confirmation. If the carrier returns a failed status, credits are not automatically refunded.
+                  </p>
+                </div>
+              </div>
+            </DocSection>
+
+            <DocSection id="how-it-works-flow">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-5">End-to-End Message Flow</h2>
+              <p className="text-[14.5px] leading-7 mb-6">
+                From the moment you click <strong>Send</strong> in the Compose panel to the moment a status appears in Message History, here is what happens behind the scenes:
+              </p>
+
+              <div className="space-y-0">
+                {[
+                  {
+                    step: 1,
+                    title: 'Contact Selection & Real-Time Resolution',
+                    desc: 'You search and select a recipient. NOLA SMS Pro pulls details from the live HighLevel database. If a location-level sync error occurs, contacts are rendered using a local cache with a non-blocking stale warning.',
+                    color: 'bg-blue-500',
+                  },
+                  {
+                    step: 2,
+                    title: 'Message Composition & Character Check',
+                    desc: 'You type your message or load a Template. The Compose panel shows a live character counter and segment count. Pre-flight checks ensure no UniSMS generic spam phrases are included.',
+                    color: 'bg-indigo-500',
+                  },
+                  {
+                    step: 3,
+                    title: 'Sender ID Selection',
+                    desc: 'You choose from your approved custom Sender IDs or the default NOLASMSPro mask. Custom Sender IDs cannot be set as default; they are selected explicitly per message.',
+                    color: 'bg-violet-500',
+                  },
+                  {
+                    step: 4,
+                    title: 'Credit Wallet Gate',
+                    desc: 'The backend verifies your credit balance. If credits are insufficient, the send is blocked immediately. If the API check fails, the last good balance is preserved rather than resetting to zero.',
+                    color: 'bg-purple-500',
+                  },
+                  {
+                    step: 5,
+                    title: 'Gateway Provider Routing',
+                    desc: 'The backend parses the active configuration. If a custom subaccount API key starts with "sk_", the message goes to UniSMS. If auto-failover is active and Semaphore fails, the backend logs the incident in Firestore and routes the message through UniSMS.',
+                    color: 'bg-fuchsia-500',
+                  },
+                  {
+                    step: 6,
+                    title: 'Delivery Receipt & History Log',
+                    desc: 'The carrier returns status receipts. The backend logs the result to Message History with the exact status mapping: Sending (queued for transmission), Sent (delivered to carrier), or Failed.',
+                    color: 'bg-rose-500',
+                  },
+                ].map((item, idx, arr) => (
+                  <div key={idx} className="flex gap-4 items-stretch">
+                    <div className="flex flex-col items-center">
+                      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white text-[12px] font-bold ${item.color}`}>
+                        {item.step}
+                      </div>
+                      {idx < arr.length - 1 && (
+                        <div className="w-px flex-1 bg-slate-200 dark:bg-slate-700 my-1" />
+                      )}
+                    </div>
+                    <div className="pb-6 min-w-0">
+                      <h4 className="font-bold text-slate-900 dark:text-white text-[14px] mt-0.5 mb-1">{item.title}</h4>
+                      <p className="text-[13px] text-slate-500 dark:text-slate-400 leading-6">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </DocSection>
+
+          </div>
+        )}
+
+        {/* ─── CORE FEATURES ─── */}
+        {page.id === 'core-features' && (
+          <div className="space-y-10 text-slate-700 dark:text-slate-300">
+
+            <DocSection id="core-features-modules">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Six Functional Modules</h2>
+              <p className="text-[14.5px] leading-7 mb-7">
+                NOLA SMS Pro is organized into six distinct modules, each accessible from the app's navigation panel. Every module serves a specific operational role — from managing who you contact, to tracking what was sent and whether it arrived.
+              </p>
+
+              <div className="space-y-7">
+                {[
+                  {
+                    icon: <Users className="h-5 w-5 text-blue-500" />,
+                    title: 'Contacts',
+                    badge: 'LOOKUP & SEARCH',
+                    badgeColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
+                    desc: 'Provides a live search interface over your GoHighLevel contact database. You can look up any subscriber by name or number, view profile details, and select them as a recipient.',
+                    details: [
+                      'Real-time search pulls from your HighLevel sub-account location.',
+                      'Displays contact name, mobile number, and associated tags from the CRM.',
+                      'Contact data is read-only (edits are made in GHL and synchronized here).',
+                      'Render stale contacts with a warning badge if the API/sync is offline; list is not erased.',
+                    ],
+                  },
+                  {
+                    icon: <Send className="h-5 w-5 text-purple-500" />,
+                    title: 'Compose SMS',
+                    badge: 'SEND MESSAGES',
+                    badgeColor: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400',
+                    desc: 'The panel where outbound messages are composed and sent. Features a segment indicator, template selector, and Sender ID dropdown.',
+                    details: [
+                      'Live character count with automatic segment calculation.',
+                      'Load templates directly into the compose body with one click.',
+                      'Select default (NOLASMSPro) or approved custom Sender IDs.',
+                      'Pre-flight check blocks sending generic spam phrases.',
+                    ],
+                  },
+                  {
+                    icon: <FileText className="h-5 w-5 text-emerald-500" />,
+                    title: 'Message Templates',
+                    badge: 'REUSABLE COPY',
+                    badgeColor: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400',
+                    desc: 'Templates lets your team create, store, and manage pre-written message blueprints. Useful for appointment reminders, payment follow-ups, and promotional announcements.',
+                    details: [
+                      'Create templates with a name and body text.',
+                      'Templates are available to all authorized agents in your sub-account.',
+                      'Edit or delete templates at any time — changes apply immediately.',
+                    ],
+                  },
+                  {
+                    icon: <ShieldCheck className="h-5 w-5 text-amber-500" />,
+                    title: 'Sender IDs',
+                    badge: 'BRAND IDENTITY',
+                    badgeColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400',
+                    desc: 'Sender IDs allow your brand name to appear as the sender on Philippine mobile devices instead of a raw phone number. Custom ID registration is required under local NTC rules.',
+                    details: [
+                      'Submit custom Sender ID requests (alphanumeric, 3-11 characters).',
+                      'Track approval states: Pending, Approved, or Rejected.',
+                      'Once approved, custom Sender IDs become selectable in the dropdown.',
+                      'Default sender NOLASMSPro is active immediately after installation (cannot set a custom ID as default).',
+                    ],
+                  },
+                  {
+                    icon: <CreditCard className="h-5 w-5 text-teal-500" />,
+                    title: 'SMS Credits',
+                    badge: 'BILLING WALLET',
+                    badgeColor: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400',
+                    desc: 'The Credits module is your billing dashboard. It shows your current balance, deduction history, and transaction logs.',
+                    details: [
+                      'View real-time credit balance on the dashboard home banner.',
+                      'Deductions transaction log shows date, recipient, and segment counts.',
+                      'Failed credit updates preserve the last known good balance (never resets to zero).',
+                      'Disable refuels and billing transactions unless the client lifecycle is ready.',
+                    ],
+                  },
+                  {
+                    icon: <History className="h-5 w-5 text-rose-500" />,
+                    title: 'Message History',
+                    badge: 'DELIVERY LOGS',
+                    badgeColor: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400',
+                    desc: 'Message History is the audit trail of every outbound SMS dispatched from your sub-account. Shows recipient, sender ID, message body, timestamp, and status.',
+                    details: [
+                      'Filter by date range, recipient number, or delivery status.',
+                      'Exact status mappings: Sending (queued for dispatch), Sent (accepted by carrier/delivered), and Failed (rejected/error).',
+                      'Provider failures are kept visible to easily audit undelivered messages.',
+                    ],
+                  },
+                ].map((module, idx) => (
+                  <div key={idx} className="flex gap-4 items-start">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/50">
+                      {module.icon}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <h3 className="font-bold text-slate-900 dark:text-white text-[15px]">{module.title}</h3>
+                        <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${module.badgeColor}`}>{module.badge}</span>
+                      </div>
+                      <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400 mb-2.5">{module.desc}</p>
+                      <ul className="space-y-1">
+                        {module.details.map((d, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[13px] text-slate-500 dark:text-slate-400">
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300 dark:bg-slate-600" />
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </DocSection>
+
+            <DocSection id="core-features-settings">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Settings & Account Configuration</h2>
+              <p className="text-[14.5px] leading-7 mb-5">
+                The Settings module is the administrative control panel for your NOLA SMS Pro workspace. It is organized into three sections: your admin profile, workspace location configuration, and notification preferences.
+              </p>
+
+              <div className="space-y-5">
+                <div className="border-l-2 border-blue-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14.5px] mb-1">Admin Profile</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Update your full name and email address. Password changes use a secure OTP sent to your registered email — no current password required. Profile data is specific to your account login and does not affect HighLevel credentials.
+                  </p>
+                </div>
+                <div className="border-l-2 border-emerald-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14.5px] mb-1">Workspace Location</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Your HighLevel sub-account location ID is displayed here. You can copy it for reference or trigger a manual contact sync if the Contacts module shows stale data. Each sub-account installation has exactly one location linked.
+                  </p>
+                </div>
+                <div className="border-l-2 border-amber-400 pl-4">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14.5px] mb-1">Notification Preferences</h3>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
+                    Configure email alerts for key platform events: low credit balance warnings (set your own threshold), weekly usage summaries, and delivery failure notifications for campaigns above a configurable failure rate. All alerts go to your profile email.
+                  </p>
+                </div>
+              </div>
+            </DocSection>
+
+          </div>
+        )}
+
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12">

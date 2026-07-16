@@ -222,12 +222,20 @@ export const WelcomeContent: React.FC = () => {
   return (
     <div className="w-full space-y-12 pb-10">
 
-      {/* ── BLOCK 1 — Opening ───────────────────────────── */}
-      <section className="space-y-4 text-[16px] font-medium leading-8 text-[#475569] dark:text-slate-300">
-        <p>
+      {/* ── BLOCK 1 — Opening (About) ───────────────────── */}
+      <section id="about-heading" className="space-y-4">
+        <div className="mb-4">
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">
+            About NOLA SMS Pro
+          </h2>
+          <p className="text-[14.5px] leading-7 text-slate-600 dark:text-slate-400">
+            Learn how this native integrations workspace connects your HighLevel location contacts to local PH carrier networks.
+          </p>
+        </div>
+        <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">
           NOLA SMS Pro is a native SMS messaging platform designed specifically for HighLevel users, enabling you to communicate with Philippine mobile numbers directly from within your sub-account. Instead of relying on third-party applications, exporting contact lists, or switching between multiple tools, you can manage your SMS campaigns, customer conversations, and messaging history in one centralized workspace. The platform integrates seamlessly with your existing HighLevel environment, making SMS communication a natural extension of your daily workflow.
         </p>
-        <p>
+        <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">
           This documentation is your complete guide to getting started and making the most of NOLA SMS Pro. Whether you're installing the application for the first time, configuring your account, sending your first SMS, managing contacts and templates, or troubleshooting common issues, you'll find step-by-step instructions and best practices throughout each section. If you're new to the platform, we recommend following the guides in order. If you're returning to complete a specific task, you can use the navigation menu to jump directly to the topic you need.
         </p>
       </section>
@@ -235,13 +243,13 @@ export const WelcomeContent: React.FC = () => {
       {/* ── BLOCK 2 — What You Can Do ───────────────────── */}
       <section aria-labelledby="what-you-can-do-heading" className="space-y-8">
         <div>
-          <h3
+          <h2
             id="what-you-can-do-heading"
-            className="text-[13px] sm:text-[14px] font-black uppercase tracking-[0.2em] text-[#334155] dark:text-[#CBD5E1]"
+            className="text-2xl font-black text-slate-900 dark:text-white mb-2"
           >
             What you can do
-          </h3>
-          <p className="mt-2 text-[15px] sm:text-[16px] text-slate-500 dark:text-slate-400">
+          </h2>
+          <p className="text-[14.5px] leading-7 text-slate-600 dark:text-slate-400">
             A native tool suite engineered for reliable SMS messaging and location contact sync.
           </p>
         </div>
@@ -291,13 +299,13 @@ export const WelcomeContent: React.FC = () => {
       {/* ── BLOCK 3 — Fastest Path ──────────────────────── */}
       <section aria-labelledby="quick-start-heading" className="space-y-5">
         <div>
-          <h3
+          <h2
             id="quick-start-heading"
-            className="text-[13px] sm:text-[14px] font-black uppercase tracking-[0.2em] text-[#334155] dark:text-[#CBD5E1]"
+            className="text-2xl font-black text-slate-900 dark:text-white mb-2"
           >
             Fastest path to first message
-          </h3>
-          <p className="mt-2 text-[15px] sm:text-[16px] text-slate-500 dark:text-slate-400">
+          </h2>
+          <p className="text-[14.5px] leading-7 text-slate-600 dark:text-slate-400">
             Follow this simple onboarding pathway to complete setup in under 5 minutes.
           </p>
         </div>
@@ -337,13 +345,13 @@ export const WelcomeContent: React.FC = () => {
       {/* ── BLOCK 4 — Browse by Topic ───────────────────── */}
       <section aria-labelledby="browse-heading" className="space-y-5">
         <div>
-          <h3
+          <h2
             id="browse-heading"
-            className="text-[13px] sm:text-[14px] font-black uppercase tracking-[0.2em] text-[#334155] dark:text-[#CBD5E1]"
+            className="text-2xl font-black text-slate-900 dark:text-white mb-2"
           >
             Browse by topic
-          </h3>
-          <p className="mt-2 text-[15px] sm:text-[16px] text-slate-500 dark:text-slate-400">
+          </h2>
+          <p className="text-[14.5px] leading-7 text-slate-600 dark:text-slate-400">
             Dive deep into module ecosystems, integration flows, and credits logs.
           </p>
         </div>
@@ -397,13 +405,13 @@ export const WelcomeContent: React.FC = () => {
       {/* ── BLOCK 5 — Before You Start ──────────────────── */}
       <section aria-labelledby="before-start-heading" className="space-y-5">
         <div>
-          <h3
+          <h2
             id="before-start-heading"
-            className="text-[13px] sm:text-[14px] font-black uppercase tracking-[0.2em] text-[#334155] dark:text-[#CBD5E1]"
+            className="text-2xl font-black text-slate-900 dark:text-white mb-2"
           >
             Before you start
-          </h3>
-          <p className="mt-2 text-[15px] sm:text-[16px] text-slate-500 dark:text-slate-400">
+          </h2>
+          <p className="text-[14.5px] leading-7 text-slate-600 dark:text-slate-400">
             Ensure your GoHighLevel account configuration maps these baseline requirements.
           </p>
         </div>
@@ -428,28 +436,11 @@ export const WelcomeContent: React.FC = () => {
         </div>
       </section>
 
-      {/* ── BLOCK 6 — Closing + CTA ─────────────────────── */}
+      {/* ── BLOCK 6 — Closing ───────────────────────────── */}
       <section aria-labelledby="closing-heading">
         <p className="text-[16px] font-medium leading-8 text-[#475569] dark:text-slate-300 max-w-[720px]">
-          Ready to set up? The next guide walks you through installing NOLA SMS Pro from the HighLevel Marketplace — it takes less than 5 minutes.
+          Ready to set up? The next guide walks you through what NOLA SMS Pro is and the business benefits it delivers.
         </p>
-
-        {/* Next Page CTA */}
-        <Link
-          to="/docs/what-is-nola-sms-pro"
-          id="welcome-next-cta"
-          className="group mt-6 inline-flex items-center rounded-2xl border border-blue-800/40 bg-gradient-to-r from-[#071426] to-[#0C2348] px-6 py-4 text-white shadow-lg shadow-blue-950/50 transition-all duration-200 hover:shadow-xl hover:shadow-blue-950/60 hover:brightness-110"
-        >
-          <span className="flex flex-col">
-            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-blue-300">
-              Next guide
-            </span>
-            <span className="mt-0.5 flex items-center gap-2 text-[15px] font-black leading-tight">
-              What is NOLA SMS Pro?
-              <ArrowRight className="h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
-            </span>
-          </span>
-        </Link>
 
         {/* Version note */}
         <p className="mt-6 text-[12px] text-[#94A3B8] dark:text-slate-500 leading-relaxed">

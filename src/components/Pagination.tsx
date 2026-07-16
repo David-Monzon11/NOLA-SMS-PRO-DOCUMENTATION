@@ -43,14 +43,14 @@ export const Pagination: React.FC<PaginationProps> = ({ currentId, isMergedSecti
       {prevLink ? (
         <Link
           to={`/docs/${prevLink.id}`}
-          className="group flex flex-col justify-center rounded-2xl border border-slate-200 bg-[#FBFDFF]/80 p-5 transition-all duration-300 hover:border-[#334155]/35 hover:bg-[#F1F5F9]/30 dark:border-slate-800 dark:bg-[#020617]/30 dark:hover:border-[#CBD5E1]/40 dark:hover:bg-[#1E293B]/10 shadow-sm"
+          className="group flex flex-col justify-center rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-sky-100/50 p-5 transition-all duration-300 hover:border-blue-200 hover:to-sky-100/80 dark:border-slate-700/60 dark:from-[#0a1628] dark:via-[#0d1f3a] dark:to-[#112244] dark:hover:border-slate-600 dark:hover:from-[#0d1f3a] dark:hover:to-[#163060] shadow-sm"
         >
           <div className="flex items-center gap-1.5 font-black text-slate-800 dark:text-white mb-2 text-sm">
             <ArrowLeft className="h-4 w-4 text-[#334155] dark:text-[#CBD5E1] transition-transform group-hover:-translate-x-0.5" />
             <span>{prevLink.title}</span>
           </div>
           {prevPage?.description && (
-            <p className="text-xs text-slate-450 dark:text-slate-400 leading-relaxed font-semibold">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
               {prevPage.description}
             </p>
           )}
@@ -62,14 +62,14 @@ export const Pagination: React.FC<PaginationProps> = ({ currentId, isMergedSecti
       {nextLink ? (
         <Link
           to={`/docs/${nextLink.id}`}
-          className="group flex flex-col justify-center rounded-2xl border border-slate-200 bg-[#FBFDFF]/80 p-5 transition-all duration-300 hover:border-[#334155]/35 hover:bg-[#F1F5F9]/30 dark:border-slate-800 dark:bg-[#020617]/30 dark:hover:border-[#CBD5E1]/40 dark:hover:bg-[#1E293B]/10 shadow-sm"
+          className="group flex flex-col justify-center rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-sky-100/50 p-5 transition-all duration-300 hover:border-blue-200 hover:to-sky-100/80 dark:border-slate-700/60 dark:from-[#0a1628] dark:via-[#0d1f3a] dark:to-[#112244] dark:hover:border-slate-600 dark:hover:from-[#0d1f3a] dark:hover:to-[#163060] shadow-sm"
         >
           <div className="flex items-center justify-between font-black text-slate-800 dark:text-white mb-2 text-sm">
             <span>{nextLink.title}</span>
             <ArrowRight className="h-4 w-4 text-[#334155] dark:text-[#CBD5E1] transition-transform group-hover:translate-x-0.5" />
           </div>
           {nextPage?.description && (
-            <p className="text-xs text-slate-450 dark:text-slate-400 leading-relaxed font-semibold">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
               {nextPage.description}
             </p>
           )}
