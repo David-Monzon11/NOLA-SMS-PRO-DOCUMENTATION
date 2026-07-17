@@ -1,31 +1,25 @@
 import React from 'react';
-import type { DocPage, ScreenshotPlan } from '../../data/docsData';
-import { InfoBox, WarningBox, TipBox } from '../Callouts';
+import type { DocPage, DocStep, ScreenshotPlan } from '../../data/docsData';
+
 import { Accordion } from '../Accordion';
 import { InteractiveChecklist } from '../InteractiveChecklist';
 import { TicketForm } from '../TicketForm';
 import { ScreenshotPlaceholder } from '../ScreenshotPlaceholder';
 import {
   DocSection,
-  DocSectionHeading,
-  SplitLayout,
   BeforeAfterComparison,
   WorkflowTimeline,
   DashboardCallouts,
   AlternatingSection,
-  BenefitsGrid,
-  FeatureCard
+  FeatureCard,
+  ComparisonTable
 } from './layout';
 import { IllustrationFrame } from './IllustrationFrame';
 import { RelatedPages } from './RelatedPages';
+import * as LucideIcons from 'lucide-react';
 import { AlertTriangle, Check, Sparkles, ArrowRight, AlertCircle, Users, FileText, ShieldCheck, CreditCard, History, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import {
-  IntegrationFlow,
-  ModuleEcosystem,
-  ProblemsSolved,
-  TargetPersonas
-} from './VisualComponents';
+
 
 type ScreenshotMode = 'large' | 'medium' | 'comparison';
 
@@ -44,94 +38,67 @@ interface FeaturePageContentProps {
 export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) => {
   const primaryScreenshot = page.screenshots?.[0];
 
-  // 1. Render Overview (Question 1: What is this?)
-  const renderWhatIsThis = () => {
-    // Welcome page: Clean full-width product preview (no hero text, no eyebrow, no purpose callout)
-    if (page.id === 'overview') {
+  const renderStepsList = (steps: string[] | DocStep[] | undefined) => {
+    if (!steps) return null;
+    const firstStep = steps[0];
+    const isRichSteps = firstStep && typeof firstStep === 'object';
+
+    if (isRichSteps) {
+      const richSteps = steps as DocStep[];
       return (
-        <div className="w-full">
-          {primaryScreenshot ? (
-            <ScreenshotPlaceholder
-              caption={primaryScreenshot.caption}
-              alt={primaryScreenshot.alt}
-              filename={primaryScreenshot.filename}
-              variant="Application Preview"
-              mode="large"
-              height="md"
-            />
-          ) : (
-            <IllustrationFrame type="desktop" title="NOLA SMS Pro" />
-          )}
+        <div className="space-y-7">
+          {richSteps.map((step, idx) => {
+            const IconComponent = (step.iconName && (step.iconName in LucideIcons)
+              ? LucideIcons[step.iconName as keyof typeof LucideIcons]
+              : LucideIcons.BookOpen) as React.ComponentType<{ className?: string }>;
+            return (
+              <div key={idx} className="flex gap-4 items-start">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/50">
+                  <IconComponent className="h-5 w-5 text-blue-500" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-[15px]">{step.title}</h3>
+                    {step.badge && (
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${step.badgeColor || 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'}`}>
+                        {step.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400 mb-2.5">{step.desc}</p>
+                  {step.details && step.details.length > 0 && (
+                    <ul className="space-y-1">
+                      {step.details.map((d, i) => (
+                        <li key={i} className="flex items-start gap-2 text-[13px] text-slate-500 dark:text-slate-400 font-medium">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300 dark:bg-slate-650" />
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       );
     }
 
-    const isOverviewPage = page.id === 'what-is-nola-sms-pro' || page.id === 'how-nola-sms-pro-works' || page.id === 'core-features';
-
-    if (isOverviewPage) {
-      return (
-        <div className="w-full space-y-6">
-          <div className="w-full">
-            {primaryScreenshot ? (
-              <ScreenshotPlaceholder
-                caption={primaryScreenshot.caption}
-                alt={primaryScreenshot.alt}
-                filename={primaryScreenshot.filename}
-                variant="Application Preview"
-                mode="large"
-                height="md"
-              />
-            ) : (
-              <IllustrationFrame
-                type="desktop"
-                title={page.title}
-                caption={page.description}
-              />
-            )}
-          </div>
-          <div className="flex items-start gap-3 rounded-2xl border-l-4 border-[#334155] bg-white px-5 py-4 shadow-sm shadow-[#0F172A]/3 dark:border-[#CBD5E1] dark:bg-[#111827]">
-            <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#334155] dark:text-[#CBD5E1]" />
-            <div>
-              <p className="text-[13.5px] leading-relaxed text-[#475569] dark:text-slate-355 font-medium">
-                {page.purpose}
-              </p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    // Default Overview Presentation for other pages
+    const stringSteps = steps as string[];
     return (
-      <SplitLayout
-        visual={
-          primaryScreenshot ? (
-            <ScreenshotPlaceholder
-              caption={primaryScreenshot.caption}
-              alt={primaryScreenshot.alt}
-              filename={primaryScreenshot.filename}
-              variant="Application Preview"
-              mode={getScreenshotMode(page, primaryScreenshot, 0)}
-              height="md"
-            />
-          ) : (
-            <IllustrationFrame
-              type="desktop"
-              title={page.title}
-              caption={page.description}
-            />
-          )
-        }
-      >
-        <div className="flex items-start gap-3 rounded-2xl border-l-4 border-[#334155] bg-white px-5 py-4 shadow-sm shadow-[#0F172A]/3 dark:border-[#CBD5E1] dark:bg-[#111827]">
-          <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#334155] dark:text-[#CBD5E1]" />
-          <div>
-            <p className="text-[13.5px] leading-relaxed text-[#475569] dark:text-slate-355 font-medium">
-              {page.purpose}
-            </p>
+      <div className="space-y-3">
+        {stringSteps?.map((step, index) => (
+          <div
+            key={step}
+            className="flex gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 dark:border-[#1E293B] dark:bg-[#111827] shadow-sm shadow-[#0F172A]/3 transition-colors hover:border-[#475569]"
+          >
+            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#F1F5F9] text-[12px] font-black text-[#334155] dark:bg-[#1E293B] dark:text-[#E2E8F0]">
+              {index + 1}
+            </span>
+            <p className="text-[13.5px] leading-6 text-[#475569] dark:text-slate-355 font-medium">{step}</p>
           </div>
-        </div>
-      </SplitLayout>
+        ))}
+      </div>
     );
   };
 
@@ -167,7 +134,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
 
     // How NOLA SMS Pro Works: Workflow Timeline Layout
     if (page.id === 'how-nola-sms-pro-works' && page.steps) {
-      const stepsData = page.steps.map((step) => ({
+      const stepsData = (page.steps as string[]).map((step) => ({
         title: step.split(': ')[0] || 'Pipeline Node',
         desc: step.split(': ')[1] || step,
       }));
@@ -176,7 +143,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
 
     // Install NOLA SMS Pro: Alternating Image/Text Sections Layout
     if (page.id === 'install-nola-sms-pro' && page.steps && page.screenshots) {
-      const stepsData = page.steps.map((step, idx) => ({
+      const stepsData = (page.steps as string[]).map((step, idx) => ({
         title: `Step ${idx + 1}: ${step.split(': ')[0] || 'Configuration'}`,
         desc: step.split(': ')[1] || step,
         mockup: page.screenshots?.[idx] ? (
@@ -190,27 +157,6 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
           />
         ) : (
           <IllustrationFrame type="desktop" title="HighLevel Marketplace" />
-        )
-      }));
-      return <AlternatingSection steps={stepsData} />;
-    }
-
-    // Message History: Alternating Image/Text Sections Layout
-    if (page.id === 'message-history' && page.steps && page.screenshots) {
-      const stepsData = page.steps.map((step, idx) => ({
-        title: step.split(': ')[0] || 'Audit Step',
-        desc: step.split(': ')[1] || step,
-        mockup: page.screenshots?.[idx] ? (
-          <ScreenshotPlaceholder
-            caption={page.screenshots[idx].caption}
-            alt={page.screenshots[idx].alt}
-            filename={page.screenshots[idx].filename}
-            variant="Step Preview"
-            mode="medium"
-            height="sm"
-          />
-        ) : (
-          <IllustrationFrame type="desktop" title="Message Audits" />
         )
       }));
       return <AlternatingSection steps={stepsData} />;
@@ -290,7 +236,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
 
     // Dashboard Overview: Dashboard Screenshot with Callouts Layout
     if (page.id === 'dashboard-overview' && page.steps && page.screenshots) {
-      const calloutsData = page.steps.map((step) => ({
+      const calloutsData = (page.steps as string[]).map((step) => ({
         title: step.split(': ')[0] || 'Panel',
         desc: step.split(': ')[1] || step,
       }));
@@ -323,128 +269,250 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
           />
           <div className="mt-6 border-t border-[#E2E8F0] pt-6 dark:border-[#1E293B]">
             <h4 className="text-[13px] font-black text-[#0F172A] dark:text-white uppercase tracking-wider mb-4">Registration Submission Steps</h4>
-            <div className="space-y-3">
-              {page.steps?.slice(1).map((step, idx) => (
-                <div key={idx} className="flex gap-4 rounded-xl border border-[#E2E8F0] bg-white p-4 dark:border-[#1E293B] dark:bg-[#111827] shadow-sm">
-                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg bg-[#F1F5F9] text-[11px] font-black text-[#334155] dark:bg-[#1E293B] dark:text-[#E2E8F0]">
-                    {idx + 1}
-                  </span>
-                  <p className="text-[13px] leading-relaxed text-[#64748B] dark:text-slate-400">{step}</p>
+            {renderStepsList(page.steps)}
+          </div>
+        </div>
+      );
+    }
+
+    // GHL Conversation: Sync Comparison Table & Steps
+    if (page.id === 'ghl-conversation') {
+      return (
+        <div className="space-y-6">
+          <ComparisonTable
+            title="Data Synchronization Systems"
+            traditionalTitle="Manual Tracking"
+            nolaTitle="Native Real-time Sync"
+            traditionalItems={[
+              'Outbox history only exists in the sending app.',
+              'Need to copy/paste text bodies into client profiles.',
+              'Support agents send duplicate replies due to tab blindspots.',
+            ]}
+            nolaItems={[
+              'Background worker pushes sent items to HighLevel within seconds.',
+              'Messages automatically append to the active contact timeline.',
+              'All agents see the exact customer thread, maintaining alignment.',
+            ]}
+          />
+          <div className="mt-6 border-t border-[#E2E8F0] pt-6 dark:border-[#1E293B]">
+            <h4 className="text-[13px] font-black text-[#0F172A] dark:text-white uppercase tracking-wider mb-4">Sync Verification Steps</h4>
+            {renderStepsList(page.steps)}
+          </div>
+        </div>
+      );
+    }
+
+    // Default Fallback to renderStepsList helper
+    return renderStepsList(page.steps);
+  };
+
+
+  // ── Section Page: Intro-style structured layout ──────────────────────────
+  const renderSectionPageContent = () => {
+    const accentColors = [
+      'border-blue-400',
+      'border-emerald-400',
+      'border-amber-400',
+      'border-purple-400',
+      'border-rose-400',
+      'border-teal-400',
+    ];
+
+    return (
+      <div className="space-y-12 text-slate-700 dark:text-slate-300">
+
+        {/* ── Reading time chip ── */}
+        <div className="flex flex-wrap items-center gap-2.5 border-b border-slate-200/70 pb-5 dark:border-slate-800/70">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+            {page.readingTime}
+          </span>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            {page.section}{page.subsection ? ` › ${page.subsection}` : ''}
+          </span>
+        </div>
+
+        {/* ── 1. Overview ── */}
+        <DocSection id={`${page.id}-overview`}>
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Overview</h2>
+          <p className="text-[14.5px] leading-7 mb-5">{page.purpose}</p>
+
+          {/* Screenshot / illustration if available */}
+          {primaryScreenshot && (
+            <div className="mb-5">
+              <ScreenshotPlaceholder
+                caption={primaryScreenshot.caption}
+                alt={primaryScreenshot.alt}
+                filename={primaryScreenshot.filename}
+                variant="Application Preview"
+                mode={getScreenshotMode(page, primaryScreenshot, 0)}
+                height="md"
+              />
+            </div>
+          )}
+          {!primaryScreenshot && (
+            <div className="mb-5">
+              <IllustrationFrame type="desktop" title={page.title} caption={page.description} />
+            </div>
+          )}
+
+          {/* Purpose callout */}
+          <div className="flex items-start gap-3 rounded-2xl border-l-4 border-slate-400 bg-white px-5 py-4 shadow-sm dark:border-slate-500 dark:bg-[#111827]">
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
+            <p className="text-[13.5px] leading-relaxed text-slate-600 dark:text-slate-300 font-medium">
+              {page.whyItMatters}
+            </p>
+          </div>
+        </DocSection>
+
+        {/* ── 2. Prerequisites ── */}
+        {page.prerequisites && page.prerequisites.length > 0 && (
+          <DocSection id={`${page.id}-prereqs`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Before You Begin</h2>
+            <p className="text-[14px] leading-7 mb-5 text-slate-600 dark:text-slate-400">
+              Make sure the following requirements are in place before starting this guide.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {page.prerequisites.map((prereq, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 dark:border-slate-800 dark:bg-slate-900/30"
+                >
+                  <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+                    <Check className="h-3 w-3" />
+                  </div>
+                  <span className="text-[13px] font-semibold leading-relaxed text-slate-800 dark:text-slate-200">{prereq}</span>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      );
-    }
+          </DocSection>
+        )}
 
-    // SMS Credits: Benefits Grid Layout
-    if (page.id === 'sms-credits') {
-      const benefitsData = [
-        { title: 'Balance Checks', desc: 'Monitor active credits directly from the Home command panel banner.', highlight: true },
-        { title: 'Refill Request Billing', desc: 'Request credit allocations from your parent agency to keep outbox fueled.' },
-        { title: 'Segment Deduction Rules', desc: 'Tracks character segments (160 characters for a standard local SMS credit).', highlight: true },
-        { title: 'Low-Credit Alerts', desc: 'Configure threshold notification warnings under notifications settings.' },
-        { title: 'Checkout Package Topups', desc: 'Submit checkout requests using active payment packages.' },
-        { title: 'Deduction History Ledger', desc: 'Inspect chronological ledger lists mapping credits used to campaigns.', highlight: true },
-      ];
-      return <BenefitsGrid benefits={benefitsData} />;
-    }
+        {/* ── 3. How to use it (Steps) ── */}
+        {((page.steps && page.steps.length > 0) || page.hasFirstSMSChecklist || (page.screenshots && page.screenshots.length > 1)) && (
+          <DocSection id={`${page.id}-steps`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Step-by-Step Guide</h2>
+            <p className="text-[14px] leading-7 mb-6 text-slate-600 dark:text-slate-400">
+              Follow these steps to set up and use this feature correctly.
+            </p>
+            {renderHowDoIUseIt()}
 
-    // Default Chronological Numbered Steps Layout
-    return (
-      <div className="space-y-3">
-        {page.steps?.map((step, index) => (
-          <div
-            key={step}
-            className="flex gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 dark:border-[#1E293B] dark:bg-[#111827] shadow-sm shadow-[#0F172A]/3 transition-colors hover:border-[#475569]"
-          >
-            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-[#F1F5F9] text-[12px] font-black text-[#334155] dark:bg-[#1E293B] dark:text-[#E2E8F0]">
-              {index + 1}
-            </span>
-            <p className="text-[13.5px] leading-6 text-[#475569] dark:text-slate-350">{step}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  // 6. Render Tips, Warnings, FAQs (Question 6: Common questions or tips)
-  const renderTipsAndCommonQuestions = () => {
-    // Contacts and Notifications: Best Practices Checklist Layout
-    if ((page.id === 'contacts' || page.id === 'notifications') && (page.tips || page.warnings)) {
-      const checklistItems = [
-        ...(page.tips || []),
-        ...(page.warnings || []),
-        ...(page.notes || []),
-      ];
-      return (
-        <div className="space-y-3">
-          {checklistItems.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-3.5 rounded-xl border border-slate-150 bg-slate-50/5 p-4 dark:border-slate-900/30 dark:bg-[#111827] shadow-sm">
-              <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 dark:bg-slate-950/40 dark:text-slate-400">
-                <Check className="h-3 w-3" />
+            {/* Interactive checklist widget */}
+            {page.hasFirstSMSChecklist && (
+              <div className="mt-8">
+                <InteractiveChecklist />
               </div>
-              <p className="text-[13px] leading-relaxed text-[#475569] dark:text-slate-300 font-semibold">{item}</p>
+            )}
+          </DocSection>
+        )}
+
+        {/* ── 4. What to Expect After ── */}
+        {page.expectAfter && (
+          <DocSection id={`${page.id}-outcome`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Expected Outcome</h2>
+            <div className="flex items-start gap-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40 px-5 py-4 dark:border-emerald-800/40 dark:bg-emerald-900/10">
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+              <p className="text-[13.5px] leading-relaxed text-emerald-800 dark:text-emerald-300 font-medium">
+                {page.expectAfter}
+              </p>
             </div>
-          ))}
-        </div>
-      );
-    }
+          </DocSection>
+        )}
 
-    // Default Accordion/Box combinations
-    return (
-      <div className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          {page.tips?.map((tip, idx) => (
-            <TipBox key={`tip-${idx}`} title="Best Practice Guideline">{tip}</TipBox>
-          ))}
-          {page.notes?.map((note, idx) => (
-            <InfoBox key={`note-${idx}`} title="Operational Reminder">{note}</InfoBox>
-          ))}
-          {page.warnings?.map((warn, idx) => (
-            <WarningBox key={`warning-${idx}`} title="Compliance Warning">{warn}</WarningBox>
-          ))}
-        </div>
-
-        {/* Common issues lists */}
-        {page.commonIssues && page.commonIssues.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-2">
-            {page.commonIssues.map((issue) => {
-              const colonIdx = issue.indexOf(': ');
-              const title = colonIdx > -1 ? issue.slice(0, colonIdx) : issue;
-              const desc = colonIdx > -1 ? issue.slice(colonIdx + 2) : '';
-              return (
-                <div
-                  key={issue}
-                  className="flex gap-3 rounded-2xl border border-amber-250 bg-amber-50/20 p-4 dark:border-amber-900/35 dark:bg-amber-950/10 shadow-sm"
-                >
-                  <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600 dark:text-amber-400" />
-                  <div>
-                    <p className="text-[13.5px] font-black text-[#442B05] dark:text-amber-100">{title}</p>
-                    {desc && (
-                      <p className="mt-1 text-[12.5px] leading-relaxed text-[#6A5431] dark:text-amber-200/70">{desc}</p>
-                    )}
-                  </div>
+        {/* ── 5. Tips, Notes, Warnings ── */}
+        {((page.tips && page.tips.length > 0) || (page.notes && page.notes.length > 0) || (page.warnings && page.warnings.length > 0)) && (
+          <DocSection id={`${page.id}-tips`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Best Practices & Reminders</h2>
+            <div className="space-y-4">
+              {page.tips && page.tips.length > 0 && (
+                <div className="space-y-3">
+                  {page.tips.map((tip, idx) => (
+                    <div key={idx} className={`border-l-2 ${accentColors[idx % accentColors.length]} pl-4`}>
+                      <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">{tip}</p>
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              )}
+              {page.notes && page.notes.length > 0 && (
+                <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50/40 px-5 py-4 dark:border-blue-800/40 dark:bg-blue-900/10">
+                  {page.notes.map((note, idx) => (
+                    <p key={idx} className="text-[13px] leading-6 text-blue-800 dark:text-blue-300 font-semibold">{note}</p>
+                  ))}
+                </div>
+              )}
+              {page.warnings && page.warnings.length > 0 && (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/40 px-5 py-4 dark:border-amber-800/40 dark:bg-amber-900/10">
+                  {page.warnings.map((warn, idx) => (
+                    <p key={idx} className="text-[13px] leading-6 text-amber-800 dark:text-amber-300 font-semibold">
+                      <strong>⚠ Warning:</strong> {warn}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          </DocSection>
         )}
 
-        {/* FAQ dropdown items */}
+        {/* ── 6. Common Issues ── */}
+        {page.commonIssues && page.commonIssues.length > 0 && (
+          <DocSection id={`${page.id}-issues`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Common Issues</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {page.commonIssues.map((issue, idx) => {
+                const colonIdx = issue.indexOf(': ');
+                const title = colonIdx > -1 ? issue.slice(0, colonIdx) : issue;
+                const desc = colonIdx > -1 ? issue.slice(colonIdx + 2) : '';
+                return (
+                  <div key={idx} className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50/30 p-4 dark:border-amber-800/40 dark:bg-amber-900/10">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                    <div>
+                      <p className="text-[13.5px] font-bold text-amber-900 dark:text-amber-200">{title}</p>
+                      {desc && <p className="mt-1 text-[12.5px] leading-relaxed text-amber-700 dark:text-amber-300/70">{desc}</p>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </DocSection>
+        )}
+
+        {/* ── 7. FAQ ── */}
         {page.faqs && page.faqs.length > 0 && (
-          <div className="mt-6">
+          <DocSection id={`${page.id}-faq`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Frequently Asked Questions</h2>
             <Accordion items={page.faqs} />
-          </div>
+          </DocSection>
         )}
 
-        {/* Support ticket submission form */}
+        {/* ── 8. Ticket form ── */}
         {page.hasTicketForm && (
-          <div className="mt-6 border-t border-[#E2E8F0] pt-6 dark:border-[#1E293B]">
+          <DocSection id={`${page.id}-ticket`}>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Submit a Support Ticket</h2>
             <TicketForm />
-          </div>
+          </DocSection>
         )}
+
+        {/* ── Next page CTA + Related ── */}
+        <div className="border-t border-slate-200 pt-8 dark:border-slate-800">
+          {page.nextPageCTA && (
+            <DocSection id={`${page.id}-next`} className="!scroll-mt-0 mb-6">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400 mb-3">Next Step</p>
+              <Link
+                to={`/docs/${page.nextPageCTA.id}`}
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-50/70 to-white/10 px-6 py-5 transition-all hover:border-slate-400 hover:shadow-lg hover:shadow-slate-900/10 dark:border-slate-700 dark:from-slate-800/40 dark:to-slate-900 dark:hover:border-slate-500"
+              >
+                <div>
+                  <p className="text-[16px] font-black text-slate-900 dark:text-white">{page.nextPageCTA.title}</p>
+                  <p className="mt-1 text-[13px] text-slate-500 dark:text-slate-400">{page.nextPageCTA.desc}</p>
+                </div>
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-800 text-white transition-transform group-hover:translate-x-0.5 dark:bg-slate-200 dark:text-slate-900">
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+            </DocSection>
+          )}
+          <RelatedPages relatedPages={page.relatedPages} currentId={page.id} />
+        </div>
+
       </div>
     );
   };
@@ -453,6 +521,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
 
   if (isOverviewPage) {
     return (
+
       <div className="space-y-12">
 
         {/* ─── WHAT IS NOLA SMS PRO ─── */}
@@ -840,158 +909,9 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
     );
   }
 
-  return (
-    <div className="space-y-12">
-      
-      {/* HEADER METADATA — hidden on Welcome, shown on all other pages */}
-      {page.id !== 'overview' && (
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4 dark:border-[#1E293B]">
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-[#F1F5F9] px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-[#334155] dark:bg-[#1E293B] dark:text-[#E2E8F0]">
-            {page.readingTime}
-          </span>
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            {page.section} {page.subsection ? `> ${page.subsection}` : ''}
-          </span>
-        </div>
-      )}
+  // Route: welcome page renders nothing here (WelcomeContent handles it in DocPageRenderer)
+  if (page.id === 'overview') return null;
 
-      {/* 1. WHAT IS THIS? */}
-      <DocSection id={`${page.id}-what-is-this`}>
-        {page.id !== 'overview' && (
-          <DocSectionHeading eyebrow="1. What is this?">Overview & Goal</DocSectionHeading>
-        )}
-        {renderWhatIsThis()}
-
-        {/* Dynamic visual guides explaining "what this is" under INTRODUCTION */}
-        {page.hasProblemsSolved && (
-          <div className="mt-6">
-            <h4 className="text-[11px] font-black text-[#334155] dark:text-[#CBD5E1] uppercase tracking-[0.14em] mb-3">Core Operational Painpoints Solved</h4>
-            <ProblemsSolved />
-          </div>
-        )}
-        {page.hasTargetPersonas && (
-          <div className="mt-6">
-            <h4 className="text-[11px] font-black text-[#334155] dark:text-[#CBD5E1] uppercase tracking-[0.14em] mb-3">Target Operators</h4>
-            <TargetPersonas />
-          </div>
-        )}
-        {page.hasIntegrationFlow && (
-          <div className="mt-6">
-            <IntegrationFlow />
-          </div>
-        )}
-        {page.hasModuleEcosystem && (
-          <div className="mt-6">
-            <ModuleEcosystem />
-          </div>
-        )}
-      </DocSection>
-
-      {/* 2. WHY IS IT IMPORTANT? */}
-      {page.whyItMatters && (
-        <DocSection id={`${page.id}-why-is-it-important`}>
-          <DocSectionHeading eyebrow="2. Why is it important?">Value & Impact</DocSectionHeading>
-          <div className="rounded-2xl border border-slate-200/50 bg-[#F8FAFC] p-5 dark:border-slate-900/25 dark:bg-[#111827] shadow-sm shadow-[#0F172A]/2">
-            <p className="text-[14px] leading-7 text-[#0F172A] dark:text-slate-200 font-semibold">
-              {page.whyItMatters}
-            </p>
-          </div>
-        </DocSection>
-      )}
-
-      {/* 3. WHAT DO I NEED BEFORE I BEGIN? */}
-      {page.prerequisites && page.prerequisites.length > 0 && (
-        <DocSection id={`${page.id}-prerequisites`}>
-          <DocSectionHeading eyebrow="3. What do I need before I begin?">Pre-flight Checklist</DocSectionHeading>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {page.prerequisites.map((prereq) => (
-              <div
-                key={prereq}
-                className="flex items-start gap-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3.5 dark:border-[#1E293B] dark:bg-[#111827] shadow-sm shadow-[#0F172A]/2"
-              >
-                <div className="mt-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-slate-100 text-slate-600 dark:bg-slate-950/40 dark:text-slate-450">
-                  <Check className="h-3 w-3" />
-                </div>
-                <span className="text-[13px] font-semibold leading-relaxed text-[#0F172A] dark:text-white">
-                  {prereq}
-                </span>
-              </div>
-            ))}
-          </div>
-        </DocSection>
-      )}
-
-      {/* 4. HOW DO I USE IT? */}
-      {((page.steps && page.steps.length > 0) || page.hasFirstSMSChecklist || (page.screenshots && page.screenshots.length > 1)) && (
-        <DocSection id={`${page.id}-how-do-i-use-it`}>
-          <DocSectionHeading eyebrow="4. How do I use it?">Step-by-Step Instructions</DocSectionHeading>
-          {renderHowDoIUseIt()}
-        </DocSection>
-      )}
-
-      {/* 5. WHAT SHOULD I EXPECT AFTERWARDS? */}
-      {page.expectAfter && (
-        <DocSection id={`${page.id}-expect-after`}>
-          <DocSectionHeading eyebrow="5. What should I expect afterwards?">Next State & Outcome</DocSectionHeading>
-          <div className="flex gap-3.5 rounded-2xl border border-emerald-150 bg-emerald-50/10 p-5 dark:border-emerald-950/20 dark:bg-emerald-950/5 shadow-sm">
-            <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600 dark:text-emerald-450" />
-            <div>
-              <p className="text-[13.5px] leading-relaxed text-[#2E6B4E] dark:text-emerald-300 font-medium">
-                {page.expectAfter}
-              </p>
-            </div>
-          </div>
-        </DocSection>
-      )}
-
-      {/* PRACTICE CHECKLIST */}
-      {page.hasFirstSMSChecklist && (
-        <DocSection id={`${page.id}-practice`}>
-          <DocSectionHeading eyebrow="Interactive Practice">Complete your first-send checks</DocSectionHeading>
-          <InteractiveChecklist />
-        </DocSection>
-      )}
-
-      {/* 6. COMMON QUESTIONS OR TIPS */}
-      {((page.tips && page.tips.length > 0) || 
-        (page.notes && page.notes.length > 0) || 
-        (page.warnings && page.warnings.length > 0) || 
-        (page.commonIssues && page.commonIssues.length > 0) || 
-        (page.faqs && page.faqs.length > 0) ||
-        page.hasTicketForm) && (
-        <DocSection id={`${page.id}-faq-and-tips`}>
-          <DocSectionHeading eyebrow="6. Common questions & tips">Troubleshooting & Advice</DocSectionHeading>
-          {renderTipsAndCommonQuestions()}
-        </DocSection>
-      )}
-
-      {/* 7. WHERE SHOULD I GO NEXT? */}
-      <div className="border-t border-[#E2E8F0] pt-8 dark:border-[#1E293B]">
-        {page.nextPageCTA ? (
-          <DocSection id={`${page.id}-next-step`} className="!scroll-mt-0">
-            <p className="doc-eyebrow mb-3">7. Where should I go next?</p>
-            <Link
-              to={`/docs/${page.nextPageCTA.id}`}
-              className="group flex items-center justify-between gap-4 rounded-2xl border border-[#CBD5E1] bg-gradient-to-r from-[#F1F5F9]/70 to-white/10 px-6 py-5 transition-all hover:border-[#475569] hover:shadow-lg hover:shadow-[#0F172A]/10 dark:border-[#475569] dark:from-[#1E293B]/40 dark:to-[#111827] dark:hover:border-[#CBD5E1]"
-            >
-              <div>
-                <p className="text-[16px] font-black text-[#0F172A] dark:text-white">
-                  {page.nextPageCTA.title}
-                </p>
-                <p className="mt-1 text-[13px] text-[#64748B] dark:text-slate-400">
-                  {page.nextPageCTA.desc}
-                </p>
-              </div>
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#334155] text-white transition-transform group-hover:translate-x-0.5 dark:bg-[#CBD5E1] dark:text-[#020617]">
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-          </DocSection>
-        ) : null}
-
-        <RelatedPages relatedPages={page.relatedPages} currentId={page.id} />
-      </div>
-
-    </div>
-  );
+  // Route: all section pages use the intro-style structured layout
+  return renderSectionPageContent();
 };

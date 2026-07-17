@@ -1,161 +1,154 @@
 import React from 'react';
 import type { DocPage } from '../../data/docsData';
-import { InfoBox, TipBox, WarningBox, SuccessBox } from '../Callouts';
-import { DocSection, DocSectionHeading } from './layout';
+import { DocSection } from './layout';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Clock, Check, X, CheckCheck } from 'lucide-react';
 
-interface Props {
-  page: DocPage;
-}
+interface Props { page: DocPage; }
+
+const statusLifecycle = [
+  { stage: 'Default', label: 'NOLASMSPro', desc: 'Pre-approved. Available immediately for all accounts.', color: 'emerald', available: true },
+  { stage: 'Pending', label: 'Under Review', desc: 'Carrier verification in progress. Not yet selectable.', color: 'amber', available: false },
+  { stage: 'Approved', label: 'Active', desc: 'Carrier approved. Appears in Sender ID dropdown.', color: 'blue', available: true },
+  { stage: 'Rejected', label: 'Declined', desc: 'Carrier declined. Submit a new request with corrected details.', color: 'rose', available: false },
+];
+
+const formatRules = [
+  { rule: 'Max length', value: '11 characters', note: 'Strict carrier limit — no exceptions' },
+  { rule: 'Allowed characters', value: 'A–Z, 0–9', note: 'Alphanumeric only — no symbols or spaces' },
+  { rule: 'Case sensitivity', value: 'Case preserved', note: 'Displayed exactly as submitted' },
+  { rule: 'Spaces', value: 'Not allowed', note: 'Carriers reject names containing spaces' },
+];
+
+const steps = [
+  { title: 'Open Sender IDs Menu', desc: 'Open Sender IDs from the left navigation.' },
+  { title: 'Review System Default', desc: 'Review the default sender identity NOLASMSPro, which is immediately available.' },
+  { title: 'Request Custom ID', desc: 'Click Request Custom Sender ID to submit a branded name (up to 11 alphanumeric characters).' },
+  { title: 'Enter Verification Details', desc: 'Enter your Brand Name, Registered Business Name, and upload required verification documents.' },
+  { title: 'Submit for Carrier Review', desc: 'Click Submit Request to send your application.' },
+  { title: 'Monitor Request Status', desc: 'Track the request status — Pending, Approved, or Rejected — from the Sender IDs panel.' },
+];
 
 export const SenderIdsContent: React.FC<Props> = ({ page }) => {
   return (
-    <div className="w-full space-y-10">
-      {/* HEADER METADATA */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#D7E7FA] pb-4 dark:border-[#183354]">
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-[#E8F3FF] px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#9AC3FF]">
-          {page.readingTime}
-        </span>
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-          {page.section} {page.subsection ? `> ${page.subsection}` : ''}
-        </span>
-      </div>
+    <div className="w-full space-y-12 pb-10">
 
-      {/* Section A — Key Objective */}
-      <DocSection id="sender-ids-key-objective">
-        <InfoBox title="Key Objective">
-          Request and manage alphanumeric Sender IDs to strengthen brand recognition when customers receive your SMS messages.
-        </InfoBox>
-      </DocSection>
 
-      {/* Section B — Prerequisites */}
-      <DocSection id="sender-ids-prerequisites">
-        <DocSectionHeading>Prerequisites</DocSectionHeading>
-        <div className="rounded-2xl border border-[#D7E7FA] bg-[#F8FBFF] p-5 dark:border-[#183354] dark:bg-[#0B1627] flex items-start gap-4 max-w-[680px] shadow-sm shadow-[#184B8F]/3 hover:border-[#4F8EF7] transition-all duration-300">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <div>
-            <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-1">Registration Details</h4>
-            <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-              Active business registration details and supporting documents for Sender ID verification.
-            </p>
+
+      {/* STATUS LIFECYCLE STRIP */}
+      <section id="sender-ids-lifecycle" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Sender ID status lifecycle</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {statusLifecycle.map((item) => {
+            const colorMap: Record<string, { bg: string; badge: string; text: string }> = {
+              emerald: { bg: 'border-emerald-200 bg-[#E8F3FF]/10 dark:border-emerald-900/30 dark:bg-emerald-950/5', badge: 'bg-emerald-500', text: 'text-emerald-800 dark:text-emerald-300' },
+              amber: { bg: 'border-amber-200 bg-[#E8F3FF]/10 dark:border-amber-900/30 dark:bg-amber-955/5', badge: 'bg-amber-400', text: 'text-amber-805 dark:text-amber-300' },
+              blue: { bg: 'border-blue-200 bg-[#E8F3FF]/10 dark:border-blue-900/30 dark:bg-blue-950/5', badge: 'bg-blue-500', text: 'text-blue-800 dark:text-blue-300' },
+              rose: { bg: 'border-rose-200 bg-[#E8F3FF]/10 dark:border-rose-900/30 dark:bg-rose-950/5', badge: 'bg-rose-500', text: 'text-rose-800 dark:text-rose-300' },
+            };
+            const c = colorMap[item.color];
+            return (
+              <div key={item.stage} className={`rounded-2xl border p-4 flex flex-col justify-between ${c.bg}`}>
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-[11px] font-black uppercase tracking-wider ${c.text}`}>{item.stage}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className={`h-2.5 w-2.5 rounded-full ${c.badge}`} />
+                      {item.available
+                        ? <Check className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400" />
+                        : <X className="h-4.5 w-4.5 text-rose-500 dark:text-rose-400" />}
+                    </div>
+                  </div>
+                  <p className={`text-[13.5px] font-black mb-1 ${c.text}`}>{item.label}</p>
+                  <p className="text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">{item.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-2 text-[12.5px] text-slate-500 dark:text-slate-400 flex flex-wrap gap-x-4 gap-y-1">
+          <span><Check className="inline h-3.5 w-3.5 text-emerald-500 mr-1" />Available in composer dropdown</span>
+          <span><X className="inline h-3.5 w-3.5 text-rose-500 mr-1" />Not available for sending</span>
+        </p>
+      </section>
+
+      {/* PREREQUISITE */}
+      <section id="sender-ids-prerequisite">
+        <div className="rounded-2xl border border-blue-200 dark:border-blue-900/40 border-l-4 border-l-blue-500 dark:border-l-blue-600 bg-gradient-to-br from-blue-50 to-sky-50/60 dark:from-[#060E1E] dark:to-[#0A1628] p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-655 dark:text-slate-400">
+              <ShieldCheck className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-[13.5px] font-black text-slate-900 dark:text-white">Registration documentation required</p>
+              <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-blue-200 mt-1">
+                Active business registration details and supporting documents (SEC/DTI, BIR Certificate, or trademark authorization papers) matching your requested brand name must be uploaded on submission.
+              </p>
+            </div>
           </div>
         </div>
-      </DocSection>
+      </section>
 
-      {/* Section C — Step-by-Step Submitting a Custom Sender ID Request */}
-      <DocSection id="sender-id-request-stepper">
-        <DocSectionHeading>Step-by-Step Submitting a Custom Sender ID Request</DocSectionHeading>
-        
-        <div className="relative pl-6 border-l-2 border-[#D7E7FA] dark:border-[#183354] ml-4 space-y-8 my-6">
-          {[
-            {
-              title: 'Open Sender IDs Menu',
-              desc: 'Open Sender IDs from the left navigation.'
-            },
-            {
-              title: 'Review System Default',
-              desc: 'Review the default sender identity NOLASMSPro, which is immediately available for use.'
-            },
-            {
-              title: 'Request Custom ID',
-              desc: 'Click Request Custom Sender ID to request a branded sender name of up to 11 alphanumeric characters.'
-            },
-            {
-              title: 'Enter Verification Details',
-              desc: 'Enter your Brand Name, Registered Business Name, and upload any required verification documents.'
-            },
-            {
-              title: 'Submit for Carrier Review',
-              desc: 'Click Submit Request.'
-            },
-            {
-              title: 'Monitor Request Status',
-              desc: 'Monitor the request status to see whether it is Pending, Approved, or Rejected.'
-            }
-          ].map((step, idx) => (
-            <div key={idx} className="relative group">
-              <div className="absolute -left-[35px] top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#1F5AAE] text-white dark:bg-[#72A8FF] dark:text-[#07111F] text-[10px] font-black shadow-md transition-all duration-200 group-hover:scale-110">
+      {/* REQUEST STEPS */}
+      <section id="sender-ids-request-steps" className="space-y-5">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Request workflow</h2>
+        <div className="space-y-4">
+          {steps.map((step, idx) => (
+            <div key={idx} className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800/80 dark:bg-[#111827] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-400 dark:hover:border-slate-600 hover:shadow-md group">
+              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-slate-150 text-slate-700 dark:bg-slate-800 dark:text-slate-200 text-[11px] font-black border border-slate-300 dark:border-slate-700 mt-0.5">
                 {idx + 1}
               </div>
-              <h4 className="text-[14.5px] font-bold text-[#0B2E63] dark:text-white leading-none mb-2 group-hover:text-[#1F5AAE] dark:group-hover:text-[#72A8FF] transition-colors">
-                {step.title}
-              </h4>
-              <p className="text-[13.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-                {step.desc}
-              </p>
+              <div>
+                <p className="text-[15px] font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{step.title}</p>
+                <p className="mt-1 text-[13.5px] leading-relaxed text-slate-550 dark:text-slate-400">{step.desc}</p>
+              </div>
             </div>
           ))}
         </div>
-      </DocSection>
+      </section>
 
-      {/* Section D — Important Warning */}
-      <DocSection id="sender-ids-approval-workflow">
-        <WarningBox title="⚠️ IMPORTANT: Carrier Approval Workflow">
-          Custom Sender IDs require approval from participating telecommunications networks before they can be used. Only Approved Sender IDs appear in the sender selection dropdown on the Compose SMS page. Sender IDs with a status of Pending or Rejected are unavailable for message delivery.
-        </WarningBox>
-      </DocSection>
-
-      {/* Section E — Verification Guidelines */}
-      <DocSection id="sender-ids-best-practices">
-        <DocSectionHeading>Registration & Formatting Guidelines</DocSectionHeading>
-        <div className="grid gap-4 md:grid-cols-2">
-          <TipBox title="💡 Mask Character Rules">
-            Custom Sender IDs are restricted to a maximum of 11 characters. They must be alphanumeric (letters A-Z and numbers 0-9). Special characters, symbols, and spaces are generally not allowed by telecommunications networks.
-          </TipBox>
-          <TipBox title="💡 Registration Documentation">
-            Carriers strictly regulate sender headers. Prepare valid government registration papers (e.g. SEC/DTI registration, BIR Certificate of Registration, or trademark papers) that match your requested brand mask.
-          </TipBox>
+      {/* FORMAT RULES TABLE */}
+      <section id="sender-ids-format-rules" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Sender ID format rules</h2>
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="bg-slate-50 dark:bg-[#111827] border-b border-slate-200 dark:border-slate-800">
+                {['Rule', 'Value', 'Note'].map((h) => (
+                  <th key={h} className="px-5 py-3.5 text-[11px] font-black text-slate-655 dark:text-slate-305 uppercase tracking-wider">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {formatRules.map((row, idx) => (
+                <tr key={row.rule} className={`border-b border-slate-100 dark:border-slate-900/50 ${idx % 2 === 0 ? 'bg-white dark:bg-[#0c1220]/20' : 'bg-slate-50/20 dark:bg-slate-900/20'}`}>
+                  <td className="px-5 py-3.5 text-[13.5px] font-bold text-slate-900 dark:text-white">{row.rule}</td>
+                  <td className="px-5 py-3.5 text-[13px] font-mono font-semibold text-blue-600 dark:text-blue-400">{row.value}</td>
+                  <td className="px-5 py-3.5 text-[12.5px] text-slate-500 dark:text-slate-400">{row.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </DocSection>
-
-      {/* Section F — Expected Outcome */}
-      <DocSection id="sender-ids-expected-outcome">
-        <SuccessBox title="Expected Outcome">
-          Your custom Sender ID request is submitted for carrier review. Once approved, it becomes available as a selectable sender identity when composing outbound SMS messages.
-        </SuccessBox>
-      </DocSection>
-
-      {/* Section G — Closing + CTA */}
-      <div className="border-t border-[#D7E7FA] pt-8 dark:border-[#183354]">
-        <section aria-labelledby="closing-heading">
-          <p className="text-[15px] font-medium leading-7 text-[#425B7D] dark:text-slate-300 max-w-[720px]">
-            Once your Sender IDs are approved, you can verify transmission details and carrier response codes. The next guide will walk you through Message History.
+        <div className="mt-3 flex items-start gap-2.5">
+          <Clock className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-500" />
+          <p className="text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">
+            Carrier review typically takes <strong>5–7 business days</strong> depending on participating network provider queues.
           </p>
+        </div>
+      </section>
 
-          {/* Next Page CTA */}
-          <Link
-            to="/docs/message-history"
-            id="sender-ids-next-cta"
-            className="group mt-6 inline-flex items-center gap-3 rounded-2xl border border-[#4F8EF7]/30 bg-gradient-to-r from-[#1F5AAE] to-[#3B7FE0] px-6 py-4 text-white shadow-lg shadow-[#184B8F]/20 transition-all duration-200 hover:shadow-xl hover:shadow-[#184B8F]/30 hover:opacity-95"
-          >
-            <span className="flex flex-col">
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#B8D8FF]">
-                Next guide
-              </span>
-              <span className="mt-0.5 text-[15px] font-black leading-tight">
-                Message History
-              </span>
-            </span>
-            <ArrowRight className="h-5 w-5 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-
-          {/* Version note */}
-          <p className="mt-6 text-[12px] text-[#7B93B1] dark:text-slate-500 leading-relaxed">
-            This documentation reflects NOLA SMS Pro version 1.0. If your app looks
-            different, visit{' '}
-            <Link
-              to="/docs/support-help"
-              className="font-semibold text-[#1F5AAE] underline underline-offset-2 dark:text-[#72A8FF]"
-            >
-              Support &amp; Help
-            </Link>
-            .
+      {/* SUCCESS */}
+      <section id="sender-ids-outcome">
+        <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/40 px-5 py-4 dark:border-emerald-800/40 dark:bg-emerald-900/10">
+          <CheckCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <p className="text-[13.5px] leading-relaxed text-emerald-700 dark:text-emerald-450 font-medium">
+            Once approved, your custom Sender ID becomes available as a selectable identity when composing outbound SMS messages.
           </p>
-        </section>
-      </div>
+        </div>
+      </section>
+
+
     </div>
   );
 };

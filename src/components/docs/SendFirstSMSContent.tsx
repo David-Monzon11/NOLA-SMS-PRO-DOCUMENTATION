@@ -1,181 +1,160 @@
 import React from 'react';
 import type { DocPage } from '../../data/docsData';
-import { InfoBox, WarningBox, SuccessBox } from '../Callouts';
-import { DocSection, DocSectionHeading } from './layout';
+import { DocSection } from './layout';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CreditCard, Smartphone } from 'lucide-react';
+import {
+  ArrowRight, CreditCard, Smartphone, CheckCircle2,
+  AlertTriangle, CheckCheck
+} from 'lucide-react';
 
-interface Props {
-  page: DocPage;
-}
+interface Props { page: DocPage; }
+
+const steps = [
+  { title: 'Add a Test Contact', desc: 'Navigate to Contacts and select Add Contact. Save a test contact using your own mobile number.' },
+  { title: 'Open Compose SMS', desc: 'Open Compose SMS from the left navigation.' },
+  { title: 'Select Recipient', desc: 'Search for and select your test contact as the recipient.' },
+  { title: 'Choose Sender ID', desc: 'Choose the default sender identity NOLASMSPro from the dropdown.' },
+  { title: 'Draft a Natural Message', desc: 'Compose a full sentence, for example: "Hi, this is a delivery test from NOLA SMS Pro. No reply is required."' },
+  { title: 'Review Character Count', desc: 'Check the character counter before sending. 1 standard SMS = 160 characters.' },
+  { title: 'Click Send Once', desc: 'Dispatch the message. Do not click Send multiple times.' },
+  { title: 'Verify Physical Delivery', desc: 'Confirm the SMS arrives on your physical mobile handset.' },
+  { title: 'Audit Message History', desc: 'Open Message History and confirm the message status shows Sent or Delivered.' },
+];
+
+const deliveryStatuses = [
+  { label: 'Sending', color: 'amber', dot: 'bg-amber-500', desc: 'Queued and processing on carrier channels.' },
+  { label: 'Sent', color: 'blue', dot: 'bg-blue-500', desc: 'Transmitted to the carrier network.' },
+  { label: 'Delivered', color: 'emerald', dot: 'bg-emerald-500', desc: 'Confirmed received on the recipient\'s handset.' },
+  { label: 'Failed', color: 'rose', dot: 'bg-rose-500', desc: 'Delivery aborted. Check credits and number format.' },
+];
 
 export const SendFirstSMSContent: React.FC<Props> = ({ page }) => {
   return (
-    <div className="w-full space-y-10">
-      {/* HEADER METADATA */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#D7E7FA] pb-4 dark:border-[#183354]">
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-[#E8F3FF] px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#9AC3FF]">
-          {page.readingTime}
-        </span>
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-          {page.section} {page.subsection ? `> ${page.subsection}` : ''}
-        </span>
-      </div>
+    <div className="w-full space-y-12 pb-10">
 
-      {/* Section A — Key Objective */}
-      <DocSection id="send-key-objective">
-        <InfoBox title="Key Objective">
-          Verify that you can successfully send an SMS and confirm that it is received on the recipient's mobile device.
-        </InfoBox>
-      </DocSection>
 
-      {/* Section B — Prerequisites */}
-      <DocSection id="send-prerequisites">
-        <DocSectionHeading>Prerequisites</DocSectionHeading>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="flex items-start gap-4 rounded-2xl border border-[#D7E7FA] bg-[#F8FBFF] p-5 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/3 hover:border-[#4F8EF7] transition-all duration-300">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
-              <CreditCard className="h-5 w-5" />
-            </div>
-            <div>
-              <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-1">SMS Credits</h4>
-              <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-                Available SMS credits (new accounts receive 10 free trial credits upon registration).
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-4 rounded-2xl border border-[#D7E7FA] bg-[#F8FBFF] p-5 dark:border-[#183354] dark:bg-[#0B1627] shadow-sm shadow-[#184B8F]/3 hover:border-[#4F8EF7] transition-all duration-300">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
-              <Smartphone className="h-5 w-5" />
-            </div>
-            <div>
-              <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-1">Test Contact</h4>
-              <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-                A test contact with a valid Philippine mobile number formatted as 09XXXXXXXXX.
-              </p>
-            </div>
-          </div>
-        </div>
-      </DocSection>
 
-      {/* Section C — Step-by-Step Messaging */}
-      <DocSection id="step-by-step-messaging">
-        <DocSectionHeading>Step-by-Step Messaging</DocSectionHeading>
-        
-        <div className="relative pl-6 border-l-2 border-[#D7E7FA] dark:border-[#183354] ml-4 space-y-8 my-6">
+      {/* PRE-FLIGHT CHECKLIST */}
+      <section id="send-preflight" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Pre-flight checklist</h2>
+        <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">
+          Before launching campaign-level outreach, we recommend dispatching a single test SMS to a mobile device you control. This allows you to verify credits debiting, carrier aggregator speed, and GoHighLevel's native conversations sync under real conditions.
+        </p>
+        <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">
+          Please confirm that you have completed all of the following prerequisites before proceeding with your first test flight:
+        </p>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/30 space-y-3">
           {[
-            {
-              title: 'Add a Test Contact',
-              desc: 'Navigate to Contacts and select Add Contact. Save a test contact using your own mobile number.'
-            },
-            {
-              title: 'Open Composer',
-              desc: 'Open Compose SMS.'
-            },
-            {
-              title: 'Select Recipient',
-              desc: 'Select your test contact as the recipient.'
-            },
-            {
-              title: 'Choose Sender ID',
-              desc: 'Choose the default sender identity NOLASMSPro.'
-            },
-            {
-              title: 'Draft Message Copy',
-              desc: 'Compose a natural message, for example: "Hi, this is a delivery test from NOLA SMS Pro. No reply is required."'
-            },
-            {
-              title: 'Review SMS Segments',
-              desc: 'Review the character count before sending (1 standard SMS = 160 characters).'
-            },
-            {
-              title: 'Dispatch Text Message',
-              desc: 'Click Send once.'
-            },
-            {
-              title: 'Verify Physical Delivery',
-              desc: 'Verify that the SMS arrives on your physical mobile handset.'
-            },
-            {
-              title: 'Audit Message Logs',
-              desc: 'Open Message History and confirm the message status displays Sent or Delivered.'
-            }
-          ].map((step, idx) => (
-            <div key={idx} className="relative group">
-              <div className="absolute -left-[35px] top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#1F5AAE] text-white dark:bg-[#72A8FF] dark:text-[#07111F] text-[10px] font-black shadow-md transition-all duration-200 group-hover:scale-110">
-                {idx + 1}
+            { icon: <CreditCard className="h-4 w-4" />, label: 'Available SMS credits', sub: 'New accounts receive 10 free trial credits upon registration' },
+            { icon: <Smartphone className="h-4 w-4" />, label: 'Test contact with valid PH number', sub: 'Format: 09XXXXXXXXX — use your own number for testing' },
+            { icon: <CheckCircle2 className="h-4 w-4" />, label: 'Active HighLevel connection', sub: 'API Connected badge visible in Settings' },
+          ].map((item) => (
+            <div key={item.label} className="flex items-start gap-3">
+              <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-450">
+                {item.icon}
               </div>
-              <h4 className="text-[14.5px] font-bold text-[#0B2E63] dark:text-white leading-none mb-2 group-hover:text-[#1F5AAE] dark:group-hover:text-[#72A8FF] transition-colors">
-                {step.title}
-              </h4>
-              <p className="text-[13.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-                {step.desc}
-              </p>
+              <div>
+                <p className="text-[14px] font-bold text-slate-900 dark:text-white leading-tight">{item.label}</p>
+                <p className="text-[12.5px] text-slate-550 dark:text-slate-400 mt-0.5">{item.sub}</p>
+              </div>
             </div>
           ))}
         </div>
-      </DocSection>
+      </section>
 
-      {/* Section D — Important Info */}
-      <DocSection id="send-important-notice">
-        <InfoBox title="📢 One-Way Outbound Messaging">
-          Alphanumeric sender identities, including the default NOLASMSPro and approved custom Sender IDs, support one-way outbound messaging only. Recipients cannot reply directly to these messages. Successful verification is confirmed when the SMS is received on the recipient's mobile device.
-        </InfoBox>
-      </DocSection>
+      {/* OUTBOUND WARNING */}
+      <section id="send-oneway-note">
+        <div className="rounded-2xl border border-blue-200 dark:border-blue-900/40 border-l-4 border-l-blue-500 dark:border-l-blue-600 bg-gradient-to-br from-blue-50 to-sky-50/60 dark:from-[#060E1E] dark:to-[#0A1628] p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 text-blue-600 dark:text-blue-400 font-bold text-[15px] flex-shrink-0">ℹ</span>
+            <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-blue-200">
+              <strong>One-way messaging:</strong> Alphanumeric Sender IDs like NOLASMSPro support outbound routing only. Recipients cannot reply. Verify physical delivery directly by checking your handset.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Section E — Warning Callout */}
-      <DocSection id="send-warning-callout">
-        <WarningBox title="⚠️ Avoid Generic Test Keywords">
-          Avoid sending messages containing only generic words such as "test", "sms", or "hello". Carrier spam filters may block repetitive or low-quality content. Always send a natural, complete sentence during testing. If delivery fails, do not repeatedly click Send. Instead, verify your SMS credit balance and contact support with a screenshot if assistance is required.
-        </WarningBox>
-      </DocSection>
+      {/* STEPS */}
+      <section id="send-steps" className="space-y-5">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Sending steps</h2>
+        <div className="space-y-4">
+          {steps.map((step, idx) => (
+            <React.Fragment key={idx}>
+              {/* Character reference after step 6 */}
+              {idx === 6 && (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/30 p-5 dark:border-slate-800 dark:bg-slate-900/10 my-1 space-y-3">
+                  <p className="text-[11px] font-black text-slate-450 dark:text-slate-500 uppercase tracking-wider">Character segment reference</p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {[
+                      { enc: 'GSM (Standard Latin)', chars: '160 chars = 1 credit', note: 'Letters, numbers, basic punctuation' },
+                      { enc: 'Unicode (Emoji/Accented)', chars: '70 chars = 1 credit', note: 'Emojis reduce maximum segment limit' },
+                    ].map((row) => (
+                      <div key={row.enc} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-850 dark:bg-[#111827] shadow-sm">
+                        <p className="text-[13.5px] font-black text-slate-900 dark:text-white leading-tight">{row.enc}</p>
+                        <p className="text-[13px] font-bold text-blue-600 dark:text-blue-400 mt-1">{row.chars}</p>
+                        <p className="text-[12px] text-slate-550 dark:text-slate-400 mt-0.5">{row.note}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800/80 dark:bg-[#111827] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-400 dark:hover:border-slate-600 hover:shadow-md group">
+                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-slate-150 text-slate-700 dark:bg-slate-800 dark:text-slate-200 text-[11px] font-black border border-slate-300 dark:border-slate-700 mt-0.5">
+                  {idx + 1}
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{step.title}</p>
+                  <p className="mt-1 text-[13.5px] leading-relaxed text-slate-550 dark:text-slate-400">{step.desc}</p>
+                </div>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
 
-      {/* Section F — Expected Outcome */}
-      <DocSection id="send-expected-outcome">
-        <SuccessBox title="Expected Outcome">
-          Once your test SMS is successfully received and the message status shows Delivered, your setup is complete and you are ready to begin normal messaging operations.
-        </SuccessBox>
-      </DocSection>
+      {/* SPAM WARNING */}
+      <section id="send-spam-warning">
+        <div className="flex items-start gap-3.5 rounded-xl border border-amber-255 bg-amber-50/40 px-5 py-4 dark:border-amber-900/40 dark:bg-amber-955/10">
+          <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600 dark:text-amber-400" />
+          <div>
+            <p className="text-[13.5px] font-black text-amber-805 dark:text-amber-305 uppercase tracking-wide mb-1">Avoid generic test keywords</p>
+            <p className="text-[13px] leading-relaxed text-amber-700 dark:text-amber-400 font-medium">
+              Carrier spam filters may block messages containing only "test", "sms", or "hello". Always send a natural, complete sentence. If delivery fails, do not click Send repeatedly — verify your credit balance and check connection settings.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Section 7 — Closing + CTA */}
-      <div className="border-t border-[#D7E7FA] pt-8 dark:border-[#183354]">
-        <section aria-labelledby="closing-heading">
-          <p className="text-[15px] font-medium leading-7 text-[#425B7D] dark:text-slate-300 max-w-[720px]">
-            Ready to explore CRM contact controls? The next guide will show you how to search and manage contact records synchronized directly from HighLevel.
-          </p>
+      {/* DELIVERY STATUS LEGEND */}
+      <section id="send-status-legend" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Delivery status legend</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {deliveryStatuses.map((status) => (
+            <div key={status.label} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-[#111827]">
+              <span className={`mt-1.5 h-2.5 w-2.5 rounded-full flex-shrink-0 ${status.dot}`} />
+              <div>
+                <p className="text-[13.5px] font-black text-slate-900 dark:text-white leading-tight">{status.label}</p>
+                <p className="text-[12.5px] text-slate-500 dark:text-slate-400 mt-0.5">{status.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          {/* Next Page CTA */}
-          <Link
-            to="/docs/contacts"
-            id="send-next-cta"
-            className="group mt-6 inline-flex items-center gap-3 rounded-2xl border border-[#4F8EF7]/30 bg-gradient-to-r from-[#1F5AAE] to-[#3B7FE0] px-6 py-4 text-white shadow-lg shadow-[#184B8F]/20 transition-all duration-200 hover:shadow-xl hover:shadow-[#184B8F]/30 hover:opacity-95"
-          >
-            <span className="flex flex-col">
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#B8D8FF]">
-                Next guide
-              </span>
-              <span className="mt-0.5 text-[15px] font-black leading-tight">
-                Contacts
-              </span>
-            </span>
-            <ArrowRight className="h-5 w-5 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+      {/* SUCCESS */}
+      <section id="send-outcome">
+        <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/40 px-5 py-4 dark:border-emerald-800/40 dark:bg-emerald-900/10">
+          <CheckCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <div>
+            <p className="text-[13.5px] font-black text-emerald-800 dark:text-emerald-305 uppercase tracking-wide mb-0.5">Expected outcome</p>
+            <p className="text-[13.5px] leading-relaxed text-emerald-700 dark:text-emerald-450 font-medium">
+              Once your test SMS is received and Message History shows Delivered, your setup is complete and you're ready for normal messaging operations.
+            </p>
+          </div>
+        </div>
+      </section>
 
-          {/* Version note */}
-          <p className="mt-6 text-[12px] text-[#7B93B1] dark:text-slate-500 leading-relaxed">
-            This documentation reflects NOLA SMS Pro version 1.0. If your app looks
-            different, visit{' '}
-            <Link
-              to="/docs/support-help"
-              className="font-semibold text-[#1F5AAE] underline underline-offset-2 dark:text-[#72A8FF]"
-            >
-              Support &amp; Help
-            </Link>
-            .
-          </p>
-        </section>
-      </div>
+
     </div>
   );
 };

@@ -1,171 +1,138 @@
 import React from 'react';
 import type { DocPage } from '../../data/docsData';
-import { InfoBox, TipBox, SuccessBox } from '../Callouts';
-import { DocSection, DocSectionHeading } from './layout';
+import { DocSection } from './layout';
 import { Link } from 'react-router-dom';
-import { ArrowRight, History } from 'lucide-react';
+import { ArrowRight, History, Lightbulb, CheckCheck, Filter } from 'lucide-react';
 
-interface Props {
-  page: DocPage;
-}
+interface Props { page: DocPage; }
+
+const statusLegend = [
+  {
+    badge: 'Sending',
+    dot: 'bg-amber-500',
+    desc: 'Message queued and processing on carrier channels. Wait a few minutes before rechecking.',
+  },
+  {
+    badge: 'Sent',
+    dot: 'bg-blue-500',
+    desc: 'Transmitted to the carrier network. Awaiting handset confirmation.',
+  },
+  {
+    badge: 'Delivered',
+    dot: 'bg-emerald-500',
+    desc: 'Confirmed received on the recipient\'s physical handset.',
+  },
+  {
+    badge: 'Failed',
+    dot: 'bg-rose-500',
+    desc: 'Delivery aborted by network rules. Open the entry to view the failure reason.',
+  },
+];
+
+const auditSteps = [
+  { title: 'Open Message History', desc: 'Open Message History from the left navigation.' },
+  { title: 'Review Log Fields', desc: 'Check Recipient, Timestamp, Sender ID, and Delivery Status for each entry.' },
+  { title: 'Identify Status States', desc: 'Use the legend above to interpret each status badge.' },
+  { title: 'Inspect Delivery Failures', desc: 'Select any Failed message to review the reported failure reason (invalid number, insufficient credits, etc.).' },
+];
+
+const filterTips = [
+  { label: 'Filter by Failed', desc: 'Regularly prune invalid or incorrectly formatted numbers from your CRM.' },
+  { label: 'Filter by Sending', desc: 'If status is stuck, wait 5 minutes then refresh. If unchanged, contact support.' },
+  { label: 'Sort by Timestamp', desc: 'Use timestamp sorting to quickly locate recent delivery activity.' },
+];
 
 export const MessageHistoryContent: React.FC<Props> = ({ page }) => {
   return (
-    <div className="w-full space-y-10">
-      {/* HEADER METADATA */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-[#D7E7FA] pb-4 dark:border-[#183354]">
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-[#E8F3FF] px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#9AC3FF]">
-          {page.readingTime}
-        </span>
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-          {page.section} {page.subsection ? `> ${page.subsection}` : ''}
-        </span>
-      </div>
+    <div className="w-full space-y-12 pb-10">
 
-      {/* Section A — Key Objective */}
-      <DocSection id="history-key-objective">
-        <InfoBox title="Key Objective">
-          Audit and track the status of all sent messages, including delivery logs, timestamps, and error details.
-        </InfoBox>
-      </DocSection>
 
-      {/* Section B — Prerequisites */}
-      <DocSection id="history-prerequisites">
-        <DocSectionHeading>Prerequisites</DocSectionHeading>
-        <div className="rounded-2xl border border-[#D7E7FA] bg-[#F8FBFF] p-5 dark:border-[#183354] dark:bg-[#0B1627] flex items-start gap-4 max-w-[680px] shadow-sm shadow-[#184B8F]/3 hover:border-[#4F8EF7] transition-all duration-300">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#E8F3FF] text-[#1F5AAE] dark:bg-[#102B4F] dark:text-[#72A8FF]">
-            <History className="h-5 w-5" />
-          </div>
-          <div>
-            <h4 className="text-[14px] font-black text-[#0B2E63] dark:text-white uppercase tracking-wider mb-1">Sent SMS History</h4>
-            <p className="text-[12.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-              Queued or previously sent outbound SMS messages.
-            </p>
-          </div>
-        </div>
-      </DocSection>
 
-      {/* Section C — Step-by-Step Message Auditing */}
-      <DocSection id="message-auditing-stepper">
-        <DocSectionHeading>Step-by-Step Message Auditing</DocSectionHeading>
-        
-        <div className="relative pl-6 border-l-2 border-[#D7E7FA] dark:border-[#183354] ml-4 space-y-8 my-6">
-          {[
-            {
-              title: 'Open Message History',
-              desc: 'Open Message History from the left navigation.'
-            },
-            {
-              title: 'Review Log Fields',
-              desc: 'Review the message log, including the Recipient, Timestamp, Sender ID, and Delivery Status.'
-            },
-            {
-              title: 'Check Status Column States',
-              desc: (
-                <div className="space-y-1 mt-1">
-                  <p className="font-semibold text-slate-700 dark:text-slate-350">Identify status code columns:</p>
-                  <ul className="list-none pl-0 space-y-1">
-                    <li className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                      <span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                      <span>Sending — Message queued and processing on carrier channels.</span>
-                    </li>
-                    <li className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                      <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                      <span>Sent / Delivered — Transmission successfully processed by the carrier.</span>
-                    </li>
-                    <li className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                      <span className="inline-block w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                      <span>Failed — Delivery aborted by network rules.</span>
-                    </li>
-                  </ul>
-                </div>
-              )
-            },
-            {
-              title: 'Inspect Delivery Failures',
-              desc: 'Select any Failed message to review the reported failure reason, such as an invalid mobile number or insufficient SMS credits.'
-            }
-          ].map((step, idx) => (
-            <div key={idx} className="relative group">
-              <div className="absolute -left-[35px] top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#1F5AAE] text-white dark:bg-[#72A8FF] dark:text-[#07111F] text-[10px] font-black shadow-md transition-all duration-200 group-hover:scale-110">
-                {idx + 1}
-              </div>
-              <h4 className="text-[14.5px] font-bold text-[#0B2E63] dark:text-white leading-none mb-2 group-hover:text-[#1F5AAE] dark:group-hover:text-[#72A8FF] transition-colors">
-                {step.title}
-              </h4>
-              <div className="text-[13.5px] leading-relaxed text-[#5D7596] dark:text-slate-400">
-                {typeof step.desc === 'string' ? <p>{step.desc}</p> : step.desc}
+      {/* STATUS LEGEND — FIRST */}
+      <section id="history-status-legend" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Delivery status reference</h2>
+        <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">Every message in your history shows one of the following statuses:</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {statusLegend.map((item) => (
+            <div key={item.badge} className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-[#111827] shadow-sm flex items-start gap-3">
+              <span className={`mt-1.5 h-2.5 w-2.5 rounded-full flex-shrink-0 ${item.dot}`} />
+              <div>
+                <p className="text-[13.5px] font-black text-slate-900 dark:text-white uppercase tracking-wider mb-1">{item.badge}</p>
+                <p className="text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
-      </DocSection>
-
-      {/* Section D — Troubleshooting Tip */}
-      <DocSection id="history-stuck-tip">
-        <TipBox title="💡 TIP: Stuck Status Resolution">
-          If a message remains in the Sending status for several minutes, refresh the page and check the log again. If the status still does not change, capture a screenshot of the affected log entry and contact support with the recipient's mobile number and the message timestamp.
-        </TipBox>
-      </DocSection>
-
-      {/* Section E — Additional Best Practices */}
-      <DocSection id="history-best-practices">
-        <DocSectionHeading>Message History Best Practices</DocSectionHeading>
-        <div className="grid gap-4 md:grid-cols-2">
-          <TipBox title="💡 Status Inbound Updates">
-            Outbound gateways sync message status updates periodically. If you notice a delay in updating logs, wait 5 minutes for carrier logs to synchronize status updates completely.
-          </TipBox>
-          <TipBox title="💡 Failures Cleanup">
-            Filter history logs by "Failed" regularly. This allows your team to easily isolate and prune inactive or formatted incorrectly mobile numbers from your CRM list.
-          </TipBox>
+        <div className="rounded-2xl border border-blue-200 dark:border-blue-900/40 border-l-4 border-l-blue-500 dark:border-l-blue-600 bg-gradient-to-br from-blue-50 to-sky-50/60 dark:from-[#060E1E] dark:to-[#0A1628] p-6 shadow-sm mt-4">
+          <div className="flex items-start gap-2.5">
+            <Lightbulb className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-650 dark:text-blue-400" />
+            <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-blue-205">
+              Status updates sync periodically from carrier gateways. If logs show a delay, wait 5 minutes before rechecking.
+            </p>
+          </div>
         </div>
-      </DocSection>
+      </section>
 
-      {/* Section F — Expected Outcome */}
-      <DocSection id="history-expected-outcome">
-        <SuccessBox title="Expected Outcome">
-          A complete audit trail is available for every outbound SMS, including delivery status, timestamps, and SMS credit usage, allowing you to monitor message activity with confidence.
-        </SuccessBox>
-      </DocSection>
+      {/* PREREQUISITE */}
+      <section id="history-prerequisite">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/30">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100/50 dark:border-slate-800 text-slate-655 dark:text-slate-405">
+              <History className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-[13.5px] font-black text-slate-900 dark:text-white">Queued or sent outbound SMS messages</p>
+              <p className="text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400 mt-0.5">Message History only displays entries for messages that have been dispatched from your account.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Section G — Closing + CTA */}
-      <div className="border-t border-[#D7E7FA] pt-8 dark:border-[#183354]">
-        <section aria-labelledby="closing-heading">
-          <p className="text-[15px] font-medium leading-7 text-[#425B7D] dark:text-slate-300 max-w-[720px]">
-            Ready to learn about credit refills and SMS segments? The next section will cover account wallet configuration and SMS credits management.
+      {/* AUDIT STEPS */}
+      <section id="history-audit-steps" className="space-y-5">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Auditing your message logs</h2>
+        <div className="space-y-4">
+          {auditSteps.map((step, idx) => (
+            <div key={idx} className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800/80 dark:bg-[#111827] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-400 dark:hover:border-slate-600 hover:shadow-md group">
+              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-slate-150 text-slate-700 dark:bg-slate-800 dark:text-slate-200 text-[11px] font-black border border-slate-300 dark:border-slate-700 mt-0.5">
+                {idx + 1}
+              </div>
+              <div>
+                <p className="text-[15px] font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{step.title}</p>
+                <p className="mt-1 text-[13.5px] leading-relaxed text-slate-550 dark:text-slate-400">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FILTER TIPS */}
+      <section id="history-filter-tips" className="space-y-4">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Filter &amp; management tips</h2>
+        <div className="space-y-3">
+          {filterTips.map((tip) => (
+            <div key={tip.label} className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-[#111827]">
+              <Filter className="mt-0.5 h-4.5 w-4.5 flex-shrink-0 text-slate-500 dark:text-slate-450" />
+              <div>
+                <p className="text-[13.5px] font-black text-slate-900 dark:text-white leading-tight">{tip.label}</p>
+                <p className="text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400 mt-1">{tip.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SUCCESS */}
+      <section id="history-outcome">
+        <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/40 px-5 py-4 dark:border-emerald-800/40 dark:bg-emerald-900/10">
+          <CheckCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <p className="text-[13.5px] leading-relaxed text-emerald-700 dark:text-emerald-450 font-medium">
+            A complete audit trail is available for every outbound SMS — including delivery status, timestamps, and credit usage — allowing you to monitor message activity with confidence.
           </p>
+        </div>
+      </section>
 
-          {/* Next Page CTA */}
-          <Link
-            to="/docs/sms-credits"
-            id="history-next-cta"
-            className="group mt-6 inline-flex items-center gap-3 rounded-2xl border border-[#4F8EF7]/30 bg-gradient-to-r from-[#1F5AAE] to-[#3B7FE0] px-6 py-4 text-white shadow-lg shadow-[#184B8F]/20 transition-all duration-200 hover:shadow-xl hover:shadow-[#184B8F]/30 hover:opacity-95"
-          >
-            <span className="flex flex-col">
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#B8D8FF]">
-                Next guide
-              </span>
-              <span className="mt-0.5 text-[15px] font-black leading-tight">
-                SMS Credits
-              </span>
-            </span>
-            <ArrowRight className="h-5 w-5 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
-          </Link>
 
-          {/* Version note */}
-          <p className="mt-6 text-[12px] text-[#7B93B1] dark:text-slate-500 leading-relaxed">
-            This documentation reflects NOLA SMS Pro version 1.0. If your app looks
-            different, visit{' '}
-            <Link
-              to="/docs/support-help"
-              className="font-semibold text-[#1F5AAE] underline underline-offset-2 dark:text-[#72A8FF]"
-            >
-              Support &amp; Help
-            </Link>
-            .
-          </p>
-        </section>
-      </div>
     </div>
   );
 };

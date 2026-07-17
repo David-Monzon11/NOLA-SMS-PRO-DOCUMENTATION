@@ -15,45 +15,128 @@ interface DocLayoutProps {
 }
 
 const customPageTocItems: Record<string, { id: string; label: string }[]> = {
+  'install-nola-sms-pro': [
+    { id: 'install-intro', label: 'What This Covers' },
+    { id: 'install-prerequisites', label: 'Before You Begin' },
+    { id: 'install-steps', label: 'Installation Steps' },
+    { id: 'install-outcome', label: 'Expected Outcome' },
+  ],
+  'create-or-sign-in': [
+    { id: 'create-signin-decision', label: 'New or Returning?' },
+    { id: 'create-signin-warning', label: 'Important Note' },
+    { id: 'create-signin-paths', label: 'Choose Your Path' },
+    { id: 'create-signin-outcome', label: 'Expected Outcome' },
+  ],
+  'connect-highlevel': [
+    { id: 'connect-intro', label: 'What This Covers' },
+    { id: 'connect-status-reference', label: 'Status Indicators' },
+    { id: 'connect-prerequisites', label: 'Before You Begin' },
+    { id: 'connect-verification-steps', label: 'Verification Steps' },
+    { id: 'connect-diagnostic-tip', label: 'Troubleshooting' },
+    { id: 'connect-outcome', label: 'Expected Outcome' },
+  ],
+  'dashboard-overview': [
+    { id: 'dashboard-key-objective', label: 'Overview' },
+    { id: 'dashboard-prerequisites', label: 'Prerequisites' },
+    { id: 'dashboard-highlights', label: 'Key Features' },
+    { id: 'menu-breakdown', label: 'Menu Breakdown' },
+    { id: 'dashboard-expected-outcome', label: 'Expected Outcome' },
+  ],
+  'send-your-first-sms': [
+    { id: 'send-preflight', label: 'Pre-flight Checklist' },
+    { id: 'send-oneway-note', label: 'One-way Messaging' },
+    { id: 'send-steps', label: 'Sending Steps' },
+    { id: 'send-spam-warning', label: 'Spam Warning' },
+    { id: 'send-status-legend', label: 'Delivery Status' },
+    { id: 'send-outcome', label: 'Expected Outcome' },
+  ],
+  contacts: [
+    { id: 'contacts-overview', label: 'Module Overview' },
+    { id: 'contacts-prerequisites', label: 'Prerequisites' },
+    { id: 'contacts-workflows', label: 'Workflows' },
+    { id: 'contacts-validation', label: 'Phone Validation' },
+    { id: 'contacts-outcome', label: 'Expected Outcome' },
+  ],
+  'compose-sms': [
+    { id: 'compose-field-reference', label: 'Field Reference' },
+    { id: 'compose-prerequisites', label: 'Prerequisites' },
+    { id: 'compose-steps', label: 'Compose & Send' },
+    { id: 'compose-encoding', label: 'Character & Credits' },
+    { id: 'compose-warning', label: 'Delivery Warning' },
+    { id: 'compose-outcome', label: 'Expected Outcome' },
+  ],
+  'message-templates': [
+    { id: 'templates-intro', label: 'Overview' },
+    { id: 'templates-tracks', label: 'Workflows' },
+    { id: 'templates-best-practices', label: 'Best Practices' },
+    { id: 'templates-outcome', label: 'Expected Outcome' },
+  ],
+  'sender-ids': [
+    { id: 'sender-ids-lifecycle', label: 'Status Lifecycle' },
+    { id: 'sender-ids-prerequisite', label: 'Prerequisites' },
+    { id: 'sender-ids-request-steps', label: 'Request Workflow' },
+    { id: 'sender-ids-format-rules', label: 'Format Rules' },
+    { id: 'sender-ids-outcome', label: 'Expected Outcome' },
+  ],
+  'message-history': [
+    { id: 'history-status-legend', label: 'Delivery Status' },
+    { id: 'history-prerequisite', label: 'Prerequisites' },
+    { id: 'history-audit-steps', label: 'Audit Steps' },
+    { id: 'history-filter-tips', label: 'Filter Tips' },
+    { id: 'history-outcome', label: 'Expected Outcome' },
+  ],
+  automation: [
+    { id: 'automation-architecture', label: 'How It Works' },
+    { id: 'automation-prerequisites', label: 'Prerequisites' },
+    { id: 'automation-steps', label: 'Setup Steps' },
+    { id: 'automation-variables', label: 'Variable Reference' },
+    { id: 'automation-best-practices', label: 'Best Practices' },
+    { id: 'automation-outcome', label: 'Expected Outcome' },
+  ],
+  'ghl-conversation': [
+    { id: 'ghl-conversation-intro', label: 'Overview' },
+    { id: 'ghl-conversation-comparison', label: 'Manual vs. Sync' },
+    { id: 'ghl-conversation-prerequisites', label: 'Prerequisites' },
+    { id: 'ghl-conversation-sync-steps', label: 'Verify Sync' },
+    { id: 'ghl-conversation-health', label: 'Health Tips' },
+    { id: 'ghl-conversation-outcome', label: 'Expected Outcome' },
+  ],
   'sms-credits': [
-    { id: 'credits-key-objective', label: 'Key Objective' },
-    { id: 'credits-prerequisites', label: 'Prerequisites' },
-    { id: 'credit-monitoring-stepper', label: 'Credit Monitoring' },
-    { id: 'purchasing-credits-stepper', label: 'Purchasing Credits' },
-    { id: 'auditing-transactions-stepper', label: 'Auditing Transactions' },
-    { id: 'credits-consumption-warning', label: 'Credit Rules' },
-    { id: 'credits-expected-outcome', label: 'Expected Outcome' },
+    { id: 'credits-packages', label: 'Credit Packages' },
+    { id: 'credits-prerequisite', label: 'Prerequisites' },
+    { id: 'credits-workflows', label: 'Workflows' },
+    { id: 'credits-consumption-rule', label: 'Consumption Rule' },
+    { id: 'credits-outcome', label: 'Expected Outcome' },
   ],
   settings: [
-    { id: 'settings-key-objective', label: 'Key Objective' },
-    { id: 'settings-prerequisites', label: 'Prerequisites' },
-    { id: 'profile-management-stepper', label: 'Profile Management' },
-    { id: 'integration-check-stepper', label: 'Integration Check' },
-    { id: 'notification-configuration-stepper', label: 'Notifications' },
-    { id: 'settings-location-warning', label: 'Location Warning' },
-    { id: 'settings-best-practices', label: 'Best Practices' },
-    { id: 'settings-expected-outcome', label: 'Expected Outcome' },
+    { id: 'settings-overview', label: 'Panel Overview' },
+    { id: 'settings-prerequisite', label: 'Prerequisites' },
+    { id: 'settings-workflows', label: 'Workflows' },
+    { id: 'settings-location-warning', label: 'Critical Warning' },
+    { id: 'settings-tips', label: 'Tips' },
+    { id: 'settings-outcome', label: 'Expected Outcome' },
   ],
   troubleshooting: [
-    { id: 'troubleshooting-key-objective', label: 'Key Objective' },
+    { id: 'troubleshooting-intro', label: 'Self-Service Diagnostics' },
     { id: 'troubleshooting-prerequisites', label: 'Prerequisites' },
-    { id: 'location-errors-stepper', label: 'Location Errors' },
-    { id: 'message-delivery-failures-stepper', label: 'Delivery Failures' },
-    { id: 'reconnect-prompts-stepper', label: 'Reconnect Prompts' },
+    { id: 'troubleshooting-cards', label: 'Common Issues' },
+    { id: 'quick-diagnostics-checklist', label: 'Quick Checklist' },
     { id: 'troubleshooting-expected-outcome', label: 'Expected Outcome' },
   ],
   'support-help': [
-    { id: 'support-key-objective', label: 'Key Objective' },
+    { id: 'support-intro', label: 'Overview' },
     { id: 'support-prerequisites', label: 'Prerequisites' },
-    { id: 'ticket-submission-stepper', label: 'Ticket Submission' },
-    { id: 'support-details-critical', label: 'SMS Issue Details' },
-    { id: 'ticket-tracking-stepper', label: 'Ticket Tracking' },
+    { id: 'support-categories', label: 'Ticket Categories' },
+    { id: 'support-submit-steps', label: 'Submitting a Ticket' },
+    { id: 'support-required-checklist', label: 'Required Details' },
+    { id: 'support-tracking-steps', label: 'Track Progress' },
     { id: 'support-expected-outcome', label: 'Expected Outcome' },
   ],
   faq: [
-    { id: 'faq-key-objective', label: 'Key Objective' },
-    { id: 'faq-accordion-section', label: 'FAQ' },
-    { id: 'faq-need-more-help', label: 'Need More Help' },
+    { id: 'faq-intro', label: 'Overview' },
+    { id: 'faq-topic-groups', label: 'All Questions' },
+    { id: 'faq-need-more-help', label: 'Need More Help?' },
+    { id: 'faq-expected-outcome', label: 'Expected Outcome' },
   ],
 };
 
@@ -108,17 +191,6 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
       if (page.prerequisites && page.prerequisites.length > 0) items.push({ id: `${page.id}-prerequisites`, label: 'Pre-flight Checklist' });
       if (page.steps && page.steps.length > 0) items.push({ id: `${page.id}-how-do-i-use-it`, label: 'Step-by-Step' });
       if (page.expectAfter) items.push({ id: `${page.id}-expect-after`, label: 'Next State & Outcome' });
-
-      const hasFaqOrTips =
-        (page.tips && page.tips.length > 0) ||
-        (page.warnings && page.warnings.length > 0) ||
-        (page.notes && page.notes.length > 0) ||
-        (page.commonIssues && page.commonIssues.length > 0) ||
-        (page.faqs && page.faqs.length > 0) ||
-        page.hasTicketForm;
-      if (hasFaqOrTips) {
-        items.push({ id: `${page.id}-faq-and-tips`, label: 'Troubleshooting & Advice' });
-      }
     }
     return items;
   // eslint-disable-next-line react-hooks/exhaustive-deps
