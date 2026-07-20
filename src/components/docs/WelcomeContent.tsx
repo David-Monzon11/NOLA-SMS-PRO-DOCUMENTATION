@@ -19,7 +19,7 @@ import {
 /* ─── Block 2 — What You Can Do ─────────────────────── */
 const outcomes = [
   {
-    icon: <MessageSquare className="h-6 w-6 text-blue-300 dark:text-blue-200" />,
+    icon: <MessageSquare className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
     title: 'Send SMS from inside HighLevel',
     desc: 'Compose, send, and manage SMS conversations without leaving your HighLevel workspace.',
     illustration: (
@@ -48,7 +48,7 @@ const outcomes = [
     ),
   },
   {
-    icon: <Smartphone className="h-6 w-6 text-blue-300 dark:text-blue-200" />,
+    icon: <Smartphone className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
     title: 'Reach PH mobile numbers reliably',
     desc: 'Send SMS to customers across the Philippines with reliable local delivery.',
     illustration: (
@@ -81,7 +81,7 @@ const outcomes = [
     ),
   },
   {
-    icon: <History className="h-6 w-6 text-blue-300 dark:text-blue-200" />,
+    icon: <History className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
     title: 'Keep every message on record',
     desc: 'Access message history, delivery status, and SMS credit activity whenever you need it.',
     illustration: (
@@ -273,7 +273,7 @@ export const WelcomeContent: React.FC = () => {
             );
             const textCol = (
               <div className="space-y-4">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-900/30 dark:bg-blue-950/50 text-blue-300 dark:text-blue-200 transition-all">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-transparent text-blue-600 dark:text-blue-450 transition-all">
                   {item.icon}
                 </div>
                 <h4 className="text-[22px] font-black text-slate-900 dark:text-white leading-tight">
