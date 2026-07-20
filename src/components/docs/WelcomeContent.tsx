@@ -13,6 +13,7 @@ import {
   Store,
   UserPlus,
   Send,
+  Workflow,
 } from 'lucide-react';
 
 /* ─── Block 2 — What You Can Do ─────────────────────── */
@@ -168,6 +169,13 @@ const sections = [
     desc: 'Manage contacts, compose messages, use saved templates, and track delivery history.',
     count: '5 guides',
     href: '/docs/contacts',
+  },
+  {
+    icon: <Workflow className="h-5 w-5" />,
+    title: 'Workflow',
+    desc: 'Integrate custom workflow sending actions and sync text conversation logs natively.',
+    count: '2 guides',
+    href: '/docs/automation',
   },
   {
     icon: <CreditCard className="h-5 w-5" />,
