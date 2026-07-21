@@ -83,6 +83,7 @@ export const sidebarStructure = [
       { id: 'install-nola-sms-pro', title: 'Install NOLA SMS Pro' },
       { id: 'create-or-sign-in', title: 'Create or Sign In' },
       { id: 'connect-highlevel', title: 'Connect HighLevel' },
+      { id: 'sender-ids', title: 'Sender IDs' },
       { id: 'dashboard-overview', title: 'Dashboard Overview' },
       { id: 'send-your-first-sms', title: 'Send Your First SMS' }
     ]
@@ -93,7 +94,6 @@ export const sidebarStructure = [
       { id: 'contacts', title: 'Contacts' },
       { id: 'compose-sms', title: 'Compose SMS' },
       { id: 'message-templates', title: 'Message Templates' },
-      { id: 'sender-ids', title: 'Sender IDs' },
       { id: 'message-history', title: 'Message History' }
     ]
   },
@@ -184,7 +184,7 @@ export const docsData: DocPage[] = [
     ],
     nextPageCTA: {
       title: 'How NOLA SMS Pro Works',
-      desc: 'Learn about the carrier routing and credit system behind our dashboard.',
+      desc: 'Learn how messages are processed, credit-deducted, and delivered through our platform.',
       id: 'how-nola-sms-pro-works'
     }
   },
@@ -194,8 +194,8 @@ export const docsData: DocPage[] = [
     description: 'Bridges your CRM workspace directly to Philippine telco networks via a secure carrier gateway.',
     section: 'OVERVIEW',
     readingTime: '3 min read',
-    purpose: 'NOLA SMS Pro connects your sub-account directly to local networks (Globe, Smart, DITO) in the Philippines, delivering messages reliably at localized rates.',
-    whyItMatters: 'Direct local gateway routing ensures fast delivery speeds and compliance with carrier-level spam filters, preventing message blocks.',
+    purpose: 'NOLA SMS Pro connects your sub-account to Philippine mobile networks (Globe, Smart, DITO), delivering messages reliably at localized rates.',
+    whyItMatters: 'Our managed backend handles carrier routing automatically, ensuring fast delivery speeds and compliance with carrier-level spam filters, preventing message blocks.',
     prerequisites: [
       'Active SMS credits in your NOLA SMS Pro billing workspace.',
       'Customer phone numbers using local 11-digit formatting (09XXXXXXXXX).'
@@ -207,7 +207,7 @@ export const docsData: DocPage[] = [
       'Debit credits: The system verifies text segment lengths and deducts credits.',
       'Deliver & Log: Outbound carriers route the block and report live status codes back to your History logs.'
     ],
-    expectAfter: 'You will understand the pathway of a text message from the Compose panel, through our local gateways, to the subscriber\'s hand.',
+    expectAfter: 'You will understand the pathway of a text message from the Compose panel, through our managed sending platform, to the subscriber\'s hand.',
     hasIntegrationFlow: true,
     hasModuleEcosystem: true,
     relatedPages: [
@@ -670,7 +670,7 @@ export const docsData: DocPage[] = [
     id: 'sender-ids',
     title: 'Sender IDs',
     description: 'Request custom brand names to replace default sending numbers.',
-    section: 'MESSAGING',
+    section: 'SETUP',
     readingTime: '3 min read',
     purpose: 'The Sender IDs module allows you to submit custom alphanumeric masks (up to 11 characters) that represent your business name to carriers, replacing generic gateway mobile numbers.',
     whyItMatters: 'Branded Sender IDs establish instant trust, eliminate recipient concerns about spam, and significantly improve open rates and campaign success.',

@@ -58,11 +58,9 @@ const customPageTocItems: Record<string, { id: string; label: string }[]> = {
     { id: 'contacts-outcome', label: 'Expected Outcome' },
   ],
   'compose-sms': [
-    { id: 'compose-field-reference', label: 'Field Reference' },
-    { id: 'compose-prerequisites', label: 'Prerequisites' },
+    { id: 'compose-overview', label: 'Overview & Checklist' },
+    { id: 'compose-oneway-note', label: 'One-way Messaging' },
     { id: 'compose-steps', label: 'Compose & Send' },
-    { id: 'compose-encoding', label: 'Character & Credits' },
-    { id: 'compose-warning', label: 'Delivery Warning' },
     { id: 'compose-outcome', label: 'Expected Outcome' },
   ],
   'message-templates': [
@@ -177,7 +175,7 @@ export const DocLayout: React.FC<DocLayoutProps> = ({ children, page }) => {
       items.push({ id: 'what-is-value', label: 'Key Business Value' });
       items.push({ id: 'what-is-carriers', label: 'Supported Carriers' });
     } else if (page.id === 'how-nola-sms-pro-works') {
-      items.push({ id: 'how-it-works-gateway', label: 'Gateway Architecture' });
+      items.push({ id: 'how-it-works-gateway', label: 'Message Delivery' });
       items.push({ id: 'how-it-works-rules', label: 'Credits & Formatting' });
       items.push({ id: 'how-it-works-flow', label: 'Message Flow' });
     } else if (page.id === 'core-features') {

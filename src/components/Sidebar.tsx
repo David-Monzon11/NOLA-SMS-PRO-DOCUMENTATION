@@ -213,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="h-full w-[292px] flex-shrink-0 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] z-10 transition-colors duration-200">
+      <aside className="h-full w-[292px] flex-shrink-0 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#020617] z-10 transition-colors duration-200">
         {navItems}
       </aside>
 
@@ -224,7 +224,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
             className="absolute inset-0 bg-[#020617]/60 backdrop-blur-sm"
             onClick={onCloseMobile}
           />
-          <div className="relative z-50 h-full w-[292px] max-w-[85vw] shadow-2xl bg-white dark:bg-[#020617] border-r border-slate-200 dark:border-slate-800 animate-slide-in flex flex-col">
+          <div className="relative z-50 h-full w-[292px] max-w-[85vw] shadow-2xl bg-[#F8FAFC] dark:bg-[#020617] border-r border-slate-200 dark:border-slate-800 animate-slide-in flex flex-col">
             {/* Mobile-only header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
               <div className="flex items-center gap-2">

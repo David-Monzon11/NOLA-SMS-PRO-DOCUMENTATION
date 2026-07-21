@@ -232,11 +232,11 @@ const StickyPageHeader: React.FC<{ page: DocPage }> = ({ page }) => {
       id: 'how-nola-sms-pro-works-what-is-this',
       badge1: 'Under the Hood',
       badge1Icon: <Wrench className="h-3 w-3" />,
-      badge2: 'PH Carrier Gateway',
+      badge2: 'PH SMS Platform',
       badge2Icon: <CheckCircle2 className="h-3 w-3" />,
       headline: 'How NOLA SMS Pro',
       headlineAccent: 'Works',
-      subtext: 'Your message travels from the Compose panel through a Semaphore carrier gateway, is validated, credit-deducted, and delivered directly to Globe, Smart, or DITO subscribers in the Philippines.',
+      subtext: 'Your message travels from the Compose panel through our managed backend — validated, credit-deducted, and delivered reliably to Globe, Smart, or DITO subscribers across the Philippines.',
     });
   }
 

@@ -287,19 +287,23 @@ export const SendFirstSMSContent: React.FC<Props> = ({ page }) => {
         <p className="text-[14.5px] leading-7 text-slate-700 dark:text-slate-300">
           Please confirm that you have completed all of the following prerequisites before proceeding with your first test flight:
         </p>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/30 space-y-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: <CreditCard className="h-4 w-4" />, label: 'Available SMS credits', sub: 'New accounts receive 10 free trial credits upon registration' },
-            { icon: <Smartphone className="h-4 w-4" />, label: 'Test contact with valid PH number', sub: 'Format: 09XXXXXXXXX, 9XXXXXXXXX, or 639XXXXXXXXX' },
-            { icon: <CheckCircle2 className="h-4 w-4" />, label: 'Active HighLevel connection', sub: 'API connected status with verified subaccount location ID' },
+            { icon: <CreditCard className="h-5 w-5 text-amber-500" />, label: 'Available SMS credits', sub: 'New accounts receive 10 free trial credits upon registration' },
+            { icon: <Smartphone className="h-5 w-5 text-blue-500" />, label: 'Test contact with valid PH number', sub: 'Format: 09XXXXXXXXX, 9XXXXXXXXX, or 639XXXXXXXXX' },
+            { icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />, label: 'Active HighLevel connection', sub: 'API connected status with verified subaccount location ID' },
           ].map((item) => (
-            <div key={item.label} className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">
-                {item.icon}
-              </div>
+            <div key={item.label} className="premium-card flex flex-col justify-between h-full">
               <div>
-                <p className="text-[14px] font-bold text-slate-900 dark:text-white leading-tight">{item.label}</p>
-                <p className="text-[12.5px] text-slate-500 dark:text-slate-400 mt-0.5">{item.sub}</p>
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">
+                  {item.icon}
+                </div>
+                <h3 className="text-[15px] font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                  {item.label}
+                </h3>
+                <p className="text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
+                  {item.sub}
+                </p>
               </div>
             </div>
           ))}

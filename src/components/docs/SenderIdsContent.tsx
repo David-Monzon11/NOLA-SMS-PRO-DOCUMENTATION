@@ -21,12 +21,13 @@ const formatRules = [
 ];
 
 const steps = [
-  { title: 'Open Sender IDs Menu', desc: 'Open Sender IDs from the left navigation.' },
-  { title: 'Review System Default', desc: 'Review the default sender identity NOLASMSPro, which is immediately available.' },
-  { title: 'Request Custom ID', desc: 'Click Request Custom Sender ID to submit a branded name (up to 11 alphanumeric characters).' },
-  { title: 'Enter Verification Details', desc: 'Enter your Brand Name, Registered Business Name, and upload required verification documents.' },
-  { title: 'Submit for Carrier Review', desc: 'Click Submit Request to send your application.' },
-  { title: 'Monitor Request Status', desc: 'Track the request status — Pending, Approved, or Rejected — from the Sender IDs panel.' },
+  { title: 'Open Settings Panel', desc: 'Click Settings from the left navigation and go to the Sender IDs tab.' },
+  { title: 'Review System Default', desc: 'Review the default sender identity NOLASMSPro, which is immediately active.' },
+  { title: 'Click Add Sender Name', desc: 'Open the request modal to submit a custom branded outbox header.' },
+  { title: 'Enter Requested Sender Name', desc: 'Specify a name between 3 and 11 alphanumeric characters (letters and numbers only, no spaces/symbols).' },
+  { title: 'Provide Business Purpose', desc: 'Briefly describe your intended use case (e.g. reminders, promos, transactional updates).' },
+  { title: 'Add a Sample Message', desc: 'Enter a specific example of an SMS message your customers will receive.' },
+  { title: 'Submit for Carrier Review', desc: 'Click Submit Request. Carrier verification takes 2–5 business days, and you will receive updates via email.' },
 ];
 
 export const SenderIdsContent: React.FC<Props> = ({ page }) => {
@@ -80,9 +81,9 @@ export const SenderIdsContent: React.FC<Props> = ({ page }) => {
               <ShieldCheck className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-[13.5px] font-black text-slate-900 dark:text-white">Registration documentation required</p>
-              <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-blue-200 mt-1">
-                Active business registration details and supporting documents (SEC/DTI, BIR Certificate, or trademark authorization papers) matching your requested brand name must be uploaded on submission.
+              <p className="text-[13.5px] font-black text-slate-900 dark:text-white">Verification details required</p>
+              <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-blue-250 mt-1">
+                Your custom Sender Name must match your business identity or brand. Be prepared to provide supporting details if requested by carrier review teams. The system automatically notifies you by email upon status updates.
               </p>
             </div>
           </div>
@@ -133,7 +134,7 @@ export const SenderIdsContent: React.FC<Props> = ({ page }) => {
         <div className="mt-3 flex items-start gap-2.5">
           <Clock className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-500" />
           <p className="text-[13.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-            Carrier review typically takes <strong>5–7 business days</strong> depending on participating network provider queues.
+            Carrier review typically takes <strong>2–5 business days</strong> depending on participating network provider queues.
           </p>
         </div>
       </section>

@@ -539,7 +539,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
                 Instead of toggling between a third-party SMS tool and your CRM, NOLA SMS Pro puts everything in one place: your contacts, message history, templates, sender identity, and billing credits — all available from a single sidebar entry in HighLevel.
               </p>
               <p className="text-[14.5px] leading-7">
-                The platform is built on top of a robust dual-gateway backend design, supporting both <strong>Semaphore</strong> (the primary domestic aggregator) and <strong>UniSMS</strong> (the secondary API gateway). This dual configuration ensures high delivery rates, local priority routing, and automatic failover handling.
+                The platform is built on a robust backend infrastructure with built-in redundancy and failover handling, ensuring high delivery rates and automatic rerouting when needed. You don't need to manage any of this — NOLA SMS Pro handles all carrier connectivity behind the scenes.
               </p>
             </DocSection>
 
@@ -593,7 +593,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
             <DocSection id="what-is-carriers">
               <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Supported Networks & Delivery Reach</h2>
               <p className="text-[14.5px] leading-7 mb-5">
-                Messages sent through NOLA SMS Pro are routed via Semaphore or UniSMS to all Philippine mobile carriers. As of the current release, delivery is supported for:
+                Messages sent through NOLA SMS Pro are delivered to all major Philippine mobile carriers. As of the current release, delivery is supported for:
               </p>
               <div className="grid gap-4 sm:grid-cols-3 mb-6">
                 {[
@@ -620,35 +620,25 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
           <div className="space-y-10 text-slate-700 dark:text-slate-300">
 
             <DocSection id="how-it-works-gateway">
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Gateway Architecture & Providers</h2>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4">How Messages Are Delivered</h2>
               <p className="text-[14.5px] leading-7 mb-4">
-                At its core, NOLA SMS Pro bridges your CRM workspace directly to Philippine telco networks. The platform relies on a dual-provider model using two API gateways:
+                At its core, NOLA SMS Pro is a <strong>sending platform</strong> — it connects your CRM workspace to Philippine telco networks so your messages reach Globe, Smart, and DITO subscribers reliably. The backend handles all carrier connectivity, routing, and failover automatically.
               </p>
 
               <div className="grid gap-6 sm:grid-cols-2 mb-6">
                 <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-2 bg-slate-50/50 dark:bg-slate-900/30">
-                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">Semaphore Gateway</h3>
+                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">Automated Carrier Routing</h3>
                   <p className="text-[13px] leading-6 text-slate-600 dark:text-slate-400">
-                    Acts as the primary carrier aggregator for standard local routing. Highly optimized for domestic Philippine traffic, delivering messages at high speeds to Globe and Smart.
+                    Your messages are routed through a managed backend optimized for domestic Philippine traffic. You select a recipient, write your message, and click Send — the platform handles the rest.
                   </p>
                 </div>
                 <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-5 space-y-2 bg-slate-50/50 dark:bg-slate-900/30">
-                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">UniSMS Gateway</h3>
+                  <h3 className="font-bold text-[15px] text-slate-900 dark:text-white">Built-in Failover & Redundancy</h3>
                   <p className="text-[13px] leading-6 text-slate-600 dark:text-slate-400">
-                    Acts as the secondary API gateway. Used as the automated failover backup route, for dedicated custom Sender IDs, or when subaccounts explicitly configure UniSMS custom API keys.
+                    The backend includes automatic failover handling. If one route encounters a network issue, the system reroutes the message silently to ensure delivery without any action required from you.
                   </p>
                 </div>
               </div>
-
-              <p className="text-[14.5px] leading-7 mb-4">
-                The active provider is managed via the backend configuration under Firestore's admin settings. It supports three routing strategies:
-              </p>
-
-              <ul className="list-disc pl-5 space-y-2.5 text-[14px] leading-6 mb-6">
-                <li><strong>Semaphore-only:</strong> Routes all standard messages through Semaphore.</li>
-                <li><strong>UniSMS-only:</strong> Directs all messages to UniSMS.</li>
-                <li><strong>Auto-Failover:</strong> Primary routing is attempted via Semaphore. If Semaphore returns a network timeout, an HTTP 5xx server error, or a cURL error, the backend automatically logs the incident and fails over to UniSMS to ensure message delivery.</li>
-              </ul>
 
               <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 dark:border-blue-800/40 dark:bg-blue-900/10">
                 <p className="text-[13px] leading-6 text-blue-800 dark:text-blue-300">
@@ -683,9 +673,9 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
                   </p>
                 </div>
                 <div className="border-l-2 border-purple-400 pl-4">
-                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">UniSMS Spam Protection Filter</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-[14px] mb-1">Spam Protection Filter</h3>
                   <p className="text-[13.5px] leading-6 text-slate-600 dark:text-slate-400">
-                    To prevent carrier blocks and spam penalty flags, our backend contains strict pre-flight validation rules. Generic test phrases (such as <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">test</code>, <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">sms test</code>, or <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">NOLA SMS test</code>) are rejected <strong>before the provider call</strong> with <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">error=unisms_likely_spam</code>.
+                    To prevent carrier blocks and spam penalty flags, our backend contains strict pre-flight validation rules. Generic test phrases (such as <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">test</code>, <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">sms test</code>, or <code className="text-[12px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">NOLA SMS test</code>) are automatically rejected <strong>before dispatch</strong>. Write a natural message to avoid this pre-flight check.
                   </p>
                 </div>
                 <div className="border-l-2 border-rose-400 pl-4">
@@ -714,7 +704,7 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
                   {
                     step: 2,
                     title: 'Message Composition & Character Check',
-                    desc: 'You type your message or load a Template. The Compose panel shows a live character counter and segment count. Pre-flight checks ensure no UniSMS generic spam phrases are included.',
+                    desc: 'You type your message or load a Template. The Compose panel shows a live character counter and segment count. Pre-flight checks block generic spam phrases to protect carrier delivery rates.',
                     color: 'bg-indigo-500',
                   },
                   {
@@ -731,8 +721,8 @@ export const FeaturePageContent: React.FC<FeaturePageContentProps> = ({ page }) 
                   },
                   {
                     step: 5,
-                    title: 'Gateway Provider Routing',
-                    desc: 'The backend parses the active configuration. If a custom subaccount API key starts with "sk_", the message goes to UniSMS. If auto-failover is active and Semaphore fails, the backend logs the incident in Firestore and routes the message through UniSMS.',
+                    title: 'Carrier Network Routing',
+                    desc: 'The backend routes the message to the appropriate Philippine carrier network. If the primary route encounters an issue, the system automatically reroutes through a backup path to maximize delivery success.',
                     color: 'bg-fuchsia-500',
                   },
                   {
