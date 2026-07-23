@@ -18,6 +18,15 @@ import {
   LayoutDashboard
 } from 'lucide-react';
 
+// ─── Asset imports (Vite resolves, hashes, and bundles these correctly) ───────
+import OpenContactsMenuImg from '../../assets/Contacts/Open Contacts Menu.png';
+import SearchContactsImg from '../../assets/Contacts/Search Contacts.png';
+import SelectRecipientImg from '../../assets/Contacts/Select Recipient.png';
+import ClickAddContactImg from '../../assets/Contacts/Click Add Contact.png';
+import EnterNameImg from '../../assets/Contacts/Enter Name.png';
+import EnterPhoneNumberImg from '../../assets/Contacts/Enter Phone Number.png';
+import SaveContactImg from '../../assets/Contacts/Save Contact.png';
+
 interface Props { page: DocPage; }
 
 /* ─── Image Lightbox ───────────────────────────────────── */
@@ -126,7 +135,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 1,
       title: 'Open Contacts Menu',
       desc: 'Click Contacts from the left navigation panel inside NOLA SMS Pro.',
-      img: 'src/assets/contacts/Open Contacts Menu.png',
+      img: OpenContactsMenuImg,
       alt: 'Open Contacts Menu',
       icon: LayoutDashboard,
       color: 'text-blue-500',
@@ -135,7 +144,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 2,
       title: 'Search Contacts',
       desc: 'Use the search bar at the top of the contacts list to find a contact by name or phone number.',
-      img: 'src/assets/contacts/Search Contacts.png',
+      img: SearchContactsImg,
       alt: 'Search Contacts',
       icon: Search,
       color: 'text-purple-500',
@@ -144,7 +153,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 3,
       title: 'Select Recipient',
       desc: 'Click on a contact from the results to open their profile and start messaging.',
-      img: 'src/assets/contacts/Select Recipient.png',
+      img: SelectRecipientImg,
       alt: 'Select Recipient',
       icon: UserCheck,
       color: 'text-emerald-500',
@@ -156,7 +165,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 1,
       title: 'Click Add Contact',
       desc: 'In the Contacts panel, click the Add Contact button to open the creation form.',
-      img: 'src/assets/contacts/Click Add Contact.png',
+      img: ClickAddContactImg,
       alt: 'Click Add Contact',
       icon: UserPlus,
       color: 'text-blue-500',
@@ -165,7 +174,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 2,
       title: 'Enter Name',
       desc: "Enter the contact's first and last name in the provided fields.",
-      img: 'src/assets/contacts/Enter Name.png',
+      img: EnterNameImg,
       alt: 'Enter Name',
       icon: User,
       color: 'text-indigo-500',
@@ -174,7 +183,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 3,
       title: 'Enter Phone Number',
       desc: 'Enter a valid Philippine mobile number using the format 09XXXXXXXXX. No hyphens or country codes.',
-      img: 'src/assets/contacts/Enter Phone Number.png',
+      img: EnterPhoneNumberImg,
       alt: 'Enter Phone Number',
       icon: Smartphone,
       color: 'text-teal-500',
@@ -183,7 +192,7 @@ export const ContactsContent: React.FC<Props> = ({ page }) => {
       n: 4,
       title: 'Save Contact',
       desc: 'Click Save to create the contact. It will sync automatically to your GoHighLevel CRM.',
-      img: 'src/assets/contacts/Save Contact.png',
+      img: SaveContactImg,
       alt: 'Save Contact',
       icon: Check,
       color: 'text-emerald-500',
